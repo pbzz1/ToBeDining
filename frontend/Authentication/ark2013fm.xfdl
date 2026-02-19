@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark2013fm" width="600" height="600" titletext="비밀번호 찾기">
+    <Layouts>
+      <Layout height="600" width="600" stepcount="0">
+        <Static id="staName" taborder="1" text="이름" left="20" top="239" width="120" height="40" cssclass="staDocument"/>
+        <Edit id="edtName" left="staName:20" top="238" height="40" right="20" cssclass="edtDocument"/>
+        <Static id="staPhone" taborder="2" text="전화번호" left="20" top="staName:20" width="120" height="40" cssclass="staDocument"/>
+        <Edit id="edtPhone" taborder="3" left="staPhone:20" top="edtName:20" height="40" right="20" onchanged="Edit00_00_onchanged" cssclass="edtDocument"/>
+        <Static id="Static00" taborder="5" text="Static00" left="0" top="10" width="50.00%" height="50.00%" visible="false"/>
+        <ImageViewer id="imgHomeLogo" taborder="4" left="Static00:-46.67%" top="Static00:-81.66%" width="270" cssclass="img_TF_Logo" stretch="fit" onclick="imgHomeLogo_onclick" height="74"/>
+        <Button id="btnCanel" taborder="6" text="취소" left="Static00:-93.33%" height="50" right="55.33%" top="Static00:75%" border="1px solid" borderRadius="30px" cssclass="btnPopup" onclick="btnCanel_onclick"/>
+        <Button id="btnEnter" taborder="7" text="비밀번호 찾기" left="Static00:10.00%" height="50" right="3.33%" top="Static00:75%" border="1px solid" borderRadius="30px" cssclass="btnPopup" onclick="btnEnter_onclick"/>
+        <Static id="staId" taborder="8" text="아이디" left="20" top="staPhone:20" width="120" height="40" cssclass="staDocument"/>
+        <Edit id="edtId" taborder="9" left="160" top="edtPhone:20" height="40" right="20" onchanged="Edit00_00_onchanged" cssclass="edtDocument"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsResultPw">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_PW" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Authentication
+*	@FileName ark2011fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/12
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/12		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+var objApp =nexacro.getApplication();
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+this.fn_transaction_findID = function (sRtn)
+{
+	var arrParam = sRtn.split(":");
+	var sName = arrParam[0];
+	var sPhone = arrParam[1];
+	var sId = arrParam[2];
+	trace(sName);
+	trace(sPhone);
+	// 이름 비밀번호 보내고 아이디 받기
+    var strSvcId   = "findPW";
+    var sURL      = "SvcUrl::ark/findPW.do";
+    var sInDs     = "";
+    var sOutDs    = "dsResultPw=out_result";
+    var sParam    = "USER_NAME=" + nexacro.wrapQuote(sName) + " USER_PHONE=" + nexacro.wrapQuote(sPhone) + " USER_ID=" + nexacro.wrapQuote(sId);
+    var sCallBack = "fnCallback";
+	this.transaction(strSvcId, sURL, sInDs, sOutDs, sParam, sCallBack);
+};
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+this.fnCallback = function (strSvcId, nErrorCode, strErrorMsg)
+{
+	if(nErrorCode<0){
+			this.gfnAlert("msg.server.error");	
+		}
+	else if (nErrorCode == 0) {
+		if (strSvcId === "findPW") {
+			if(this.dsResultPw.getRowCount()<1){
+				this.gfnAlert("msg.find.info.fail");	
+			}else{
+				objApp.sFindedID =this.dsResultPw.getColumn(0,"USER_ID");
+				objApp.sFindedPW =this.dsResultPw.getColumn(0,"USER_PW");
+				this.go("Authentication::ark2014fm.xfdl");
+			}
+		}
+	}
+}
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+this.btnEnter_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sRtn = this.edtName.value;
+	sRtn += ":" + this.edtPhone.value;
+	sRtn += ":" + this.edtId.value;
+
+	this.fn_transaction_findID(sRtn);
+	//this.close(sFindedID);
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark1061fm" width="600" height="450" titletext="공지사항 팝업" cssclass="frmGreen" onload="ark1061fm_onload">
+    <Layouts>
+      <Layout height="450" width="600">
+        <TextArea id="txtReview" taborder="0" left="5" top="100" height="275" right="5" wordWrap="char" font="14px/normal &quot;Malgun Gothic&quot;" displaynulltext="내용을 입력해주세요."/>
+        <Button id="btnPost" taborder="1" text="작성완료" left="220" top="390" bottom="17" right="260" onclick="btnPost_onclick" hotkey="RETURN"/>
+        <TextArea id="txtReview00" taborder="2" left="5" top="20" height="50" right="5" wordWrap="char" font="bold 18px/normal &quot;Malgun Gothic&quot;" displaynulltext="제목을 작성해주세요."/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsNotice">
+        <ColumnInfo>
+          <Column id="NOTICE_ID" type="INT" size="256"/>
+          <Column id="NOTICE_TITLE" type="STRING" size="256"/>
+          <Column id="NOTICE_EXPLAIN" type="STRING" size="256"/>
+          <Column id="NOTICE_CREATED_AT" type="DATETIME" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\HomeFrame
+*	@FileName ark1061fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/26
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/26		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark1061fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.dsNotice.addRow();
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+this.fnSaveNotice = function ()
+{
+	// 회원정보 내보내기
+    var sSvcID    = "saveNotice";
+    var sURL      = "SvcUrl::ark/saveNotice.do";
+    var sInDs     = "dsNotice=dsNotice";
+    var sOutDs    = "";
+    var sParam    = "";
+    var sCallBack = "fn_CallBack";
+	this.transaction(sSvcID, sURL, sInDs, sOutDs, sParam, sCallBack);
+};
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+this.fn_CallBack = function(id, nErrCode, sErrMsg){
+	if(nErrCode<0){
+		this.gfnAlert("msg.server.error");	
+	}
+	else if (nErrCode == 0) {
+		switch(id) {
+		case "saveNotice":
+			this.gfnAlert("msg.save.success");	
+			this.close();
+			break;
+		default:
+		}
+	}
+}
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+this.btnPost_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fnSaveNotice();
+};
+
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="txtReview" propid="value" datasetid="dsNotice" columnid="NOTICE_EXPLAIN"/>
+      <BindItem id="item1" compid="txtReview00" propid="value" datasetid="dsNotice" columnid="NOTICE_TITLE"/>
+    </Bind>
+  </Form>
+</FDL>

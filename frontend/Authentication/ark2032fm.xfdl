@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark2032fm" width="1152" height="610" titletext="나의 예약 정보 확인" onload="ark2032fm_onload" background="#d6edbe">
+    <Layouts>
+      <Layout height="610" width="1152">
+        <Static id="staResProgress" taborder="1" text="예약 대기 중" left="40" top="25" width="510" height="45" cssclass="staResTitle" verticalAlign="bottom" textAlign="right"/>
+        <ListView id="ListView00" taborder="0" left="0" top="staResProgress:0" binddataset="dsUserProgress" width="550" bottom="0" border="1px solid black">
+          <Formats>
+            <Format id="default">
+              <Band id="body" width="100%" height="200">
+                <Cell id="Cell02" left="210" top="146" width="120" height="24" text="예약 인원 수"/>
+                <Cell id="Cell03" left="340" top="146" width="180" height="24" text="expr:RESERVE_NUM + &quot;명&quot;"/>
+                <Cell id="Cell05" left="865" top="160" width="385" height="29" text="bind:USER_NAME"/>
+                <Cell id="Cell06" left="210" top="112" width="120" height="24" text="예약 시간"/>
+                <Cell id="Cell07" left="340" top="112" width="180" height="24" text="expr:RESERVE_DATE.substr(0,4) + &quot;년 &quot; + RESERVE_DATE.substr(4,2) + &quot;월 &quot; + RESERVE_DATE.substr(6,2) + &quot;일   &quot; +RESERVE_TIME"/>
+                <Cell id="Cell17" left="0" top="0" width="200" height="200" text="bind:STORE_PHOTO" displaytype="imagecontrol" imagestretch="fit"/>
+                <Cell id="Cell08" left="Cell17:10" top="10" width="120" height="24" text="가게명"/>
+                <Cell id="Cell09" left="Cell08:10" top="10" width="180" height="24" text="bind:STORE_NAME"/>
+                <Cell id="Cell10" left="210" top="44" width="120" height="24" text="가게 번호"/>
+                <Cell id="Cell11" left="340" top="44" width="180" height="24" text="expr:STORE_PHONE.substr(0,3) + &quot;-&quot; + STORE_PHONE.substr(3,4) + &quot;-&quot; + STORE_PHONE.substr(7,4)"/>
+                <Cell id="Cell12" left="210" top="78" width="120" height="24" text="가게 주소"/>
+                <Cell id="Cell13" left="340" top="78" width="180" height="24" text="expr:STORE_ADDR_MAIN + &quot; &quot; + STORE_ADDR_DETAIL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </ListView>
+        <Static id="staResCompl" taborder="2" text="예약 완료" left="staResProgress:10" top="25" width="580" height="45" cssclass="staResTitle" verticalAlign="bottom" textAlign="right"/>
+        <ListView id="ListView00_00" taborder="3" left="ListView00:5" top="staResCompl:0" bottom="0" binddataset="dsUserCompl" width="585" border="1px solid black">
+          <Formats>
+            <Format id="default">
+              <Band id="body" width="100%" height="200">
+                <Cell id="Cell02" left="210" top="146" width="120" height="24" text="예약 인원 수"/>
+                <Cell id="Cell03" left="340" top="146" width="180" height="24" text="bind:RESERVE_NUM"/>
+                <Cell id="Cell05" left="865" top="160" width="385" height="29" text="bind:USER_NAME"/>
+                <Cell id="Cell06" left="210" top="112" width="120" height="24" text="예약 시간"/>
+                <Cell id="Cell07" left="340" top="112" width="180" height="24" text="expr:RESERVE_DATE.substr(0,4) + &quot;년 &quot; + RESERVE_DATE.substr(4,2) + &quot;월 &quot; + RESERVE_DATE.substr(6,2) + &quot;일   &quot; +RESERVE_TIME"/>
+                <Cell id="Cell17" left="0" top="0" width="200" height="200" text="bind:STORE_PHOTO" displaytype="imagecontrol" imagestretch="fit"/>
+                <Cell id="Cell08" left="Cell17:10" top="10" width="120" height="24" text="가게명"/>
+                <Cell id="Cell09" left="Cell08:10" top="10" width="180" height="24" text="bind:STORE_NAME"/>
+                <Cell id="Cell10" left="210" top="44" width="120" height="24" text="가게 번호"/>
+                <Cell id="Cell11" left="340" top="44" width="180" height="24" text="expr:STORE_PHONE.substr(0,3) + &quot;-&quot; + STORE_PHONE.substr(3,4) + &quot;-&quot; + STORE_PHONE.substr(7,4)"/>
+                <Cell id="Cell12" left="210" top="78" width="120" height="24" text="가게 주소"/>
+                <Cell id="Cell13" left="340" top="78" width="180" height="24" text="expr:STORE_ADDR_MAIN + &quot; &quot; + STORE_ADDR_DETAIL"/>
+                <Cell id="Cell00" left="1002" top="7" width="141" height="47"/>
+              </Band>
+            </Format>
+          </Formats>
+        </ListView>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsDStore">
+        <ColumnInfo>
+          <Column id="STORE_NAME" type="STRING" size="60"/>
+          <Column id="STORE_ENG_NAME" type="STRING" size="60"/>
+          <Column id="STORE_PHONE" type="STRING" size="60"/>
+          <Column id="STORE_ADDR_MAIN" type="STRING" size="50"/>
+          <Column id="STORE_ADDR_DETAIL" type="STRING" size="50"/>
+          <Column id="STORE_INDUSTRY" type="STRING" size="50"/>
+          <Column id="STORE_BUISNESS_DAY" type="STRING" size="50"/>
+          <Column id="STORE_BUISNESS_TIME" type="STRING" size="50"/>
+          <Column id="STORE_PHOTO" type="STRING" size="50"/>
+          <Column id="STORE_THEME" type="STRING" size="50"/>
+          <Column id="STORE_EXPLAIN" type="STRING" size="300"/>
+          <Column id="STORE_RATING" type="STRING" size="50"/>
+          <Column id="STORE_REVIEW_COUNT" type="INT"/>
+          <Column id="STORE_CREATED_AT" type="STRING" size="256"/>
+          <Column id="STORE_UPDATED_AT" type="STRING" size="256"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReserve">
+        <ColumnInfo>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="RESERVE_TIME" type="STRING" size="256"/>
+          <Column id="RESERVE_NUM" type="STRING" size="256"/>
+          <Column id="IS_RESERVED" type="STRING" size="256"/>
+          <Column id="RESERVE_TABLE" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_GENDER" type="STRING" size="256"/>
+          <Column id="USER_PROFILE" type="STRING" size="256"/>
+          <Column id="RESERVE_DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsComplReserve">
+        <ColumnInfo>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="RESERVE_TIME" type="STRING" size="256"/>
+          <Column id="RESERVE_NUM" type="STRING" size="256"/>
+          <Column id="IS_RESERVED" type="STRING" size="256"/>
+          <Column id="RESERVE_TABLE" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_GENDER" type="STRING" size="256"/>
+          <Column id="USER_PROFILE" type="STRING" size="256"/>
+          <Column id="RESERVE_DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsUserProgress">
+        <ColumnInfo>
+          <Column id="RESERVE_TIME" type="STRING" size="256"/>
+          <Column id="RESERVE_NUM" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="RESERVE_DATE" type="STRING" size="256"/>
+          <Column id="STORE_NAME" type="STRING" size="256"/>
+          <Column id="STORE_PHONE" type="STRING" size="256"/>
+          <Column id="STORE_ADDR_MAIN" type="STRING" size="256"/>
+          <Column id="STORE_ADDR_DETAIL" type="STRING" size="256"/>
+          <Column id="STORE_PHOTO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsUserCompl">
+        <ColumnInfo>
+          <Column id="RESERVE_TIME" type="STRING" size="256"/>
+          <Column id="RESERVE_NUM" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="RESERVE_DATE" type="STRING" size="256"/>
+          <Column id="IS_RESERVED" type="STRING" size="256"/>
+          <Column id="STORE_NAME" type="STRING" size="256"/>
+          <Column id="STORE_PHONE" type="STRING" size="256"/>
+          <Column id="STORE_ADDR_MAIN" type="STRING" size="256"/>
+          <Column id="STORE_ADDR_DETAIL" type="STRING" size="256"/>
+          <Column id="STORE_PHOTO" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Authentication
+*	@FileName ark2032fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/19
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/19		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+var objApp = nexacro.getApplication();
+var curUser = objApp.sNowUserRole;
+var param1 = objApp.sNowUserID;
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark2032fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fn_get_reserve();
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+this.fn_get_reserve = function ()
+{
+	var userId = param1;
+	// 트랜잭션 호출
+    var strSvcId = "arkGetCustomerReserve";
+    var strSvcUrl = "ark/GetCustomerReserve.do";
+    var inData = ""; 
+    var outData = "dsUserProgress=dsReserve dsUserCompl=dsComplReserve"; 
+    var strArg = "USER_ID=" + nexacro.wrapQuote(userId);
+    var fnCallback = "fnCallback";
+	
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback); 
+};
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+
+]]></Script>
+  </Form>
+</FDL>

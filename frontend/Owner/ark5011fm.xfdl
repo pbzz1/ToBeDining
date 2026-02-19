@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark5011fm" width="1440" height="670" titletext="등록 내역 조회" background="#d6edbe">
+    <Layouts>
+      <Layout height="670" width="1440">
+        <Static id="staCenter" taborder="1" text="Static02" left="0" top="0" width="50.00%" height="50.00%" onclick="Static02_onclick" visible="false"/>
+        <Button id="btnNext" taborder="0" text="다음으로" left="staCenter:75.00%" width="100" onclick="btnNext_onclick" height="40" top="staCenter:-9.85%" visible="false" cssclass="btnGreenBold"/>
+        <Static id="staName" taborder="2" text="업체명" left="staCenter:-40.42%" top="staCenter:-15.82%" width="115" height="40" cssclass="staDocument"/>
+        <Edit id="edtName" left="staCenter:-20.28%" top="staCenter:-16.42%" height="40" cssclass="edtDocument" taborder="3" width="421"/>
+        <Static id="staPhone" taborder="4" text="전화번호" left="staCenter:-40.56%" top="staCenter:2.08%" width="120" height="40" cssclass="staDocument"/>
+        <Edit id="edtPhone" taborder="5" left="staCenter:-20.14%" top="staCenter:1.80%" height="40" onchanged="Edit00_00_onchanged" cssclass="edtDocument" width="420"/>
+        <ImageViewer id="imgHomeLogo" taborder="6" left="staCenter:-135" top="staCenter:-209" width="270" cssclass="img_TF_Logo" stretch="fit" onclick="imgHomeLogo_onclick" height="74"/>
+        <Button id="btnCheck" taborder="7" text="이미 등록된 업체가 있는지 확인해 보세요!" left="staCenter:-24.72%" top="staCenter:32.54%" width="357" height="46" onclick="btnCheck_onclick" cssclass="btnGreenBold"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Owner
+*	@FileName ark5011fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/04
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/04		김태훈		최초 생성
+*	
+*
+*//**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+this.objApp =nexacro.getApplication();
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+this.fn_transaction_checkStore = function (sRtn)
+{
+	var arrParam = sRtn.split(":");
+	var sName = arrParam[0];
+	var sPhone = arrParam[1];
+	
+	var arrParam = sRtn.split(":");
+    if (arrParam.length < 2) {
+		this.gfnAlert("msg.register.expect");	
+        return;
+    }else{
+		// 이름 비밀번호 보내고 아이디 받기
+		var strSvcId   = "checkStore";
+		var sURL      = "SvcUrl::ark/checkStore.do";
+		var sInDs     = "";
+		var sOutDs    = "dsCheckStore=out_result";
+		var sParam    = "STORE_NAME=" + nexacro.wrapQuote(sName) + " STORE_PHONE=" + nexacro.wrapQuote(sPhone);
+		var sCallBack = "fnCallback";
+		this.transaction(strSvcId, sURL, sInDs, sOutDs, sParam, sCallBack);
+	}
+};
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+this.fnCallback = function (strSvcId, nErrorCode, strErrorMsg)
+{
+	if(nErrorCode<0){
+			this.alert("err" + strErrorMsg);
+		}
+	else if (nErrorCode == 0) {
+		if (strSvcId == "checkStore") {
+			if(this.dsCheckStore.getRowCount() == 0){
+				this.gfnAlert("msg.register.store.noexist");	
+				this.btnNext.set_visible(true);
+			}else{
+				this.gfnAlert("msg.register.store.exist");	
+			}
+		}
+	}
+}
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.btnNext_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.parent.parent.divRegister.set_url("Owner::ark5012fm.xfdl");
+};
+
+
+
+this.btnCheck_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sRtn = this.edtName.value;
+	sRtn += ":" + this.edtPhone.value;
+	this.fn_transaction_checkStore(sRtn);
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCheckStore">
+        <ColumnInfo>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

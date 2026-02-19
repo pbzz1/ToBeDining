@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark1011fm" width="920" height="350" titletext="홈태그div" onload="ark1011fm_onload">
+    <Layouts>
+      <Layout height="350" width="920">
+        <Div id="Div00" taborder="0" left="0" top="0" width="920" height="70" background="lightblue">
+          <Layouts>
+            <Layout>
+              <Static id="Static00" taborder="0" text="Static00" left="10" top="0" width="270" height="70"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <ImageViewer id="ImageViewer01" taborder="2" text="ImageViewer01" left="360" top="90" width="200" height="200"/>
+        <ImageViewer id="ImageViewer00" taborder="1" text="ImageViewer00" left="70" top="90" height="200" width="200"/>
+        <ImageViewer id="ImageViewer02" taborder="3" text="ImageViewer02" left="650" top="90" width="200" height="200"/>
+        <Static id="Static00" taborder="4" text="Static00" left="70" width="200" height="45" top="290"/>
+        <Static id="Static01" taborder="5" text="Static01" left="360" top="299" width="101" height="42"/>
+        <Static id="Static02" taborder="6" text="Static02" left="650" top="303" width="102" height="35" onclick="Static02_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\HomeFrame
+*	@FileName ark1011fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/08
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/08		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+]]></Script>
+    <Objects>
+      <Dataset id="dsTag">
+        <ColumnInfo>
+          <Column id="tagName" type="STRING" size="256"/>
+          <Column id="Column1" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

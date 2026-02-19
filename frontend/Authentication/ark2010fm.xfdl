@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark2010fm" width="1440" height="710" onload="ark2010fm_onload" titletext="로그인">
+    <Layouts>
+      <Layout height="710" mobileorientation="landscape" width="1440" stepcount="0">
+        <Static id="staCenter" taborder="1" text="Static00" left="0" top="0" width="50%" height="50%" background="yellow" visible="false"/>
+        <Div id="divLogin" taborder="0" top="staCenter:-75.21%" left="staCenter:-35.83%" border="1px solid black" right="32.01%" height="519">
+          <Layouts>
+            <Layout>
+              <Static id="Static00" taborder="0" text="아이디" left="100" top="108" width="100" height="45" cssclass="staDocument"/>
+              <Static id="Static00_00" taborder="1" text="비밀번호" left="100" top="Static00:18" width="100" height="45" cssclass="staDocument"/>
+              <Edit id="edtId" taborder="2" left="Static00:-1" top="108" height="45" right="100" text="" font="bold 14px/normal &quot;Malgun Gothic&quot;"/>
+              <Edit id="edtPw" taborder="3" left="Static00_00:-1" top="edtId:18" height="45" right="100" password="true" text=""/>
+              <Button id="btnJoin" taborder="8" text="회원가입" top="edtPw:0" height="25" onclick="divLogin_btnJoin_onclick" border="1px solid black" width="105" right="100"/>
+              <CheckBox id="chkRememberId" taborder="5" text="로그인 상태 유지" left="100" top="btnJoin:30" onclick="divLogin_CheckBox00_onclick" width="151" height="20"/>
+              <Button id="btnLogin" taborder="4" text="로그인" left="100" top="chkRememberId:0" onclick="divLogin_btnLogin_onclick" height="56" cssclass="btnGreenBold" hotkey="RETURN" right="100"/>
+              <Button id="btnFindId" taborder="6" text="아이디 찾기" left="100" top="btnLogin:12" height="34" onclick="divLogin_btnFindId_onclick" border="1px solid black" right="50%"/>
+              <Button id="btnFindPw" taborder="7" text="비밀번호 찾기" left="btnFindId:0%" top="btnLogin:12" height="34" onclick="divLogin_btnFindPw_onclick" border="1px solid black" right="102"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <ImageViewer id="imgHomeLogo" taborder="2" left="staCenter:-18.75%" top="staCenter:-69.03%" width="270" cssclass="img_TF_Logo" stretch="fit" onclick="imgHomeLogo_onclick" bottom="divLogin:-70"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Authentication
+*	@FileName ark2010fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/01/22
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/01/22		김태훈		최초 생성
+*	
+*
+*//**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+this.objApp =nexacro.getApplication();
+var topFrameForm = nexacro.getApplication().my_TopFrame.form;
+
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark2010fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	var sId = nexacro.getPrivateProfile("USER_ID");
+	if(typeof sId != "undefined" && sId != null && sId != "") 
+	{
+		this.divLogin.form.edtId.set_value(sId);
+		this.divLogin.form.chkRememberId.set_value(true);
+	}
+
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+this.fnCallback = function (strSvcId, nErrorCode, strErrorMsg)
+{
+		if(nErrorCode<0){
+			//this.alert("err" + strErrorMsg);
+		}
+		else if (nErrorCode == 0) {
+			if (strSvcId === "arkLogin") {
+				// gds_user에 저장된 데이터 가져오기
+				var userName = nexacro.getApplication().gdsDMember.getColumn(0, "USER_NAME");
+				var userRole = nexacro.getApplication().gdsDMember.getColumn(0, "USER_ROLE");
+				this.objApp.sNowUserID = this.objApp.gdsDMember.getColumn(0, "USER_ID");
+				this.objApp.sNowUserRole = this.objApp.gdsDMember.getColumn(0, "USER_ROLE");
+				this.objApp.gdsDMenu.filter("USER_ROLE=='"+userRole + "'");
+				//homeFraemForm.divLogin.set_url("HomeFrame::ark1021fm.xfdl");
+				// 역할에 따라 버튼 활성화
+				if (userRole === "Admin") {
+					topFrameForm.btnAdmin.set_visible(true);
+					//topFrameForm.btnStoreRegister.set_visible(false);
+					//topFrameForm.btnProfile.set_visible(true);
+					topFrameForm.btnLogin.set_text("로그아웃");
+					topFrameForm.staTopUserName.set_text(userName + "님 환영합니다.");
+					topFrameForm.staTopUserName.set_visible(true);
+					//topFrameForm.staTopWelcome.set_visible(true);
+					this.objApp.my_ContentFrame.set_formurl("HomeFrame::Frm_ContentFrame.xfdl");
+				} else if (userRole === "customer" || userRole === "손님" || userRole == "Customer") {
+					topFrameForm.btnAdmin.set_visible(true);
+					//topFrameForm.btnStoreRegister.set_visible(false);
+					topFrameForm.btnProfile.set_visible(true);
+					topFrameForm.btnLogin.set_text("로그아웃");
+					topFrameForm.staTopUserName.set_text(userName+ "님 환영합니다.");
+					topFrameForm.staTopUserName.set_visible(true);
+					//topFrameForm.staTopWelcome.set_visible(true);
+					this.objApp.my_ContentFrame.set_formurl("HomeFrame::Frm_ContentFrame.xfdl");
+				} else if (userRole === "owner" ||userRole === "사장님"||userRole ==="Owner") {
+					topFrameForm.btnAdmin.set_visible(true);
+					//topFrameForm.btnStoreRegister.set_visible(true);
+					topFrameForm.btnProfile.set_visible(true);
+					topFrameForm.btnLogin.set_text("로그아웃");
+					topFrameForm.staTopUserName.set_text(userName+ "님 환영합니다.");
+					topFrameForm.staTopUserName.set_visible(true);
+					//topFrameForm.staTopWelcome.set_visible(true);
+					this.objApp.my_ContentFrame.set_formurl("HomeFrame::Frm_ContentFrame.xfdl");
+				}else {
+					this.gfnAlert("msg.login.wrongId");	
+					return;
+				}	
+			} 
+		}
+};
+
+this.fn_popupCallback = function (id, rtn)
+{
+	if(!this.gfnIsNull(rtn)){
+			if(id === "findId"){
+				this.divLogin.form.edtId.set_value(rtn);
+			}else if(id === "findPW"){
+				var arrParam = rtn.split(":");
+				var sId = arrParam[0];
+				var sPw = arrParam[1];
+				this.divLogin.form.edtId.set_value(sId);
+				this.divLogin.form.edtPw.set_value(sPw);
+			}
+			
+	}
+};
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.divLogin_btnJoin_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.objApp.my_ContentFrame.set_formurl("Authentication::ark2020fm.xfdl");
+};
+
+this.divLogin_btnLogin_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.divLogin.form.chkRememberId.value == true)
+	{
+		nexacro.setPrivateProfile("USER_ID", this.divLogin.form.edtId.value);
+	}else {
+		nexacro.setPrivateProfile("USER_ID", "");
+	}
+
+
+	var userId = this.divLogin.form.edtId.value;
+    var userPw = this.divLogin.form.edtPw.value;
+	
+	this.loginData.addRow();
+    this.loginData.setColumn(0, "USER_ID", userId);
+    this.loginData.setColumn(0, "USER_PW", userPw);
+	
+    // 트랜잭션 호출
+    var strSvcId = "arkLogin";
+    var strSvcUrl = "ark/Login.do";
+    var inData = ""; 
+    var outData = "gdsDMember=out_login"; // 결과를 gds_user에 저장
+    var strArg = "USER_ID=" + nexacro.wrapQuote(userId) + " USER_PW=" + nexacro.wrapQuote(userPw); // 파라미터 전달
+    var fnCallback = "fnCallback";
+
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback); 
+};
+
+this.divLogin_btnFindId_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var CF = new ChildFrame();
+	var strName = "findId"
+	var nLeft = 0;
+	var nTop = 0;
+	var nWidth = 600;
+	var nHeight = 600;
+	var nRight = null;
+	var nBottom = null;
+	var strUrl = "Authentication::ark2011fm.xfdl";
+	
+	var objParam = {
+	};
+	
+	CF.init(strName,nLeft,nTop,nWidth,nHeight,nRight,nBottom,strUrl);
+	CF.set_openalign("center middle");
+	CF.showModal(this.getOwnerFrame(), objParam, this, "fn_popupCallback"); 	
+};
+
+
+this.divLogin_btnFindPw_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var CF = new ChildFrame();
+	var strName = "findPW"
+	var nLeft = 0;
+	var nTop = 0;
+	var nWidth = 600;
+	var nHeight = 600;
+	var nRight = null;
+	var nBottom = null;
+	var strUrl = "Authentication::ark2013fm.xfdl";
+	
+	var objParam = {
+	};
+	
+	CF.init(strName,nLeft,nTop,nWidth,nHeight,nRight,nBottom,strUrl);
+	CF.set_openalign("center middle");
+	CF.showModal(this.getOwnerFrame(), objParam, this, "fn_popupCallback"); 	
+};
+
+]]></Script>
+    <Objects>
+      <Dataset id="loginData">
+        <ColumnInfo>
+          <ConstColumn id="USER_ID" type="STRING" size="30"/>
+          <ConstColumn id="USER_PW" type="STRING" size="30"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

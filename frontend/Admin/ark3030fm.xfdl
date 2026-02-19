@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark3030fm" width="1280" height="720" titletext="best맛집" onload="ark3030fm_onload" background="#d6edbe">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Static id="Static00" taborder="3" text="Static00" left="0" top="0" width="50%" height="50%" visible="false"/>
+        <Static id="staTitle" taborder="0" text="best맛집" left="Static00:-630" top="Static00:-330" width="253" height="40" font="bold 16pt/normal &quot;Sans Serif Collection&quot;"/>
+        <Static id="staSubTitle" taborder="2" text="리뷰가 높은 순으로 가게들이 정렬되어 있습니다." left="Static00:-630" top="staTitle:0" width="1228" height="50" font="bold 12pt/normal &quot;Sans Serif Collection&quot;"/>
+        <ListView id="listViewStore" taborder="1" left="Static00:-577" top="staSubTitle:0" width="1155" height="576" binddataset="dsStore">
+          <Formats>
+            <Format id="default">
+              <Band id="body" width="100%" height="170">
+                <Cell id="Cell17" left="10" top="10" width="150" height="150" text="bind:STORE_PHOTO2" displaytype="imagecontrol" imagestretch="fit"/>
+                <Cell id="Cell00" left="Cell17:20" top="10" width="120" height="24" text="가게명"/>
+                <Cell id="Cell01" left="Cell00:0" top="10" width="180" height="24" text="bind:STORE_NAME"/>
+                <Cell id="Cell04" left="180" top="44" width="120" height="24" text="전화번호"/>
+                <Cell id="Cell05" left="Cell04:0" top="Cell01:10" width="180" height="24" text="bind:STORE_PHONE"/>
+                <Cell id="Cell10" left="180" top="78" width="120" height="24" text="업종"/>
+                <Cell id="Cell11" left="Cell10:0" top="78" width="180" height="24" text="bind:STORE_INDUSTRY"/>
+                <Cell id="Cell02" left="180" top="Cell10:10" width="120" height="24" text="평균 별점"/>
+                <Cell id="Cell03" left="Cell02:0" top="106" width="180" height="24" text="expr:average_rating + &quot;점&quot;"/>
+              </Band>
+            </Format>
+          </Formats>
+        </ListView>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsStore">
+        <ColumnInfo>
+          <Column id="STORE_NAME" type="STRING" size="60"/>
+          <Column id="STORE_ENG_NAME" type="STRING" size="60"/>
+          <Column id="STORE_PHONE" type="STRING" size="60"/>
+          <Column id="STORE_ADDR_MAIN" type="STRING" size="50"/>
+          <Column id="STORE_ADDR_DETAIL" type="STRING" size="50"/>
+          <Column id="STORE_INDUSTRY" type="STRING" size="50"/>
+          <Column id="STORE_BUISNESS_DAY" type="STRING" size="50"/>
+          <Column id="STORE_BUISNESS_TIME" type="STRING" size="50"/>
+          <Column id="STORE_PHOTO" type="STRING" size="50"/>
+          <Column id="STORE_THEME" type="STRING" size="50"/>
+          <Column id="STORE_EXPLAIN" type="STRING" size="300"/>
+          <Column id="STORE_RATING" type="STRING" size="50"/>
+          <Column id="STORE_REVIEW_COUNT" type="INT"/>
+          <Column id="STORE_CREATED_AT" type="STRING" size="256"/>
+          <Column id="STORE_UPDATED_AT" type="STRING" size="256"/>
+          <Column id="average_rating" type="STRING" size="256"/>
+          <Column id="STORE_PHOTO2" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Admin
+*	@FileName ark3030fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/25
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/25		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+var fvHomeAddr = "";
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark3030fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fnGetStore();
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+this.fnGetStore = function()
+{
+	// 트랜잭션 호출
+    var strSvcId = "highRatingStore";
+    var strSvcUrl = "ark/highRatingStore.do";
+    var inData = ""; 
+    var outData = "dsStore=dsStore"; // 결과를 gds_user에 저장
+    var strArg = ""; // 파라미터 전달
+    var fnCallback = "fnCallback";
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback);
+	//this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback);
+}
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+
+]]></Script>
+  </Form>
+</FDL>

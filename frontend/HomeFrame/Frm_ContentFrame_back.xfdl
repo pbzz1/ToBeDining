@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Frm_ContentFrame" width="1440" height="730" titletext="ContentFrame" onload="Frm_ContentFrame_onload" scrollbartype="none none" accessibilitydesclevel="child">
+    <Layouts>
+      <Layout height="730" width="1440" stepcount="2">
+        <Div id="Div00" taborder="0" text="Div00" top="0" width="100.00%" height="200" left="0" background="aliceblue">
+          <Layouts>
+            <Layout>
+              <Button id="btn_setLocation" taborder="0" text="다른 지역 선택" left="38.00%" top="113" width="144" height="67" onclick="Div00_btn_selLocation_onclick" cssclass="btn_WF_basic02"/>
+              <Button id="btn_setCurLocation" taborder="1" text="기본 값으로 설정" left="52.00%" top="113" width="144" height="67" onclick="Div00_btn_setCurLocation_onclick" cssclass="btn_WF_basic02"/>
+              <Static id="staLocation" taborder="2" text="당신을 위한&#13;&#10;서울 강남구 삼성동 맛집" left="37.99%" top="17" width="345" height="82" textAlign="center"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <WebBrowser id="webPost" taborder="1" left="13" top="8" width="335" height="264" onusernotify="webPost_onusernotify" visible="false"/>
+        <Div id="div_main_product" taborder="2" text="Div01" left="143" top="230" width="1152" height="2570" background="aliceblue" formscrollbartype="none none" formscrolltype="none" enableevent="false">
+          <Layouts>
+            <Layout/>
+          </Layouts>
+        </Div>
+        <Grid id="Grid00" taborder="3" left="72" top="68" width="1250" height="242" positionstep="1" binddataset="dsFilterAddr" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="24"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="TAG_ID"/>
+                <Cell col="1" text="STORE_ID"/>
+                <Cell col="2" text="STORE_NAME"/>
+                <Cell col="3" text="STORE_PHOTO"/>
+                <Cell col="4" text="TAG_NAME"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:TAG_ID"/>
+                <Cell col="1" text="bind:STORE_ID"/>
+                <Cell col="2" text="bind:STORE_NAME"/>
+                <Cell col="3" text="bind:STORE_PHOTO"/>
+                <Cell col="4" text="bind:TAG_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="Grid01" taborder="4" left="76" top="360" width="1264" height="210" positionstep="1" binddataset="dsFilterTag" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="24"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="TAG_ID"/>
+                <Cell col="1" text="STORE_ID"/>
+                <Cell col="2" text="STORE_NAME"/>
+                <Cell col="3" text="STORE_PHOTO"/>
+                <Cell col="4" text="TAG_NAME"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:TAG_ID"/>
+                <Cell col="1" text="bind:STORE_ID"/>
+                <Cell col="2" text="bind:STORE_NAME"/>
+                <Cell col="3" text="bind:STORE_PHOTO"/>
+                <Cell col="4" text="bind:TAG_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid id="Grid02" taborder="5" left="32" top="99" width="278" height="294" binddataset="dsFilterAddr">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="24"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="TAG_ID"/>
+                <Cell col="1" text="STORE_ID"/>
+                <Cell col="2" text="STORE_NAME"/>
+                <Cell col="3" text="STORE_PHOTO"/>
+                <Cell col="4" text="TAG_NAME"/>
+                <Cell col="5" text="TAG_COUNT"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:TAG_ID"/>
+                <Cell col="1" text="bind:STORE_ID"/>
+                <Cell col="2" text="bind:STORE_NAME"/>
+                <Cell col="3" text="bind:STORE_PHOTO"/>
+                <Cell col="4" text="bind:TAG_NAME"/>
+                <Cell col="5" text="bind:TAG_COUNT"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\HomeFrame
+*	@FileName Frm_ContentFrame.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/01/20
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/01/20		김태훈		최초 생성
+*	
+*
+*//**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+var objApp = nexacro.getApplication();
+var fvHomeAddr = "서울 강남구 삼성동";
+var sImagePath = "C:/EduPack/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/edupack_egov/upload_file/nexa_edu/store_photo"
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.Frm_ContentFrame_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fnGetStore();
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+this.fnGetStore = function()
+{
+	// 트랜잭션 호출
+    var strSvcId = "arkGetStore";
+    var strSvcUrl = "ark/GetStore.do";
+    var inData = ""; 
+    var outData = "dsFilterAddr=out_filteredAddr"; // 결과를 gds_user에 저장
+    var strArg = "STORE_ADDR_MAIN="+ nexacro.wrapQuote(fvHomeAddr); // 파라미터 전달
+    var fnCallback = "fnCallback";
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback);
+	//this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback);
+}
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+this.fnCallback = function(id, nErrCode, sErrMsg){
+	switch(id) {
+		case "arkGetStore":
+			if(nErrCode<0){
+				this.alert("error:" +sErrMsg);
+			}
+			else{
+				trace("arkGetStore: good");
+				this.fn_create_product();
+			}
+			break;
+		case "getStore":
+			fvStoreId = this.dsCurStore.getRowCount() + 1;
+			this.dsDStore.setColumn(this.dsDStore.getMax("STORE_ID"),"STORE_COUNT",fvStoreId);
+			break;
+		default:
+			trace("invalid transaction id");
+	}
+}
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+//상품 정보 동적 생성
+this.fn_create_product = function()
+{
+	if(this.isValidObject(this.div_main_product))
+	{
+		var objDivMain = this.removeChild("div_main_product"); 
+		objDivMain.destroy(); 
+		objDivMain = null;
+
+		var objDivMain = new Div();  //내가 만들려고하는 오브젝트, 그리드를 만들고싶으면 new grid(); 콤보도 마찬가지로 표현.. 
+		objDivMain.init("div_main_product", 144, 250, "80%", 2570); // 컴포넌트에 대한 초기값, (아이디, left, top, width, height) 
+		objDivMain.set_background("aliceblue");
+		this.addChild("div_main_product", objDivMain); // 생성했는데 화면에다가 붙여주는 것
+		objDivMain.show();  // 화면에보여줄려고 하는 메소드 show 
+	}
+	
+	var xPos = 0;  //left 
+	var yPos = -350;  //top  
+
+	var nTagCount = this.dsFilterAddr.getColumn(0,"TAG_COUNT");
+	for(var i=0; i<nTagCount + 1; i++)//tag의 수만큼 반복
+	{	
+		yPos = yPos+370;
+		xPos = 120;	
+		
+		//태그 필터링
+		this.dsFilterAddr.filter("TAG_ID == " + i);
+		this.dsFilterTag.copyData(this.dsFilterAddr, true);
+
+		//Div 안 식당 컴포넌트를 위한 인덱스	
+        var btnPrevID = "btnPrev" + i;
+        var objPrevButton = new Button();
+        objPrevButton.init(btnPrevID, 40, 185 +	 yPos, 40, 40);
+        this.div_main_product.form.addChild(btnPrevID, objPrevButton);
+        objPrevButton.set_text("이전");
+        objPrevButton.set_background("lightgray");
+        objPrevButton.set_textAlign("center");
+        objPrevButton.show();
+		
+		// `nextButton` 생성
+        var btnNextID = "btnNext" + i;
+        var objNextButton = new Button();
+        objNextButton.init(btnNextID, 1070, 185 + yPos, 40, 40);
+        this.div_main_product.form.addChild(btnNextID, objNextButton);
+        objNextButton.set_text("다음");
+        objNextButton.set_background("lightgray");
+        objNextButton.set_textAlign("center");
+        objNextButton.show();	
+
+		objDiv = new Div();  //내가 만들려고하는 오브젝트, 그리드를 만들고싶으면 new grid(); 콤보도 마찬가지로 표현.. 
+		objDiv.init("div" + i, xPos, yPos, 920, 350); // 컴포넌트에 대한 초기값, (아이디, left, top, width, height) 
+		this.div_main_product.form.addChild("div" + i, objDiv); // 생성했는데 화면에다가 붙여주는 것
+		objDiv.set_border("1px solid pink");  // 배경색깔 
+		objDiv.show();  // 화면에보여줄려고 하는 메소드 show 
+		
+		var objDivTmp = "div"+i;
+		objDivTmp = this.div_main_product.form.components[objDivTmp];
+		//trace("@@@@@@@@@@"+objDivTmp);
+		
+		this.dsFilterAddr.filter(""); //태그 필터 초기화
+		var objStatic0 = new Static();
+		var sText = "#"+this.dsFilterTag.getColumn(0,"TAG_NAME") +" ("+ this.dsFilterTag.getRowCount() + ")";
+		var sTagId = "staTagName" + i;
+		objStatic0.init(sTagId, 10, 0, 270, 70);
+		objDivTmp.form.addChild(sTagId, objStatic0);
+		objStatic0.set_text(sText);
+		objStatic0.set_font("'bold 15px/normal', 'Malgun Gothic','한컴 말랑말랑 Bold'");
+		objStatic0.TAG_NO = this.dsFilterAddr.getColumn(i, "TAG_ID");
+		//objStatic0.set_background("pink");
+		objStatic0.show();
+		//objDivTmp.form.sta0.addEventHandler("onclick", this.fnProduct, this);
+		
+		for(var j =0; j<3; j++){
+			var objImageViewer0 = new ImageViewer();
+			var sImgId = "ima" + j;
+			objImageViewer0.init(sImgId, 70 + 290*j, 90, 200, 200); 
+			objDivTmp.form.addChild(sImgId, objImageViewer0);
+			var sArkImageURL = "C:/EduPack/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/edupack_egov/upload_file/nexa_edu/store_photo/" 
+								+ this.dsFilterTag.getColumn(j,"STORE_PHOTO"); 
+			objImageViewer0.set_image("URL('file://"+sArkImageURL+"')");
+			//objImageViewer0.STORE_NO = this.dsFilterTag.getColumn(i, "STORE_ID"); // 이미지뷰어에 class_no값 넣어주기 
+			objImageViewer0.set_stretch("fit");
+			objImageViewer0.set_borderRadius("10px");
+			//objImageViewer0.set_text( this.dsClass.getColumn(i, "class_no"));
+			//objImageViewer0.set_border("1px solid gray");
+			objImageViewer0.show();
+			//objDivTmp.form.ima0.addEventHandler("onclick", this.fnProduct, this);
+			
+			var objStoreName = new Static();
+			var sStoreId = "sta" + j; 
+			var sStoreName = this.dsFilterTag.getColumn(j, "STORE_NAME");
+			this.dsFilterTag.getColumn();
+			//trace(j+3*nIndex);
+			objStoreName.init(sStoreId, 70 + 290*j, 290, 200, 45);
+			objDivTmp.form.addChild(sStoreId, objStoreName);
+			//trace(sStoreName);
+			if(!sStoreName || sStoreName == undefined){
+				objStoreName.set_text("정보없음");
+			} else{
+				objStoreName.set_text(sStoreName);
+			}
+			objStoreName.STORE_ID = this.dsFilterTag.getColumn(j, "STORE_ID");
+			//objStoreName.set_background("lightgray");
+			//objStoreName.set_textAlign("left");
+			objStoreName.show();
+			//objDivTmp.form.sta1.addEventHandler("onclick", this.fnProduct, this);
+		}
+		var nIndex = 0;
+		 // 클릭 이벤트 추가 (각 버튼별로 개별 이벤트 할당)
+        objPrevButton.addEventHandler("onclick", function(e){
+				if (nIndex > 0){
+					nIndex--;
+				} else {
+					nIndex = parseInt(this.dsFilterAddr.getRowCount() / 3) + 1;
+				}
+				trace("현재 nIndex: " + nIndex);
+			}, this);
+		//trace("2" + this.dsTag.getColumn(0,"STORE_NAME"));
+		
+		// 버튼 이벤트 핸들러 (다음 버튼)
+        objNextButton.addEventHandler("onclick", function(e){
+				if (nIndex < parseInt(this.dsFilterTag.getRowCount() / 3) - 1) {
+					nIndex++;
+				} else {
+					nIndex = 0;
+				}
+				trace("현재 nIndex: " + nIndex);
+			}, this);
+		this.dsFilterTag.clearData();
+	}
+}
+
+this.fn_create_Button = function(sId,vLeft,vTop, vWidth,vHeight, sText)
+{
+	//Div 안 식당 컴포넌트를 위한 인덱스	
+	var btnPrevID = sId;
+	var objPrevButton = new Button();
+	objPrevButton.init(btnPrevID, vLeft, vTop, vWidth, vHeight);
+	this.div_main_product.form.addChild(btnPrevID, objPrevButton);
+	objPrevButton.set_text(sText);
+	objPrevButton.set_background("lightgray");
+	objPrevButton.set_textAlign("center");
+	objPrevButton.show();
+}
+
+this.fn_create_Div = function (sTagDivId,vLeft,vTopDiv, vWidth,vHeight)
+{
+		objDiv = new Div();  //내가 만들려고하는 오브젝트, 그리드를 만들고싶으면 new grid(); 콤보도 마찬가지로 표현.. 
+		objDiv.init(sTagDivId, vLeft, vTopDiv, vWidth, vHeight); // 컴포넌트에 대한 초기값, (아이디, left, top, width, height) 
+		this.div_main_product.form.addChild(sTagDivId, objDiv); // 생성했는데 화면에다가 붙여주는 것
+		objDiv.set_border("1px solid pink");  // 배경색깔 
+		objDiv.show();  // 화면에보여줄려고 하는 메소드 show 
+		return objDiv;
+};
+
+this.extractAddress = function(fvHomeAddr)
+{
+	var regex = /^(.*\s[가-힣]+(?:로|길|동))/;
+	var match = fvHomeAddr.match(regex);
+	var result = match ? match[1] : fvHomeAddr;
+	return result;
+};
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.webPost_onusernotify = function(obj:nexacro.WebBrowser,e:nexacro.WebUserNotifyEventInfo)
+{
+
+trace("webPost_onusernotify----> " );
+	var strPost = e.userdata;
+	if (strPost.indexOf("OK!!!:::") == 0) 
+	{
+		var aAddr = strPost.split(":::");
+		fvHomeAddr = aAddr[4];
+		fvHomeAddr = this.extractAddress(fvHomeAddr);
+		this.Div00.form.staLocation.set_text("당신을 위한 \n" + fvHomeAddr + "맛집");
+		
+		this.fnGetStore();
+	}
+	//this.fnGetStore();
+};
+
+this.Div00_btn_selLocation_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnPostSearchDaum(this.webPost);
+};
+
+this.Div00_btn_setCurLocation_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.Div00.form.staLocation.set_text("당신을 위한 \n" + fvHomeAddr + "맛집");
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsTag">
+        <ColumnInfo>
+          <Column id="TAG_ID" type="STRING" size="256"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="STORE_NAME" type="STRING" size="256"/>
+          <Column id="STORE_PHOTO" type="STRING" size="256"/>
+          <Column id="STORE_COUNT" type="STRING" size="256"/>
+          <Column id="TAG_NAME" type="STRING" size="256"/>
+          <Column id="STORE_ADDR_MAIN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsFilterAddr">
+        <ColumnInfo>
+          <Column id="TAG_ID" type="STRING" size="256"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="STORE_NAME" type="STRING" size="256"/>
+          <Column id="STORE_PHOTO" type="STRING" size="256"/>
+          <Column id="TAG_NAME" type="STRING" size="256"/>
+          <Column id="TAG_COUNT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsFilterTag">
+        <ColumnInfo>
+          <Column id="TAG_ID" type="STRING" size="256"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="STORE_NAME" type="STRING" size="256"/>
+          <Column id="STORE_PHOTO" type="STRING" size="256"/>
+          <Column id="TAG_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

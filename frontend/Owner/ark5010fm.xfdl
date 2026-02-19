@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark5010fm" width="1440" height="730" titletext="가게 등록">
+    <Layouts>
+      <Layout height="730" mobileorientation="landscape" width="1440">
+        <Div id="divRegister" taborder="1" text="Div01" left="0" top="0" right="0" bottom="0" url="Owner::ark5011fm.xfdl"/>
+      </Layout>
+    </Layouts>
+  </Form>
+</FDL>

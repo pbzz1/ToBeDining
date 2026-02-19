@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark5013fm" width="1440" height="810" titletext="가게 등록 완료">
+    <Layouts>
+      <Layout height="810" width="1440">
+        <Static id="Static00" taborder="1" text="Static00" left="0" top="0" width="50%" height="50%" visible="false"/>
+        <Div id="Div00" taborder="1" left="Static00:-679.969" top="Static00:-335.016" background="aliceblue" text="" width="1359" height="700">
+          <Layouts>
+            <Layout>
+              <Static id="Static02" taborder="5" text="Static02" left="0" top="0" width="50%" height="50%" visible="false"/>
+              <ImageViewer id="imgCheck" taborder="0" left="Static02:-100" top="Static02:-250" width="200" height="200" cssclass="img_chk_regStore"/>
+              <Static id="Static00" taborder="1" text="user_name" top="Static02:-15" width="Static02:30.15%" height="60" textAlign="right" right="50%" font="21px/normal &quot;Malgun Gothic&quot;"/>
+              <Static id="Static01" taborder="2" text="님!" left="Static02:0" top="Static02:-15" width="201" height="60" font="21px/normal &quot;Malgun Gothic&quot;"/>
+              <Static id="Static01_00" taborder="3" text=" 가게가 등록된 것을 축하드립니다!" left="0%" top="Static02:45" height="60" font="21px/normal &quot;Malgun Gothic&quot;" right="0" textAlign="center"/>
+              <Button id="btnHome" taborder="4" text="메인 화면으로 이동" left="Static02:-144" top="Static02:180" width="289" height="59" onclick="Div00_btnHome_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="Div00.form.edtStoreName" propid="value" datasetid="dsDStore" columnid="STORE_NAME"/>
+      <BindItem id="item1" compid="Div00.form.edtStoreEngName" propid="value" datasetid="dsDStore" columnid="STORE_ENG_NAME"/>
+      <BindItem id="item2" compid="Div00.form.mskStorePhone" propid="value" datasetid="dsDStore" columnid="STORE_PHONE"/>
+      <BindItem id="item3" compid="Div00.form.edtStoreAddrMain" propid="value" datasetid="dsDStore" columnid="STORE_ADDR_MAIN"/>
+      <BindItem id="item4" compid="Div00.form.edtStoreAddrDetail" propid="value" datasetid="dsDStore" columnid="STORE_ADDR_DETAIL"/>
+      <BindItem id="item5" compid="Div00.form.edtStoreIndustry" propid="value" datasetid="dsDStore" columnid="STORE_INDUSTRY"/>
+      <BindItem id="item6" compid="Div00.form.cboDay" propid="value" datasetid="dsDStore" columnid="STORE_BUISNESS_DAY"/>
+      <BindItem id="item7" compid="Div00.form.imgStorePhoto" propid="image" datasetid="dsDStore" columnid="STORE_PHOTO"/>
+      <BindItem id="item8" compid="Div00.form.chkTheme" propid="value" datasetid="dsDStore" columnid="STORE_THEME"/>
+      <BindItem id="item9" compid="Div00.form.txtStoreExplain" propid="value" datasetid="dsDStore" columnid="STORE_EXPLAIN"/>
+      <BindItem id="item10" compid="Div00.form.Static00" propid="text" datasetid="gdsDMember" columnid="USER_NAME"/>
+      <BindItem id="item11" compid="Div00.form.Static00_00" propid="text" datasetid="gdsDStore" columnid="STORE_NAME"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Owner
+*	@FileName ark5013fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/07
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/07		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.Div00_btnHome_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	nexacro.getApplication().my_ContentFrame.set_formurl("HomeFrame::Frm_ContentFrame.xfdl");
+};
+]]></Script>
+  </Form>
+</FDL>

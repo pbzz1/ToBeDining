@@ -1,0 +1,454 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark5020fm" width="1440" height="710" titletext="가게 상세 정보" onload="ark5020fm_onload" background="#f0f0f3">
+    <Layouts>
+      <Layout height="710" width="1440" stepcount="0">
+        <Static id="Static00" taborder="2" text="Static00" left="0" top="0" width="50%" height="50%" visible="false"/>
+        <Div id="divMain" taborder="0" text="Div00" left="Static00:-358.992" top="11" width="718" height="2310" background="#f6f7e8">
+          <Layouts>
+            <Layout>
+              <ImageViewer id="imgStore" taborder="0" left="10" top="10" height="344" right="50%" stretch="fit" borderRadius="20px"/>
+              <ImageViewer id="imgStoreMenu" taborder="1" left="50%" top="10" height="344" right="10" stretch="fit" borderRadius="20px" onclick="divMain_imgStoreMenu_onclick"/>
+              <Button id="btnReservation" taborder="19" text="예약하기" top="imgStoreMenu:20" width="80" height="25" cssclass="btnReserve" right="10" onclick="divMain_btnReservation_onclick"/>
+              <Static id="staStoreName" taborder="2" text="staStoreName" left="10" top="imgStore:20" height="50" cssclass="staStoreName" right="btnReservation:-1" verticalAlign="top"/>
+              <Static id="staStoreIndustry" taborder="3" text="Industry" left="10" top="staStoreName:0" height="32" right="50.00%" cssclass="staStoreFaint" verticalAlign="top" color="lightgray" font="bold 9pt/normal &quot;Sans Serif Collection&quot;"/>
+              <Static id="staRating" taborder="4" text="rating, reviewCount" left="10" top="staStoreIndustry:0" height="32" right="50.70%" cssclass="staStoreBold" color="blue"/>
+              <ImageViewer id="imgAddr" taborder="6" left="10" top="staRating:30" width="30" height="30" image="url('imagerc::location.png')" stretch="fit"/>
+              <Static id="staAddrMain" taborder="5" text="AddrMain" left="imgAddr:10" top="staRating:30" height="30" right="10" cssclass="staStoreBold"/>
+              <ImageViewer id="imgStorePhone" taborder="7" left="10" top="imgAddr:10" width="30" height="30" image="url('imagerc::store_phone.png')" stretch="fit"/>
+              <Static id="staStorePhone" taborder="8" text="staStorePhone" left="imgStorePhone:10" top="staAddrMain:10" height="30" right="10" cssclass="staStoreBold"/>
+              <ImageViewer id="imgBuisnessDay" taborder="9" left="10" top="imgStorePhone:10" width="30" height="30" image="url('imagerc::store_tag.jpeg')" stretch="fit"/>
+              <Static id="staBuisnessDay" taborder="10" text="staBuisnessDay" left="imgBuisnessDay:10" top="staStorePhone:10" height="30" right="10" cssclass="staStoreBold"/>
+              <ImageViewer id="imgBuisnessTime" taborder="11" left="10" top="imgBuisnessDay:10" width="30" height="30" image="url('imagerc::plus_2.png')" stretch="fit"/>
+              <Static id="staBuisnessTime" taborder="12" text="staBuisnessTime" left="imgBuisnessTime:10" top="staBuisnessDay:10" height="30" right="10" cssclass="staStoreBold"/>
+              <Static id="staMenuTitle" taborder="14" text="메뉴정보" left="5" top="staBuisnessTime:30" right="5" cssclass="staStoreName" height="50"/>
+              <ListView id="listViewMenu" taborder="13" left="10" top="staMenuTitle:30" right="10" binddataset="dsDMenu" height="350" bandexpandtype="accordion">
+                <Formats>
+                  <Format id="default">
+                    <Band id="body" width="100%" height="40" expandbartype="true">
+                      <Cell id="cellBindMenuName" left="5" top="8" width="180" height="24" text="bind:MENU_NAME"/>
+                      <Cell id="Cell05" top="8" width="180" height="24" text="bind:MENU_PRICE" right="20" textAlign="right"/>
+                    </Band>
+                    <Band id="detail" width="100%" height="210">
+                      <Cell id="cellImage" left="5" top="5" width="200" height="200" imagestretch="fit" displaytype="imagecontrol" edittype="none" text="bind:MENU_PHOTO" cssclass="imageRadius" borderRadius="10px"/>
+                      <Cell id="cellMenuName" left="cellImage:10" top="5" width="100" height="30" text="메뉴명" cssclass="staStoreBold"/>
+                      <Cell id="cellBindMenuName" left="cellMenuName:0" top="5" height="30" right="5" text="bind:MENU_NAME"/>
+                      <Cell id="cellMenuName00" left="215" top="40" width="100" height="30" text="가격" cssclass="staStoreBold"/>
+                      <Cell id="cellBindMenuName00" left="cellMenuName00:0" top="cellBindMenuName:5" height="30" right="5" text="bind:MENU_PRICE" displaytype="number"/>
+                      <Cell id="cellMenuName01" left="215" top="75" width="100" height="30" text="메뉴 설명" cssclass="staStoreBold"/>
+                      <Cell id="cellBindMenuName01" left="cellMenuName01:0" top="cellBindMenuName00:5" right="5" text="bind:MENU_EXPLAIN" bottom="5" displaytype="text" wordWrap="char" verticalAlign="top"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </ListView>
+              <Static id="staReviewTitle" taborder="15" text="*건의 (식당이름) 방문자 평가" left="5" top="listViewMenu:30" cssclass="staStoreName" height="50" right="5"/>
+              <Static id="staStoreRating" taborder="16" text="staStoreRating" left="12" top="staReviewTitle:0" height="43" onclick="divMain_staStoreRating_onclick" right="5" verticalAlign="top" cssclass="staStoreBold" color="blue"/>
+              <ListView id="listReview" taborder="18" left="10" top="staStoreRating:50" height="837" right="10" binddataset="dsReview">
+                <Formats>
+                  <Format id="default">
+                    <Band id="body" width="100%" height="230">
+                      <Cell id="Cell00" left="5" top="8" width="50" height="50" displaytype="imagecontrol" imagestretch="fit" text="bind:USER_PROFILE" borderRadius="10px"/>
+                      <Cell id="Cell01" left="Cell00:5" top="8" width="180" height="50" text="bind:USER_NAME"/>
+                      <Cell id="cellReviewImage" left="5" top="Cell00:8" width="150" displaytype="imagecontrol" imagestretch="fit" height="150" text="bind:REVIEW_IMAGE" borderRadius="10px"/>
+                      <Cell id="Cell09" top="8" width="180" height="50" text="expr:REVIEW_RATING + &quot;점&quot;" right="10" textAlign="right" padding="0px 3px 0px 0px"/>
+                      <Cell id="Cell05" left="cellReviewImage:5" top="Cell09:8" text="bind:REVIEW_DETAIL" verticalAlign="middle" border="1px solid" bottom="14" right="10"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </ListView>
+              <Button id="btnPostReview" taborder="17" text="리뷰 작성하기" width="109" onclick="divMain_btnPostReview_onclick" cssclass="btnReserve" height="30" right="10" bottom="listReview:5"/>
+              <Button id="btnHighRating" taborder="20" text="평점 높은 순" left="12" width="100" height="30" bottom="listReview:5" cssclass="btnReserve" onclick="Button_onclick"/>
+              <Button id="btnLowRating" taborder="21" text="평점 낮은 순" left="122" width="100" height="30" bottom="listReview:5" cssclass="btnReserve" onclick="Button_onclick"/>
+              <Button id="btnAlpha" taborder="22" text="가나다 순" left="232" width="100" height="30" bottom="listReview:5" cssclass="btnReserve" onclick="Button_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <WebView id="webPostKakao" taborder="1" left="divMain:8" top="100" width="300" height="300" onloadcompleted="webPostKakao_onloadcompleted" border="0px none"/>
+        <PopupDiv id="popupCalender" visible="false" left="5" top="375" width="290" height="470" background="white" url="Owner::ark5022fm.xfdl"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**************************************************************************
+* FORM 변수 선언 영역
+**************************************************************************/
+var objApp = nexacro.getApplication();
+var sReviewSum = 0;
+
+// ★ 웹 이미지 경로 (반드시 HTTP 사용)
+// - 운영/개발 환경 바뀌면 여기만 바꾸면 됨
+var sImageHttpPath = "http://localhost:8088/edupack_egov/upload_file/nexa_edu/";
+
+/**************************************************************************
+* 공통: 이미지 URL 정규화 함수
+* - DB/서버에서 내려오는 값이
+*   1) null/""/undefined
+*   2) "undefined"
+*   3) "URL('http://...')" 또는 "URL('file://...')"
+*   4) "http://..."
+*   5) "user_profile_1.png" 같은 파일명
+*   6) "profile_image/user_profile_1.png" 같은 상대경로
+*   7) "C:\..." 같은 로컬경로
+*   등 어떤 형태든 안전하게 처리
+**************************************************************************/
+this.fnNormalizeImageUrl = function(raw, folder, defaultFile)
+{
+    // folder 예: "profile_image/", "store_photo/"
+    // defaultFile 예: "undefined.png"
+
+    if (raw === null || raw === undefined) {
+        return sImageHttpPath + folder + defaultFile;
+    }
+
+    raw = String(raw);
+
+    if (raw === "" || raw === "undefined" || raw === "null") {
+        return sImageHttpPath + folder + defaultFile;
+    }
+
+    // 이미 URL('...') 형태로 내려오면 내부만 꺼내기
+    // 예: URL('http://...') -> http://...
+    var m = raw.match(/^URL\(['"](.+?)['"]\)$/i);
+    if (m && m[1]) {
+        raw = m[1];
+    }
+
+    // 이미 http(s)면 그대로 사용
+    if (/^https?:\/\//i.test(raw)) {
+        return raw;
+    }
+
+    // file:// 로컬 경로는 웹에서 못 읽음 -> 기본 이미지로
+    if (/^file:\/\//i.test(raw)) {
+        return sImageHttpPath + folder + defaultFile;
+    }
+
+    // C:\ 같은 윈도우 로컬 절대경로도 웹에서 못 읽음 -> 기본 이미지로
+    if (/^[A-Za-z]:\\/.test(raw) || /^[A-Za-z]:\//.test(raw)) {
+        return sImageHttpPath + folder + defaultFile;
+    }
+
+    // 이미 folder가 포함된 상대경로면 그대로 붙임
+    // 예: profile_image/user_profile_1.png
+    if (raw.indexOf(folder) === 0) {
+        return sImageHttpPath + raw;
+    }
+
+    // 파일명만 오면 folder 붙여서 완성
+    return sImageHttpPath + folder + raw;
+};
+
+
+/**************************************************************************
+* FORM EVENT 영역
+**************************************************************************/
+this.ark5020fm_onload = function(obj,e)
+{
+    // 상세 진입 시 데이터 조회
+    this.fn_transaction_callStore();
+
+    // 버튼 권한 처리
+    if(objApp.sNowUserRole == "Customer" || objApp.sNowUserRole == ""){
+        this.divMain.form.btnPostReview.set_visible(true);
+        this.divMain.form.btnReservation.set_visible(true);
+    }else{
+        this.divMain.form.btnPostReview.set_visible(false);
+        this.divMain.form.btnReservation.set_visible(false);
+    }
+};
+
+/**************************************************************************
+* 트랜잭션 호출
+**************************************************************************/
+this.fn_transaction_callStore = function ()
+{
+    var sStoreId = objApp.sDetailStoreID;
+
+    this.gfnTransaction(
+        "arkGetStoreDetail",
+        "ark/GetStoreDetail.do",
+        "",
+        "dsDStore=out_store dsDMenu=out_store_menu dsReview=dsReview",
+        "STORE_ID=" + nexacro.wrapQuote(sStoreId),
+        "fnCallback"
+    ); 
+};
+
+this.fn_transaction_reservation = function ()
+{
+    this.gfnTransaction(
+        "arkSaveReservation",
+        "ark/SaveReservation.do",
+        "dsReserve=dsReserve",
+        "",
+        "",
+        "fnCallback"
+    ); 
+};
+
+/**************************************************************************
+* CALLBACK
+**************************************************************************/
+this.fnCallback = function (strSvcId, nErrorCode, strErrorMsg)
+{
+    if(nErrorCode < 0){
+        this.gfnAlert("msg.server.error");
+        trace("Transaction Error: " + strSvcId + " / " + strErrorMsg);
+        return;
+    }
+
+    if (strSvcId === "arkGetStoreDetail")
+    {
+        /* ----------------------------
+           0. 기본 방어
+        ---------------------------- */
+        if (this.dsDStore.getRowCount() <= 0) {
+            trace("dsDStore empty");
+            return;
+        }
+
+        /* ----------------------------
+           1. 매장 대표 이미지
+        ---------------------------- */
+        var photo = this.dsDStore.getColumn(0, "STORE_PHOTO");
+        var imgUrl = this.fnNormalizeImageUrl(photo, "store_photo/", "undefined.png");
+        // ImageViewer는 보통 http URL 직접 넣으면 OK
+        this.divMain.form.imgStore.set_image(imgUrl);
+
+        /* ----------------------------
+           2. 메뉴 대표 이미지
+        ---------------------------- */
+        if(this.dsDMenu.getRowCount() > 0)
+        {
+            var menuPhoto = this.dsDMenu.getColumn(0, "MENU_PHOTO");
+            // MENU_PHOTO가 store_photo 폴더에 있다고 가정
+            var menuUrl = this.fnNormalizeImageUrl(menuPhoto, "store_photo/", "undefined.png");
+            this.divMain.form.imgStoreMenu.set_image(menuUrl);
+        }
+        else
+        {
+            // 메뉴가 없으면 기본 이미지 처리 (선택)
+            this.divMain.form.imgStoreMenu.set_image(
+                this.fnNormalizeImageUrl(null, "store_photo/", "undefined.png")
+            );
+        }
+
+        /* ----------------------------
+           3. 리뷰 평균 계산 + 텍스트
+        ---------------------------- */
+        var rc = this.dsReview.getRowCount();
+        sReviewSum = 0;
+
+        for(var i=0; i<rc; i++){
+            var r = parseInt(this.dsReview.getColumn(i,"REVIEW_RATING"), 10);
+            if (!isNaN(r)) sReviewSum += r;
+        }
+
+        if(rc === 0){
+            this.divMain.form.staStoreRating.set_text("아직 작성된 리뷰가 없습니다.");
+            this.divMain.form.staRating.set_text("-");
+        }else{
+            var avg = (sReviewSum / rc).toFixed(2);
+            this.divMain.form.staStoreRating.set_text(avg + "점 (" + rc + "명)");
+            this.divMain.form.staRating.set_text(avg + "점");
+        }
+
+        // 제목
+        this.divMain.form.staReviewTitle.set_text(
+            rc + "건의 " + this.dsDStore.getColumn(0,"STORE_NAME") + " 방문자 평가"
+        );
+
+        /* ----------------------------
+           4. 리뷰 이미지 & 프로필 정규화 (중요)
+           - 서버/DB에서 URL('http://...')로 내려오든
+             파일명만 내려오든 여기서 통일
+        ---------------------------- */
+        for(var i=0; i<rc; i++)
+        {
+            var reviewImgRaw = this.dsReview.getColumn(i, "REVIEW_IMAGE");
+            var profileRaw   = this.dsReview.getColumn(i, "USER_PROFILE");
+
+            // 리뷰 이미지는 store_photo 폴더
+            var reviewImgUrl = this.fnNormalizeImageUrl(reviewImgRaw, "store_photo/", "undefined.png");
+            this.dsReview.setColumn(i, "REVIEW_IMAGE", reviewImgUrl);
+
+            // 프로필은 profile_image 폴더
+            var profileUrl = this.fnNormalizeImageUrl(profileRaw, "profile_image/", "undefined.png");
+            this.dsReview.setColumn(i, "USER_PROFILE", profileUrl);
+        }
+
+        /* ----------------------------
+           5. 전화번호 포맷 변환 (필요 시)
+        ---------------------------- */
+        this.fnConvertPhoneFormat();
+
+        /* ----------------------------
+           6. 카카오맵 로딩
+        ---------------------------- */
+        this.postStoreKakao(this.webPostKakao);
+    }
+    else if(strSvcId === "arkSaveReservation")
+    {
+        this.gfnAlert("msg.register.success");	
+    }
+};
+
+/**************************************************************************
+* 전화번호 변환
+* - 8자리면 "XXXX-XXXX"로 처리(가장 흔함)
+* - 10~11자리면 휴대폰 형태로 처리하고 싶으면 확장 가능
+**************************************************************************/
+this.fnConvertPhoneFormat = function()
+{
+    if (this.dsDStore.getRowCount() <= 0) return;
+
+    for (var i = 0; i < this.dsDStore.getRowCount(); i++)
+    {
+        var rawPhone = this.dsDStore.getColumn(i, "STORE_PHONE");
+        if (!rawPhone) continue;
+
+        rawPhone = String(rawPhone).replace(/[^0-9]/g, "");
+
+        if (rawPhone.length === 8)
+        {
+            // 예: 12345678 -> 1234-5678
+            var formatted = rawPhone.substring(0,4) + "-" + rawPhone.substring(4);
+            this.dsDStore.setColumn(i, "STORE_PHONE", formatted);
+        }
+        else if (rawPhone.length === 9)
+        {
+            // 예: 021234567 -> 02-123-4567 (선택)
+            var formatted9 = rawPhone.substring(0,2) + "-" + rawPhone.substring(2,5) + "-" + rawPhone.substring(5);
+            this.dsDStore.setColumn(i, "STORE_PHONE", formatted9);
+        }
+        else if (rawPhone.length === 10)
+        {
+            // 예: 0212345678 -> 02-1234-5678 / 0311234567 -> 031-123-4567 (단순 처리)
+            var formatted10 = rawPhone.substring(0,3) + "-" + rawPhone.substring(3,6) + "-" + rawPhone.substring(6);
+            this.dsDStore.setColumn(i, "STORE_PHONE", formatted10);
+        }
+        else if (rawPhone.length === 11)
+        {
+            // 예: 01012345678 -> 010-1234-5678
+            var formatted11 = rawPhone.substring(0,3) + "-" + rawPhone.substring(3,7) + "-" + rawPhone.substring(7);
+            this.dsDStore.setColumn(i, "STORE_PHONE", formatted11);
+        }
+    }
+};
+
+/**************************************************************************
+* 리뷰 팝업
+**************************************************************************/
+this.divMain_btnPostReview_onclick = function(obj,e)
+{
+    var CF = new ChildFrame();
+    CF.init("reviewPopup", 0,0,600,450,null,null, "Owner::ark5021fm.xfdl");
+    CF.set_openalign("center middle");
+    CF.showModal(
+        this.getOwnerFrame(),
+        {param1:this.dsDStore.getColumn(0,"STORE_ID")},
+        this,
+        "fn_popupCallback"
+    ); 	
+};
+
+/**************************************************************************
+* 예약 팝업
+**************************************************************************/
+this.divMain_btnReservation_onclick = function(obj,e)
+{
+    this.dsReserve.addRow();
+    this.popupCalender.trackPopupByComponent(obj, 0, obj.height, null, null, "fn_popupCallback");
+};
+
+this.fn_popupCallback = function (objId, rtn)
+{
+    if(!rtn) return;
+
+    if(objId == "popupCalender")
+    {
+        this.dsReserve.setColumn(0,"RESERVE_NUM",rtn[0]);
+        this.dsReserve.setColumn(0,"RESERVE_TIME",rtn[1]);
+        this.dsReserve.setColumn(0,"RESERVE_DATE",rtn[2]);
+        this.dsReserve.setColumn(0,"STORE_ID", this.dsDStore.getColumn(0,"STORE_ID"));
+        this.dsReserve.setColumn(0,"USER_ID", objApp.sNowUserID);
+
+        this.gfnAlert("msg.register","C","popupRegister","fnConfirmCallback");
+    }
+};
+
+this.fnConfirmCallback = function (strId,strVal)
+{
+    if(strId == "popupRegister" && strVal == true){
+        this.fn_transaction_reservation();
+    }
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsDStore">
+        <ColumnInfo>
+          <Column id="STORE_NAME" type="STRING" size="60"/>
+          <Column id="STORE_ENG_NAME" type="STRING" size="60"/>
+          <Column id="STORE_PHONE" type="STRING" size="60"/>
+          <Column id="STORE_ADDR_MAIN" type="STRING" size="50"/>
+          <Column id="STORE_ADDR_DETAIL" type="STRING" size="50"/>
+          <Column id="STORE_INDUSTRY" type="STRING" size="50"/>
+          <Column id="STORE_BUISNESS_DAY" type="STRING" size="50"/>
+          <Column id="STORE_BUISNESS_TIME" type="STRING" size="50"/>
+          <Column id="STORE_PHOTO" type="STRING" size="50"/>
+          <Column id="STORE_THEME" type="STRING" size="50"/>
+          <Column id="STORE_EXPLAIN" type="STRING" size="300"/>
+          <Column id="STORE_RATING" type="STRING" size="50"/>
+          <Column id="STORE_REVIEW_COUNT" type="INT"/>
+          <Column id="STORE_CREATED_AT" type="STRING" size="256"/>
+          <Column id="STORE_UPDATED_AT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsDMenu">
+        <ColumnInfo>
+          <Column id="STORE_ID" type="INT" size="11"/>
+          <Column id="MENU_NAME" type="STRING" size="50"/>
+          <Column id="MENU_PRICE" type="STRING" size="50"/>
+          <Column id="MENU_VARIABLE_PRICE" type="STRING" size="2"/>
+          <Column id="MENU_SUGGESTION" type="STRING" size="2"/>
+          <Column id="MENU_EXPLAIN" type="STRING" size="50"/>
+          <Column id="MENU_PHOTO" type="STRING" size="50"/>
+          <Column id="MENU_CREATED_AT" type="STRING" size="256"/>
+          <Column id="MENU_UPDATED_AT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReview">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="REVIEW_DETAIL" type="STRING" size="1024"/>
+          <Column id="REVIEW_IMAGE" type="STRING" size="512"/>
+          <Column id="REVIEW_RATING" type="INT" size="4"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_PROFILE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReserve">
+        <ColumnInfo>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="RESERVE_TIME" type="STRING" size="256"/>
+          <Column id="RESERVE_NUM" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_GENDER" type="STRING" size="256"/>
+          <Column id="USER_PROFILE" type="STRING" size="256"/>
+          <Column id="RESERVE_DATE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divMain.form.staStoreName" propid="text" datasetid="dsDStore" columnid="STORE_NAME"/>
+      <BindItem id="item1" compid="divMain.form.staStoreIndustry" propid="text" datasetid="dsDStore" columnid="STORE_INDUSTRY"/>
+      <BindItem id="item2" compid="divMain.form.staRating" propid="text" datasetid="dsDStore" columnid="STORE_RATING"/>
+      <BindItem id="item3" compid="divMain.form.staAddrMain" propid="text" datasetid="dsDStore" columnid="STORE_ADDR_MAIN"/>
+      <BindItem id="item4" compid="divMain.form.staStorePhone" propid="text" datasetid="dsDStore" columnid="STORE_PHONE"/>
+      <BindItem id="item5" compid="divMain.form.staBuisnessDay" propid="text" datasetid="dsDStore" columnid="STORE_BUISNESS_DAY"/>
+      <BindItem id="item6" compid="divMain.form.staBuisnessTime" propid="text" datasetid="dsDStore" columnid="STORE_BUISNESS_TIME"/>
+      <BindItem id="item7" compid="popupCalender.form.edtReserveNum" propid="value" datasetid="dsReserve" columnid="RESERVE_NUM"/>
+      <BindItem id="item8" compid="popupCalender.form.calReserve" propid="value" datasetid="dsReserve" columnid="RESERVE_DATE"/>
+    </Bind>
+  </Form>
+</FDL>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="test" width="1280" height="720" titletext="New Form" onload="test_onload">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Button id="Button00" taborder="0" text="Button00" left="148" top="19" width="283" height="126" onclick="Button00_onclick"/>
+        <Button id="Button01" taborder="1" text="Button01" left="506" top="68" width="147" height="108" onclick="Button01_onclick"/>
+        <Static id="Static00" taborder="2" text="Static00" left="80" top="248" width="120" height="60"/>
+        <Button id="Button02" taborder="3" text="Button02" left="141" top="184" width="0" height="4"/>
+        <Button id="Button03" taborder="4" text="Button03" left="394" top="212" width="346" height="72" onclick="Button03_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[
+this.Button01_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnAlert("땅두더지");
+};
+
+this.test_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	var sSum =this.Dataset00.getSum("REVIEW_RATING");
+	trace(sSum);
+	this.Static00.set_text(sSum[0]+"점");
+};
+
+this.Button03_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnAlert("msg.server.error");	
+};
+]]></Script>
+    <Objects>
+      <Dataset id="Dataset00">
+        <ColumnInfo>
+          <Column id="REVIEW_RATING" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="REVIEW_RATING">1</Col>
+          </Row>
+          <Row>
+            <Col id="REVIEW_RATING">2</Col>
+          </Row>
+          <Row>
+            <Col id="REVIEW_RATING">3</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark5021fm" width="600" height="500" titletext="리뷰 작성하기" onload="ark5021fm_onload" cssclass="frmGreen">
+    <Layouts>
+      <Layout height="500" width="600" stepcount="0">
+        <Static id="staTitle" taborder="1" text="평점" left="10" top="15" width="100" height="30" textAlign="center" verticalAlign="top" font="bold 10pt/normal &quot;Sans Serif Collection&quot;"/>
+        <Combo id="평점" taborder="0" text="" left="staTitle:0" top="15" width="100" height="30" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" value="0점" index="-1">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">1</Col>
+                <Col id="datacolumn">1</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">2</Col>
+                <Col id="datacolumn">2</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">3</Col>
+                <Col id="datacolumn">3</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">4</Col>
+                <Col id="datacolumn">4</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">5</Col>
+                <Col id="datacolumn">5</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <TextArea id="txtReview" taborder="4" left="5" top="79" height="225" right="5" wordWrap="char" displaynulltext="리뷰를 작성해 주세요."/>
+        <ImageViewer id="imgReview" taborder="2" left="5" top="txtReview:15" width="100" height="100" onclick="imgReview_onclick" stretch="fit" border="0px none"/>
+        <Button id="btnPost" taborder="3" text="작성완료" left="240" top="imgReview:25" bottom="10" right="240" onclick="btnPost_onclick"/>
+        <Static id="staImage" taborder="5" text="식사 후 마음에 드셨다면 이미지와 함께 리뷰를 남겨 주세요." left="imgReview:5" top="txtReview:15" height="31" right="0" font="12pt/normal &quot;Sans Serif Collection&quot;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsReview">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="REVIEW_DETAIL" type="STRING" size="1024"/>
+          <Column id="REVIEW_IMAGE" type="STRING" size="512"/>
+          <Column id="REVIEW_RATING" type="INT" size="4"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_PROFILE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <FileUpTransfer id="FileUpTransferReview" onsuccess="FileUpTransferReview_onsuccess"/>
+      <FileDialog id="FileDialogReview" onclose="FileDialogReview_onclose"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Owner
+*	@FileName ark5021fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/16
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/16		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+this.fvDocWeb = "";
+this.fvRtnHeight=260;
+var objApp = nexacro.getApplication();
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark5021fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	var strParam1 = this.parent.param1;
+	this.dsReview.addRow();
+	this.dsReview.setColumn(this.dsReview.rowposition,"STORE_ID",strParam1);
+	this.dsReview.setColumn(this.dsReview.rowposition, "USER_ID",objApp.sNowUserID);
+	this.dsReview.setColumn(this.dsReview.rowposition, "USER_NAME",nexacro.getApplication().gdsDMember.getColumn(0,"USER_NAME"));
+	this.dsReview.setColumn(this.dsReview.rowposition, "USER_PROFILE",nexacro.getApplication().gdsDMember.getColumn(0,"USER_PROFILE"));
+	this.gfnFormOnLoad(this);
+	
+	var sStoreImage = objApp.sMyImagePath +"store_photo/" + "empty_image.png";
+	var sStoreImage2 ="URL('"+sStoreImage+"')"; 
+	this.imgReview.set_image(sStoreImage2);	
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+this.fn_CallBack = function(id, nErrCode, sErrMsg){
+	if(nErrCode<0){
+		this.gfnAlert("msg.server.error");	
+	}
+	else if (nErrCode == 0) {
+		switch(id) {
+		case "saveReview":
+			this.gfnAlert("msg.save.success");	
+			this.close();
+			break;
+		default:
+		}
+	}
+}
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+this.fnUploadImage = function()
+{
+	this.FileUpTransferReview.setPostData("store", "store");
+	this.FileUpTransferReview.setPostData("userPath", "nexa_edu\\store_photo");
+	this.FileUpTransferReview.upload("SvcUrl::edu/uploadFile.do");
+}
+this.fnSaveReview = function ()
+{
+	// 회원정보 내보내기
+    var sSvcID    = "saveReview";
+    var sURL      = "SvcUrl::ark/saveReview.do";
+    var sInDs     = "dsReview=dsReview:U";
+    var sOutDs    = "";
+    var sParam    = "";
+    var sCallBack = "fn_CallBack";
+	this.transaction(sSvcID, sURL, sInDs, sOutDs, sParam, sCallBack);
+};
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.imgReview_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.FileDialogReview.open("파일 선택", FileDialog.LOAD, "%MYDOCUMENT%");
+};
+
+this.FileDialogReview_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{
+	this.FileUpTransferReview.clearFileList();
+	var sProfile = e.virtualfiles[0].filename;
+	this.FileUpTransferReview.addFile(sProfile, e.virtualfiles[0]);
+	
+	if(nexacro._Browser=="Runtime"){
+		this.imgReview.set_image("URL('"+e.virtualfiles[0].fullpath+"')");
+		this.dsReview.setColumn(this.dsReview.rowposition,"REVIEW_IMAGE",sProfile);
+	}
+	else{
+		if( /\.(jpe?g|png|gif)$/i.test(e.virtualfiles[0].filename) ){
+			var reader = new FileReader();
+			reader.targetForm = this;
+			reader.addEventListener("load", function () 
+			{
+				this.targetForm.imgReview.set_image(this.result);
+				this.targetForm.dsReview.setColumn(this.targetForm.dsReview.rowposition,"REVIEW_IMAGE",sProfile);
+			}, false);
+			reader.readAsDataURL(e.virtualfiles[0]._handle);
+		}  
+	}
+};
+
+this.FileUpTransferReview_onsuccess = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferEventInfo)
+{
+	var uploadedFile = e.datasets[0].getColumn(0, "file_id"); // 서버에서 반환한 파일명
+    this.dsReview.setColumn(0, "REVIEW_IMAGE", uploadedFile); // USER_PROFILE 컬럼에 파일명 저장
+   this.fnSaveReview();
+};
+
+this.btnPost_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//이미지 업로드
+	if(this.FileUpTransferReview.filelist.length > 0){
+		this.fnUploadImage();
+	}else{
+		this.fnSaveReview();
+	}
+};
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="평점" propid="value" datasetid="dsReview" columnid="REVIEW_RATING"/>
+      <BindItem id="item1" compid="txtReview" propid="value" datasetid="dsReview" columnid="REVIEW_DETAIL"/>
+    </Bind>
+  </Form>
+</FDL>

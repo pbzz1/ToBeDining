@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark2030fm" width="1440" height="610" titletext="유저 프로필" onload="ark2030fm_onload">
+    <Layouts>
+      <Layout height="610" width="1440" stepcount="0">
+        <Static id="staCenter" taborder="2" text="Static00" left="0" top="0" width="50%" height="50%" visible="false"/>
+        <Div id="Div00" taborder="0" text="Div00" left="staCenter:-576" top="staCenter:-305" width="1152" height="610" background="#d6edbe">
+          <Layouts>
+            <Layout>
+              <Static id="edt_id" taborder="0" text="아이디" left="145" top="50" width="120" height="35"/>
+              <Static id="Static00_00" taborder="1" text="비밀번호" left="145" top="edt_id:15" width="120" height="35"/>
+              <Static id="Static00_01" taborder="2" text="성명" left="145" top="Static00_00:15" width="120" height="35"/>
+              <Static id="Static00_02" taborder="3" text="생년월일" left="145" top="Static00_01:15" width="120" height="35"/>
+              <Static id="Static01" taborder="19" text="회원 유형" left="145" top="Static00_02:15" width="120" height="35"/>
+              <Static id="Static00_03" taborder="4" text="성별" left="145" top="Static01:15" width="120" height="35"/>
+              <Static id="Static00_05" taborder="5" text="휴대폰" left="145" top="351" width="120" height="35"/>
+              <Static id="Static00_06" taborder="6" text="주소" left="145" top="401" width="120" height="35"/>
+              <Edit id="edtUserId" taborder="7" left="edt_id:0" top="50" width="188" height="35" enable="false"/>
+              <Edit id="edtUserPw" taborder="8" left="Static00_00:0" top="100" width="188" height="35" password="true"/>
+              <Edit id="edtUserName" taborder="9" left="Static00_01:0" top="150" width="188" height="35"/>
+              <Calendar id="calUserBirth" taborder="10" left="Static00_02:0" top="200" width="188" height="35"/>
+              <Radio id="rdoUserGender" taborder="11" left="Static00_03:0" top="300" width="205" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" columncount="3">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">male</Col>
+                      <Col id="datacolumn">male</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">female</Col>
+                      <Col id="datacolumn">female</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">etc</Col>
+                      <Col id="datacolumn">etc</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <MaskEdit id="mskUserPhone" taborder="12" left="Static00_05:0" top="351" width="150" height="35" format="###-####-####" type="string"/>
+              <Edit id="edtAddrMain" taborder="13" left="265" top="401" width="166" height="35" readonly="true"/>
+              <Button id="Button00" taborder="14" left="447" top="401" width="49" height="35" onclick="Div00_Button00_onclick" cssclass="btn_TF_search"/>
+              <Edit id="edtAddrPost" taborder="15" left="512" top="401" width="207" height="35" readonly="true"/>
+              <Edit id="edtAddrDetail" taborder="16" left="743" top="401" width="206" height="35"/>
+              <Button id="btnSave" taborder="17" text="제출 완료" left="611" top="481" width="110" height="40" onclick="Div00_btnSave_onclick"/>
+              <Radio id="rdoUserRole" taborder="18" top="250" width="205" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" columncount="2" left="Static01:0" onitemchanged="Div00_rdoUserRole_onitemchanged" enable="false">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">Owner</Col>
+                      <Col id="datacolumn">Owner</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">Customer</Col>
+                      <Col id="datacolumn">Customer</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <ImageViewer id="imgProfile" taborder="20" top="50" width="190" height="180" stretch="fit" onclick="Div00_imgProfile_onclick" tabstop="true" left="791"/>
+              <Button id="btnUpload" taborder="21" text="프로필 이미지 업로드" left="804" top="251" width="164" height="35" onclick="Div00_btnUpload_onclick"/>
+              <Button id="btnCanel" taborder="22" text="취소" left="398" top="481" width="110" height="40" onclick="Div00_btnCanel_onclick"/>
+              <Button id="btnMyStore" taborder="23" text="내 가게로 이동" left="480" top="251" width="115" height="39" onclick="Div00_btnMyStore_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <WebBrowser id="webPost" taborder="1" left="50" top="285" width="100" height="100" onusernotify="webPost_onusernotify" visible="false"/>
+        <Button id="btnProfile" taborder="3" text="프로필" left="staCenter:-676" top="staCenter:-305" right="Div00:0" onclick="btnProfile_onclick" height="40" background="#eaede2" font="bold 10pt/normal &quot;Arial&quot;"/>
+        <Button id="btnCheckReservation" taborder="4" text="예약 정보 조회" left="staCenter:-676" top="btnProfile:5" onclick="btnCheck_reservation_onclick" right="Div00:0" height="40" background="#eaede2" font="bold 10pt/normal &quot;Arial&quot;"/>
+        <Div id="Div01" taborder="5" text="Div01" left="staCenter:-576" top="staCenter:-305" width="1152" height="610" url="Authentication::ark2031fm.xfdl" visible="false"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsDMember">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_PW" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_BIRTH" type="STRING" size="256"/>
+          <Column id="USER_ROLE" type="STRING" size="256"/>
+          <Column id="USER_EMAIL" type="STRING" size="256"/>
+          <Column id="USER_PHONE" type="STRING" size="256"/>
+          <Column id="ADDR_MAIN" type="STRING" size="256"/>
+          <Column id="ADDR_DETAIL" type="STRING" size="256"/>
+          <Column id="ADDR_POST" type="STRING" size="256"/>
+          <Column id="USER_GENDER" type="STRING" size="256"/>
+          <Column id="USER_PROFILE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_result">
+        <ColumnInfo>
+          <Column id="FILE_NAME" type="string" size="32"/>
+          <Column id="FILE_TYPE" type="string" size="32"/>
+          <Column id="FILE_SIZE" type="bigdecimal" size="8"/>
+        </ColumnInfo>
+      </Dataset>
+      <FileUpTransfer id="FileUpTransferProfile" onsuccess="FileUpTransferProfile_onsuccess"/>
+      <FileDialog id="FileDialogProfile" onclose="FileDialogProfile_onclose"/>
+      <Dataset id="dsFile">
+        <ColumnInfo>
+          <Column id="file_id" type="STRING" size="256"/>
+          <Column id="file_name" type="STRING" size="256"/>
+          <Column id="file_size" type="STRING" size="256"/>
+          <Column id="file_type" type="STRING" size="256"/>
+          <Column id="chk" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsDStore">
+        <ColumnInfo>
+          <Column id="STORE_NAME" type="STRING" size="60"/>
+          <Column id="STORE_ENG_NAME" type="STRING" size="60"/>
+          <Column id="STORE_PHONE" type="STRING" size="60"/>
+          <Column id="STORE_ADDR_MAIN" type="STRING" size="50"/>
+          <Column id="STORE_ADDR_DETAIL" type="STRING" size="50"/>
+          <Column id="STORE_INDUSTRY" type="STRING" size="50"/>
+          <Column id="STORE_BUISNESS_DAY" type="STRING" size="50"/>
+          <Column id="STORE_BUISNESS_TIME" type="STRING" size="50"/>
+          <Column id="STORE_PHOTO" type="STRING" size="50"/>
+          <Column id="STORE_THEME" type="STRING" size="50"/>
+          <Column id="STORE_EXPLAIN" type="STRING" size="300"/>
+          <Column id="STORE_RATING" type="STRING" size="50"/>
+          <Column id="STORE_REVIEW_COUNT" type="INT"/>
+          <Column id="STORE_CREATED_AT" type="STRING" size="256"/>
+          <Column id="STORE_UPDATED_AT" type="STRING" size="256"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="Div00.form.edtUserId" propid="value" datasetid="dsDMember" columnid="USER_ID"/>
+      <BindItem id="item1" compid="Div00.form.edtUserPw" propid="value" datasetid="dsDMember" columnid="USER_PW"/>
+      <BindItem id="item2" compid="Div00.form.edtUserName" propid="value" datasetid="dsDMember" columnid="USER_NAME"/>
+      <BindItem id="item3" compid="Div00.form.calUserBirth" propid="value" datasetid="dsDMember" columnid="USER_BIRTH"/>
+      <BindItem id="item6" compid="Div00.form.mskUserPhone" propid="value" datasetid="dsDMember" columnid="USER_PHONE"/>
+      <BindItem id="item7" compid="Div00.form.edtAddrMain" propid="value" datasetid="dsDMember" columnid="ADDR_MAIN"/>
+      <BindItem id="item8" compid="Div00.form.edtAddrPost" propid="value" datasetid="dsDMember" columnid="ADDR_POST"/>
+      <BindItem id="item9" compid="Div00.form.edtAddrDetail" propid="value" datasetid="dsDMember" columnid="ADDR_DETAIL"/>
+      <BindItem id="item4" compid="Div00.form.rdoUserRole" propid="value" datasetid="dsDMember" columnid="USER_ROLE"/>
+      <BindItem id="item5" compid="Div00.form.rdoUserGender" propid="value" datasetid="dsDMember" columnid="USER_GENDER"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Authentication
+*	@FileName ark2030fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/13
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/13		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+var objApp = nexacro.getApplication();
+var curUser = objApp.sNowUserRole;
+var param1 = objApp.sNowUserID;
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark2030fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	var sNowUserRole = objApp.sNowUserRole;
+	this.fn_getUserInfo(param1);
+	if(sNowUserRole == "사장님" ||sNowUserRole =="Owner"){
+		this.Div00.form.btnMyStore.set_visible(true);
+		this.btnCheckReservation.set_text("예약 확인");
+	} else{
+		this.Div00.form.btnMyStore.set_visible(false);
+		this.btnCheckReservation.set_text("나의 예약 정보");
+	}
+};
+
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+this.fn_getUserInfo = function (param1)
+{
+	var userId = param1;
+	// 트랜잭션 호출
+    var strSvcId = "arkGetProfile";
+    var strSvcUrl = "ark/GetProfile.do";
+    var inData = ""; 
+    var outData = "dsDMember=out_login";
+    var strArg = "USER_ID=" + nexacro.wrapQuote(userId);
+    var fnCallback = "fnCallback";
+	
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback); 
+};
+
+this.fnUpdateProfile = function ()
+{
+	// 트랜잭션 호출
+    var strSvcId = "arkUpdateProfile";
+    var strSvcUrl = "ark/UpdateProfile.do";
+    var inData = "dsDMember=dsDMember:U"; 
+    var outData = ""; 
+    var strArg = "";
+    var fnCallback = "fnCallback";
+	
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback); 
+};
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+this.fnCallback = function (strSvcId, nErrorCode, strErrorMsg)
+{
+	if(nErrorCode<0){
+			//this.alert("err" + strErrorMsg);
+		}
+	else if (nErrorCode == 0) {
+		//사용자 정보 받아오기
+		if (strSvcId == "arkGetProfile") {
+			trace(this.dsDMember.getColumn(0,"USER_ID"))
+			
+			//img 세팅
+			var userImage = objApp.sMyImagePath+ "profile_image/" + this.dsDMember.getColumn(0,"USER_PROFILE");
+			//trace(userImage);
+			if (this.dsDMember.getColumn(0,"USER_PROFILE") === null || this.dsDMember.getColumn(0,"USER_PROFILE") === "undefined" || this.dsDMember.getColumn(0,"USER_PROFILE") === "")
+			{
+				var sArkImageURL = "http://172.10.14.134:8088/edupack_egov/upload_file/nexa_edu/profile_image/undefined.png";
+				this.Div00.form.imgProfile.set_image("URL('"+ sArkImageURL+ "')");
+				trace("URL('"+ sArkImageURL+ "')");
+			}
+			else{this.Div00.form.imgProfile.set_image("URL('"+userImage+"')");}
+			trace("URL('"+userImage+"')");
+		}else if(strSvcId === "arkUpdateProfile"){ // 사용자 정보 수정하기
+			this.gfnAlert("msg.profile.modify");	
+			objApp.my_VFrameSet1.set_separatesize("0,*");
+			objApp.my_ContentFrame.set_formurl("HomeFrame::Frm_ContentFrame.xfdl");
+		}else if(strSvcId === "arkGetProfileStoreID"){ // 사용자 정보 수정하기
+			//trace(this.dsDStore.getColumn(0,"STORE_ID"));
+			objApp.sDetailStoreID =this.dsDStore.getColumn(0,"STORE_ID");
+			//trace("objApp.sDetailStoreID ------------>>" + objApp.sDetailStoreID);
+			objApp.my_ContentFrame.set_formurl("Owner::ark5020fm.xfdl");
+		}
+	}
+}
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.Div00_btnUpload_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.FileDialogProfile.open("파일 선택", FileDialog.LOAD, "%MYDOCUMENT%");
+};
+
+this.FileDialogProfile_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{
+	this.FileUpTransferProfile.clearFileList();
+	var sPhoto = e.virtualfiles[0].filename;
+	this.FileUpTransferProfile.addFile(sPhoto, e.virtualfiles[0]);
+	trace("nexacro._Browser.result->>" + nexacro._Browser);
+	if(nexacro._Browser=="Runtime"){
+		this.Div00.form.imgProfile.set_image("URL('file://"+e.virtualfiles[0].fullpath+"')");
+		//this.dsDMember.setColumn(this.dsDMember.rowposition,"USER_PROFILE",sPhoto);
+	}
+	else{
+		if( /\.(jpe?g|png|gif)$/i.test(e.virtualfiles[0].filename) ){
+			var reader = new FileReader();
+			reader.targetForm = this;
+			reader.addEventListener("load", function () 
+			{
+				this.targetForm.Div00.form.imgProfile.set_image(this.result);
+				//this.dsDMember.setColumn(this.dsDMember.rowposition,"USER_PROFILE",sPhoto);
+				trace("this.result->>" + this.result);
+			}, false);
+			reader.readAsDataURL(e.virtualfiles[0]._handle);
+		}  
+	}
+};
+
+this.FileUpTransferProfile_onsuccess = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferEventInfo)
+{
+	var uploadedFile = e.datasets[0].getColumn(0, "file_id"); // 서버에서 반환한 파일명
+    //this.dsDMember.setColumn(0, "USER_PROFILE", uploadedFile); // USER_PROFILE 컬럼에 파일명 저장
+	trace(uploadedFile);
+	this.Div00.form.imgProfile.set_image(uploadedFile);
+    this.fnUpdateProfile();
+};
+
+this.fnUploadImage = function()
+{
+	this.FileUpTransferProfile.setPostData("profile", "profile");
+	this.FileUpTransferProfile.setPostData("userPath", "nexa_edu\\profile_image");
+	this.FileUpTransferProfile.upload("SvcUrl::edu/uploadFile.do");
+}
+
+this.Div00_btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//이미지 업로드
+	if(this.FileUpTransferProfile.filelist.length > 0){
+		this.fnUploadImage();
+	}else{
+		this.fnUpdateProfile();
+	}
+};
+
+this.Div00_btnCanel_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.objApp.my_VFrameSet1.set_separatesize("45,*");
+	this.objApp.my_ContentFrame.set_formurl("HomeFrame::Frm_ContentFrame.xfdl");
+};
+
+this.Div00_btnMyStore_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var userId = param1;
+	// 트랜잭션 호출
+    var strSvcId = "arkGetProfileStoreID";
+    var strSvcUrl = "ark/GetProfileStoreID.do";
+    var inData = ""; 
+    var outData = "dsDStore=out_data"; // 결과를 gds_user에 저장
+    var strArg = "USER_ID=" + nexacro.wrapQuote(userId);
+    var fnCallback = "fnCallback";
+	
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback); 
+};
+
+this.btnProfile_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	trace("1");
+	this.Div00.set_visible("true");
+	this.Div01.set_visible("false");
+};
+
+this.btnCheck_reservation_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	trace("2");
+	this.Div00.set_visible("false");
+	this.Div01.set_visible("true");
+	if(this.btnCheckReservation.text == "예약 확인"){
+		this.Div01.set_url("Authentication::ark2031fm.xfdl");
+	}else{
+		this.Div01.set_url("Authentication::ark2032fm.xfdl");
+	}
+};
+
+
+]]></Script>
+  </Form>
+</FDL>

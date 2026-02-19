@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark5015fm" width="990" height="370" titletext="가게 메뉴 div" background="antiquewhite" onload="ark5015fm_onload">
+    <Layouts>
+      <Layout height="370" width="990">
+        <Edit id="edtMenuName" taborder="0" left="15" top="20" width="210" height="40" displaynulltext="메뉴이름" onchanged="edtMenuName_onchanged"/>
+        <Edit id="edtMenuPrice" taborder="1" left="edtMenuName:10" top="20" width="150" height="40" displaynulltext="가격" onchanged="edtMenuPrice_onchanged"/>
+        <Static id="Static00" taborder="2" text="원" left="edtMenuPrice:10" top="20" width="40" height="40" fittocontents="width" textAlign="left"/>
+        <CheckBox id="chkMenuVariablePrice" taborder="3" text="변동가격" left="Static00:0" top="20" width="90" height="40" onchanged="chkMenuVariablePrice_onchanged"/>
+        <CheckBox id="chkRecommendedMenu" taborder="4" text="추천메뉴" left="chkMenuVariablePrice:0" top="20" width="90" height="40" onchanged="chkRecommendedMenu_onchanged"/>
+        <Static id="Static01" taborder="5" text="메뉴 상세 설명(최대 100자)" left="15" top="edtMenuName:0" width="370" height="35" font="bold 10pt/normal &quot;Sans Serif Collection&quot;"/>
+        <TextArea id="txtMenu" taborder="6" left="15" top="Static01:0" height="73" right="15" onchanged="txtMenu_onchanged" wordWrap="char"/>
+        <ImageViewer id="imgMenu" taborder="7" left="15" top="txtMenu:10" width="175" height="175" fittocontents="none" stretch="fit"/>
+        <Button id="btnMenuPhoto" taborder="8" text="사진 추가" left="imgMenu:20" top="txtMenu:10" width="70" height="28" onclick="btnMenuPhoto_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Owner
+*	@FileName ark5015fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/04
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/04		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+	this.fvDsMenu = this.parent.parent.parent.parent.dsDMenu;
+	this.fvDsStore = this.parent.parent.parent.parent.dsDStore;
+	var nRow = this.parent.id.split("_")[1];	
+	
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark5015fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fvDsMenu.addRow();
+	this.fvDsMenu.setColumn(nRow, "STORE_ID" ,this.fvDsStore.getColumn(this.fvDsStore.rowposition,"STORE_ID"));
+	this.fvDsMenu.setColumn(nRow, "USER_ID" ,nexacro.getApplication().gdsDMember.getColumn(0,"USER_ID"));
+	this.fvDsMenu.setColumn(nRow, "MENU_ID" ,nRow);
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.btnMenuPhoto_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.FileDialogMenu.open("파일 선택", FileDialog.LOAD, "%MYDOCUMENT%");
+};
+
+this.FileDialogMenu_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{
+	this.parent.parent.parent.parent.FileUpTransferMenu.clearFileList();
+	var sMenu = e.virtualfiles[0].filename;
+	this.parent.parent.parent.parent.FileUpTransferMenu.addFile(sMenu, e.virtualfiles[0]);
+	
+	if(nexacro._Browser=="Runtime"){
+		this.imgMenu.set_image("URL('file://"+e.virtualfiles[0].fullpath+"')");
+		this.fvDsMenu.setColumn(this.fvDsMenu.rowposition, "MENU_PHOTO" , sMenu);
+	}
+	else{
+		if( /\.(jpe?g|png|gif)$/i.test(e.virtualfiles[0].filename) ){
+			var reader = new FileReader();
+			reader.targetForm = this;
+			reader.addEventListener("load", function () 
+			{
+				this.targetForm.imgMenu.set_image(this.result);
+				this.targetForm.fvDsMenu.setColumn(this.targetForm.fvDsMenu.rowposition, "MENU_PHOTO" , sMenu);
+			}, false);
+			reader.readAsDataURL(e.virtualfiles[0]._handle);
+		}  
+	}
+};
+
+this.edtMenuName_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	var nRow = this.parent.id.split("_")[1];
+	this.fvDsMenu.rowposition = nRow;
+	this.fvDsMenu.setColumn(nRow, "MENU_NAME" , obj.value);
+};
+
+
+
+this.edtMenuPrice_onchanged = function(obj:nexacro.Edit,e:nexacro.ChangeEventInfo)
+{
+	var nRow = this.parent.id.split("_")[1];
+	this.fvDsMenu.rowposition = nRow;
+	this.fvDsMenu.setColumn(nRow, "MENU_PRICE" , obj.value);
+};
+
+this.chkMenuVariablePrice_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	var nRow = this.parent.id.split("_")[1];
+	this.fvDsMenu.rowposition = nRow;
+	this.fvDsMenu.setColumn(nRow, "MENU_VARIABLE_PRICE" , obj.value);
+};
+
+this.txtMenu_onchanged = function(obj:nexacro.TextArea,e:nexacro.ChangeEventInfo)
+{
+	var nRow = this.parent.id.split("_")[1];
+	this.fvDsMenu.rowposition = nRow;
+	this.fvDsMenu.setColumn(nRow, "MENU_EXPLAIN" , obj.value);
+};
+
+this.chkRecommendedMenu_onchanged = function(obj:nexacro.CheckBox,e:nexacro.CheckBoxChangedEventInfo)
+{
+	var nRow = this.parent.id.split("_")[1];
+	this.fvDsMenu.rowposition = nRow;
+	this.fvDsMenu.setColumn(nRow, "MENU_SUGGESTION" , obj.value);
+};
+]]></Script>
+    <Objects>
+      <FileDialog id="FileDialogMenu" onclose="FileDialogMenu_onclose"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="edtMenuName" propid="value" datasetid="dsMenu" columnid="MENU_NAME"/>
+      <BindItem id="item1" compid="edtMenuPrice" propid="value" datasetid="dsMenu" columnid="MENU_PRICE"/>
+      <BindItem id="item2" compid="chkMenuVariablePrice" propid="value" datasetid="dsMenu" columnid="MENU_VARIABLE_PRICE"/>
+      <BindItem id="item3" compid="chkRecommendedMenu" propid="value" datasetid="dsMenu" columnid="MENU_SUGGESTION"/>
+      <BindItem id="item4" compid="txtMenu" propid="value" datasetid="dsMenu" columnid="MENU_EXPLAIN"/>
+    </Bind>
+  </Form>
+</FDL>

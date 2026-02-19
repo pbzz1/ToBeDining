@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Frm_ContentFrame" width="1440" height="730" titletext="ContentFrame" onload="Frm_ContentFrame_onload" scrollbartype="none none" accessibilitydesclevel="child" background="#f0f0f0">
+    <Layouts>
+      <Layout height="730" width="1440" stepcount="0">
+        <Div id="Div00" taborder="0" text="Div00" top="0" width="100.00%" height="200" left="0" background="#507c21" borderRadius="0px" visible="false">
+          <Layouts>
+            <Layout>
+              <Button id="btn_setLocation" taborder="0" text="다른 지역 선택" left="37.99%" top="130" width="10.00%" height="50" onclick="Div00_btn_selLocation_onclick" cssclass="btn_WF_basic02" background="#6bb5c0" color="white"/>
+              <Button id="btn_setCurLocation" taborder="1" text="기본 값으로 설정" left="51.94%" top="130" width="10.00%" height="50" onclick="Div00_btn_setCurLocation_onclick" cssclass="btn_WF_basic02" background="#5e87e9" color="white"/>
+              <Static id="staCenter" taborder="3" text="Static00" left="0" top="0" width="50%" height="50%" visible="false"/>
+              <Static id="staLocation" taborder="2" text="당신을 위한&#13;&#10;서울 강남구 삼성동 맛집" left="staCenter:-24.02%" top="17" width="23.96%" height="82" textAlign="center" font="bold 14pt/normal &quot;Sans Serif Collection&quot;" verticalAlign="bottom" color="white"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <WebBrowser id="webPost" taborder="1" left="-2" top="237" width="10.00%" height="10.00%" onusernotify="webPost_onusernotify" visible="false"/>
+        <Static id="staCenterMain" taborder="3" text="Static00" left="0" top="5" width="50.00%" height="50.00%" visible="false"/>
+        <Div id="div_main_product" taborder="2" text="Div01" left="staCenterMain:-577.009" top="230" width="1152" height="2570" background="aliceblue" formscrollbartype="none none" formscrolltype="none" enableevent="false">
+          <Layouts>
+            <Layout>
+              <ListView id="ListView00_00" taborder="0" left="116" top="400" width="79.95%" height="350"/>
+              <ListView id="ListView00_01" taborder="1" left="116" top="1038" width="79.95%" height="427"/>
+              <ListView id="ListView00_02" taborder="2" left="116" top="1515" width="79.95%" height="427"/>
+              <ListView id="ListView00_03" taborder="3" left="116" top="1992" width="79.95%" height="427"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divStep" taborder="4" text="Div01" left="staCenterMain:-576" top="20" height="210" width="750" url="HomeFrame::ark1012fm.xfdl"/>
+        <Div id="divLogin" taborder="5" left="divStep:10" top="20" width="392" height="210" border="1px none #e4e5e8" url="HomeFrame::ark1020fm.xfdl"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\HomeFrame
+*	@FileName Frm_ContentFrame.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/01/20
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/01/20		김태훈		최초 생성
+*	
+*
+*//**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+var objApp = nexacro.getApplication();
+var fvHomeAddr = "서울 강남구 삼성동";
+var sImagePath = "C:/EduPack/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/edupack_egov/upload_file/nexa_edu/store_photo/"
+var topFrameForm = nexacro.getApplication().my_TopFrame.form;
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.Frm_ContentFrame_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	//var sImageName = sImagePath + "짜장.jpg";
+	//this.ImageViewer00.set_image("URL('file://"+sImageName+"')");
+	if(objApp.sNowUserRole == "Owner" || objApp.sNowUserRole == "Admin" || objApp.sNowUserRole == "Customer"){
+		this.divLogin.set_url("HomeFrame::ark1021fm.xfdl");
+	}else{
+		this.divLogin.set_url("HomeFrame::ark1020fm.xfdl");
+	}
+	this.fnGetStore();
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+this.fnGetStore = function()
+{
+	// 트랜잭션 호출
+    var strSvcId = "arkGetStore";
+    var strSvcUrl = "ark/GetStore.do";
+    var inData = ""; 
+    var outData = "dsFilterAddr=out_filteredAddr"; // 결과를 gds_user에 저장
+    var strArg = "STORE_ADDR_MAIN="+ nexacro.wrapQuote(fvHomeAddr); // 파라미터 전달
+    var fnCallback = "fnCallback";
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback);
+	//this.transaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback);
+}
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+this.fnCallback = function(id, nErrCode, sErrMsg){
+	switch(id) {
+		case "arkGetStore":
+			if(nErrCode<0){
+				this.alert("error:" +sErrMsg);
+			}
+			else{
+				trace("arkGetStore: good");
+				this.fn_create_product();
+			}
+			break;
+		case "getStore":
+			fvStoreId = this.dsCurStore.getRowCount() + 1;
+			this.dsDStore.setColumn(this.dsDStore.getMax("STORE_ID"),"STORE_COUNT",fvStoreId);
+			break;
+		default:
+			trace("invalid transaction id");
+	}
+}
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+//상품 정보 동적 생성
+this.fn_create_product = function()
+{
+	if(this.isValidObject(this.div_main_product))
+	{
+		var objDivMain = this.removeChild("div_main_product"); 
+		objDivMain.destroy(); 
+		objDivMain = null;
+
+		var objDivMain = new Div();  //내가 만들려고하는 오브젝트, 그리드를 만들고싶으면 new grid(); 콤보도 마찬가지로 표현.. 
+		objDivMain.init("div_main_product", "staCenterMain:-577", 250, 1152, 2700); // 컴포넌트에 대한 초기값, (아이디, left, top, width, height) 
+		objDivMain.set_background("#d6edbe");
+		this.addChild("div_main_product", objDivMain); // 생성했는데 화면에다가 붙여주는 것
+		objDivMain.show();  // 화면에보여줄려고 하는 메소드 show 
+	}
+	
+	var xPos = 0;  //left 
+	var yPos = -350;  //top  
+
+	var nTagCount = this.dsFilterAddr.getColumn(0,"TAG_COUNT");
+	for(var i=0; i<7; i++)//tag의 수만큼 반복
+	{	
+		yPos = yPos+370;
+		xPos = 120;	
+		
+		//태그 필터링
+		this.dsFilterAddr.filter("TAG_ID == " + i);
+
+// 		//Div 안 식당 컴포넌트를 위한 인덱스	
+//         var btnPrevID = "btnPrev" + i;
+//         var objPrevButton = new Button();
+//         objPrevButton.init(btnPrevID, 40, 185 +	 yPos, 40, 40);
+//         this.div_main_product.form.addChild(btnPrevID, objPrevButton);
+//         objPrevButton.set_text("이전");
+//         objPrevButton.set_background("lightgray");
+//         objPrevButton.set_textAlign("center");
+//         objPrevButton.show();
+		
+// 		// `nextButton` 생성
+//         var btnNextID = "btnNext" + i;
+//         var objNextButton = new Button();
+//         objNextButton.init(btnNextID, 1070, 185 + yPos, 40, 40);
+//         this.div_main_product.form.addChild(btnNextID, objNextButton);
+//         objNextButton.set_text("다음");
+//         objNextButton.set_background("lightgray");
+//         objNextButton.set_textAlign("center");
+//         objNextButton.show();	
+
+		objDiv = new Div();  //내가 만들려고하는 오브젝트, 그리드를 만들고싶으면 new grid(); 콤보도 마찬가지로 표현.. 
+		objDiv.init("div" + i, xPos, yPos, 920, 350); // 컴포넌트에 대한 초기값, (아이디, left, top, width, height) 
+		this.div_main_product.form.addChild("div" + i, objDiv); // 생성했는데 화면에다가 붙여주는 것
+		objDiv.set_border("1px solid black");
+		objDiv.set_background("white");
+		objDiv.show();  // 화면에보여줄려고 하는 메소드 show 
+		
+		var objDivTmp = "div"+i;
+		objDivTmp = this.div_main_product.form.components[objDivTmp];
+		
+		objDivTop = new Div();  //내가 만들려고하는 오브젝트, 그리드를 만들고싶으면 new grid(); 콤보도 마찬가지로 표현.. 
+		objDivTop.init("objDivTop" + i, 0, 0, "100%", 55); // 컴포넌트에 대한 초기값, (아이디, left, top, width, height) 
+		objDiv.form.addChild("objDivTop" + i, objDivTop);// 생성했는데 화면에다가 붙여주는 것
+		objDivTop.set_borderRadius("10px 10px 0px 0px/ 10px 10px 0px 0px");
+		objDivTop.set_background("#f6f7e8");
+		objDivTop.show();  // 화면에보여줄려고 하는 메소드 show 
+		
+		var objStatic0 = new Static();
+		var sText = "#"+this.dsFilterAddr.getColumn(0,"TAG_NAME") +" ("+ this.dsFilterAddr.getRowCount() + ")";
+		var sTagId = "staTagName" + i;
+		objStatic0.init(sTagId, 10, 0, 270, 55);
+		objDivTop.form.addChild(sTagId, objStatic0);
+		objStatic0.set_text(sText);
+		objStatic0.set_font("bold 15px 한컴 말랑말랑 Bold");
+		objStatic0.show();
+		
+		for(var j =0; j<3; j++){
+			var objImageViewer0 = new ImageViewer();
+			var sImgId = "ima" + j;
+			objImageViewer0.init(sImgId, 55 + 290*j, 70, 230, 230); 
+			objDivTmp.form.addChild(sImgId, objImageViewer0);
+			if(this.dsFilterAddr.getColumn(j,"STORE_PHOTO") == null || this.dsFilterAddr.getColumn(j,"STORE_PHOTO") == "undefined"){
+				var sArkImageURL = "C:/EduPack/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/edupack_egov/upload_file/nexa_edu/store_photo/" + "undefined.png";
+				objImageViewer0.set_image("URL('"+sArkImageURL+"')");
+				objImageViewer0.STORE_ID_URL = "-1";
+			}else{
+// 				var sArkImageURL = "C:/EduPack/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/edupack_egov/upload_file/nexa_edu/store_photo/" + this.dsFilterAddr.getColumn(j,"STORE_PHOTO"); 
+// 				objImageViewer0.set_image("URL('"+sArkImageURL+"')");
+				var sArkImageURL = 
+					"http://localhost:8088/edupack_egov/upload_file/nexa_edu/store_photo/" 
+						+ this.dsFilterAddr.getColumn(j,"STORE_PHOTO");
+				objImageViewer0.set_image(sArkImageURL);
+				objImageViewer0.STORE_ID=this.dsFilterAddr.getColumn(j,"STORE_ID");
+			}
+			objImageViewer0.set_stretch("fit");
+			objImageViewer0.set_borderRadius("10px");	
+			objImageViewer0.addEventHandler("onclick",this.fn_image_onclick,this);
+			objImageViewer0.show();
+			
+			var objStoreName = new Static();
+			var sStoreId = "sta" + j; 
+			var sStoreName = this.dsFilterAddr.getColumn(j, "STORE_NAME");
+			objStoreName.init(sStoreId, 55 + 290*j, 300, 230, 45);
+			objStoreName.set_font("bold 15px 한컴 말랑말랑 Bold");
+			objDivTmp.form.addChild(sStoreId, objStoreName);
+			if(!sStoreName || sStoreName == undefined){
+				objStoreName.set_text("정보없음");
+			} else{
+				objStoreName.set_text(sStoreName);
+			}
+			objStoreName.show();
+		}
+		var nIndex = 0;
+		this.dsFilterAddr.filter("");
+	}
+}
+
+this.extractAddress = function(fvHomeAddr)
+{
+	var regex = /^(.*\s[가-힣]+(?:로|길|동))/;
+	var match = fvHomeAddr.match(regex);
+	var result = match ? match[1] : fvHomeAddr;
+	return result;
+};
+
+this.fn_image_onclick= function(obj,e)
+{	
+	topFrameForm.btnLogin.set_visible(true);
+	objApp.sDetailStoreID= obj.STORE_ID;
+	//trace("obj.STORE_ID ->>"+obj.STORE_ID);
+	objApp.my_ContentFrame.set_formurl("Owner::ark5020fm.xfdl");
+};
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.webPost_onusernotify = function(obj:nexacro.WebBrowser,e:nexacro.WebUserNotifyEventInfo)
+{
+
+trace("webPost_onusernotify----> " );
+	var strPost = e.userdata;
+	if (strPost.indexOf("OK!!!:::") == 0) 
+	{
+		var aAddr = strPost.split(":::");
+		fvHomeAddr = aAddr[4];
+		fvHomeAddr = this.extractAddress(fvHomeAddr);
+		this.Div00.form.staLocation.set_text("당신을 위한 \n" + fvHomeAddr + "맛집");
+		
+		this.fnGetStore();
+	}
+	//this.fnGetStore();
+};
+
+this.Div00_btn_selLocation_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnPostSearchDaum(this.webPost);
+};
+
+this.Div00_btn_setCurLocation_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	fvHomeAddr = "서울 강남구 삼성동";
+	this.Div00.form.staLocation.set_text("당신을 위한 \n" + fvHomeAddr + "맛집");
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsTag">
+        <ColumnInfo>
+          <Column id="TAG_ID" type="STRING" size="256"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="STORE_NAME" type="STRING" size="256"/>
+          <Column id="STORE_PHOTO" type="STRING" size="256"/>
+          <Column id="STORE_COUNT" type="STRING" size="256"/>
+          <Column id="TAG_NAME" type="STRING" size="256"/>
+          <Column id="STORE_ADDR_MAIN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsFilterAddr">
+        <ColumnInfo>
+          <Column id="TAG_ID" type="STRING" size="256"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="STORE_NAME" type="STRING" size="256"/>
+          <Column id="STORE_PHOTO" type="STRING" size="256"/>
+          <Column id="TAG_NAME" type="STRING" size="256"/>
+          <Column id="TAG_COUNT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsFilterTag">
+        <ColumnInfo>
+          <Column id="TAG_ID" type="STRING" size="256"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="STORE_NAME" type="STRING" size="256"/>
+          <Column id="STORE_PHOTO" type="STRING" size="256"/>
+          <Column id="TAG_NAME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

@@ -1,0 +1,709 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark5012fm" width="1440" height="810" titletext="가게 정보 입력" onload="ark5012fm_onload">
+    <Layouts>
+      <Layout height="810" width="1440" stepcount="0">
+        <Static id="staCenter" taborder="2" text="Static02" left="0" top="0" width="50%" height="50%" visible="false"/>
+        <Div id="Div00" taborder="0" left="staCenter:-679.969" top="staCenter:-82.72%" text="" width="1360" height="1310" cssclass="divGreen">
+          <Layouts>
+            <Layout>
+              <Static id="staStoreName" taborder="0" text="업체명" left="90" top="45" width="250" height="40"/>
+              <Static id="Static01" taborder="1" text="대표업체명" left="staStoreName:0" top="45" width="450" height="40" onclick="Div00_Static01_onclick"/>
+              <Static id="Static02" taborder="2" text="영문업체명" left="Static01:0" top="45" height="40" right="80"/>
+              <Static id="staStorePhone" taborder="3" text="전화번호" left="90" top="staStoreName:70" width="250" height="40"/>
+              <Edit id="edtStoreName" taborder="4" left="staStoreName:0" top="Static01:0" width="400" height="40" displaynulltext="최대 30자"/>
+              <Edit id="edtStoreEngName" taborder="5" left="Static01:0" top="Static02:0" height="40" right="130" displaynulltext="최대 60자"/>
+              <MaskEdit id="mskStorePhone" taborder="6" left="staStorePhone:0" top="edtStoreName:30" width="290" height="40" format="###-####-####" type="string"/>
+              <Static id="staStoreAddr" taborder="7" text="주소" left="90" top="staStorePhone:30" width="250" height="40"/>
+              <Edit id="edtStoreAddrMain" taborder="8" left="staStoreAddr:0" top="mskStorePhone:30" width="671" height="40" enable="false" displaynulltext="[주소검색]을 클릭하여 '동/리/도로명'으로 검색하세요."/>
+              <Button id="btnAddr" taborder="9" text="주소검색" left="edtStoreAddrMain:10" top="mskStorePhone:30" width="101" height="40" onclick="Div00_btnAddr_onclick"/>
+              <Edit id="edtStoreAddrDetail" taborder="10" left="340" top="edtStoreAddrMain:10" width="671" height="40" enable="true" displaynulltext="상세주소를 입력해주세요."/>
+              <Static id="staStoreIndustry" taborder="11" text="업종" left="90" top="edtStoreAddrDetail:30" width="250" height="40"/>
+              <Edit id="edtStoreIndustry" taborder="12" left="staStoreIndustry:0" top="edtStoreAddrDetail:30" width="671" height="40" enable="false" displaynulltext="[업종검색]으로 내업체의 업종을 선택해 주세요."/>
+              <Button id="btnStoreIndustry" taborder="13" text="업종검색" left="edtStoreIndustry:10" top="edtStoreAddrDetail:30" width="96" height="36" onclick="Div00_btnStoreIndustry_onclick"/>
+              <Static id="staStoreTime" taborder="14" text="이용 시간" left="90" top="staStoreIndustry:30" width="250" height="40"/>
+              <Radio id="rdoTime" taborder="15" left="staStoreTime:0" top="412" width="459" height="40" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" columncount="2" onitemchanged="Div00_rdoTime_onitemchanged" text="" index="-1">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">Y</Col>
+                      <Col id="datacolumn">이용시간 입력</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">N</Col>
+                      <Col id="datacolumn">이용시간을 입력할 수 없습니다.</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Combo id="cboTime" taborder="16" text="시간 입력" left="470" top="rdoTime:10" width="160" height="40" value="" index="-1" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" onitemchanged="Div00_cboTime_onitemchanged" displaynulltext="이용시간">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">Y</Col>
+                      <Col id="datacolumn">시간입력</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">N</Col>
+                      <Col id="datacolumn">시간입력 하지 않음</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="cboStartHour" taborder="17" text="00시" left="cboTime:10" top="rdoTime:10" width="90" height="40" value="" index="-1" innerdataset="dsHour" codecolumn="code" datacolumn="name" displaynulltext="00시" onitemchanged="Combo_onitemchanged"/>
+              <Combo id="cboStartMinute" taborder="18" text="00분" left="cboStartHour:10" top="rdoTime:10" width="90" height="40" value="" index="-1" innerdataset="dsMinute" codecolumn="code" datacolumn="name" displaynulltext="00분" onitemchanged="Combo_onitemchanged"/>
+              <Static id="staTime" taborder="21" text="-" left="cboStartMinute:10" top="rdoTime:10" width="5" height="40"/>
+              <Combo id="cboEndHour" taborder="19" text="00시" left="staTime:10" top="rdoTime:10" width="90" height="40" value="" index="-1" innerdataset="dsHour" codecolumn="code" datacolumn="name" displaynulltext="00시" onitemchanged="Combo_onitemchanged"/>
+              <Combo id="cboEndMinute" taborder="20" text="" left="cboEndHour:10" top="rdoTime:10" width="90" height="40" value="" index="-1" innerdataset="dsMinute" codecolumn="code" datacolumn="name" displaynulltext="00분" onitemchanged="Combo_onitemchanged" enable="true"/>
+              <MultiCombo id="cboDay" taborder="22" text="요일" left="staStoreTime:0" top="rdoTime:10" width="120" height="40" value="" index="-1" innerdataset="dsDay" codecolumn="code" datacolumn="name" canitemchange="Div00_cboDay_canitemchange" displaynulltext="매일" allcheck="true"/>
+              <Static id="staMenuPrice" taborder="23" text="가격정보" left="90" top="cboDay:30" width="250" height="40"/>
+              <Button id="btnAddMenu" taborder="24" text="메뉴 추가" left="staMenuPrice:0" top="532" width="80" height="40" onclick="Div00_btnAddMenu_onclick"/>
+              <Static id="staStorePhoto" taborder="25" text="업체사진" left="90" top="btnAddMenu:30" width="250" height="40"/>
+              <ImageViewer id="imgStorePhoto" taborder="27" left="staStorePhoto:0" top="btnAddMenu:30" width="300" height="300" stretch="fit"/>
+              <Button id="btnAddStorePhoto" taborder="26" text="사진 추가하기" left="imgStorePhoto:40" top="btnAddMenu:30" width="100" height="40" onclick="Div00_btnAddStorePhoto_onclick"/>
+              <Static id="staStorePhoto00" taborder="28" text="테마" left="90" top="imgStorePhoto:30" width="250" height="40"/>
+              <Static id="staHintTheme" taborder="29" text="업체를 표현할 수 있는 테마를 선택해 주세요(최대 3개까지 선택 가능)" left="staStorePhoto00:0" top="imgStorePhoto:30" width="493" height="40" color="gray"/>
+              <CheckBoxSet id="chkTheme" taborder="30" left="staStorePhoto00:0" top="staHintTheme:10" height="40" innerdataset="dsStoreTheme" codecolumn="code" datacolumn="data" readonlycolumn="readonly" onitemchanged="Div00_chkTheme_onitemchanged" right="90"/>
+              <Static id="staStoreExplain" taborder="31" text="상세설명" left="90" top="chkTheme:30" width="250" height="40"/>
+              <TextArea id="txtStoreExplain" taborder="32" left="staStoreExplain:0" top="chkTheme:30" height="144" right="90" displaynulltext="우리 업체 자랑, 사장님으로서의 업체 운영에 대한 신념, 고객에게 전하고 싶은 말, 추천 서비스 및 상품에 대한 설명 등 어떤 내용도 좋습니다. (최대 100자)"/>
+              <Button id="btnSave" taborder="33" text="제출 완료" top="txtStoreExplain:30" height="40" onclick="Div00_btnSave_onclick" width="100" left="630"/>
+              <Button id="btnDelMenu" taborder="34" text="메뉴 삭제" left="btnAddMenu:10" top="532" width="80" height="40" visible="false" onclick="Div00_btnDelMenu_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <WebBrowser id="webPost" taborder="1" left="1200" top="350" width="169" height="162" onusernotify="webPost_onusernotify" visible="false"/>
+        <PopupDiv id="pdivStoreIndustry" text="PopupDiv00" visible="false" left="20" top="827" width="443" height="553" positionstep="1"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Owner
+*	@FileName ark5012fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/01
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/01		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+var fvMenuIndex = 0;  // 추가된 메뉴의 개수를 저장하는 변수
+var fvAddMenuBottom = parseInt(this.Div00.form.btnAddMenu.top)  + parseInt(this.Div00.form.btnAddMenu.height);
+var objApp = nexacro.getApplication();
+var fvStoreId = 0;
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark5012fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.dsDStore.addRow();
+	// 가게정보 내보내기
+    var sSvcID    = "getStore";
+    var sURL      = "SvcUrl::ark/getStore2.do";
+    var sInDs     = "";
+    var sOutDs    = "dsCurStore=out_store";
+    var sParam    = "";
+    var sCallBack = "fn_CallBack";
+	this.transaction(sSvcID, sURL, sInDs, sOutDs, sParam, sCallBack);
+	this.dsDStore.setColumn(this.dsDStore.rowposition,"USER_ID",objApp.gdsDMember.getColumn(0, "USER_ID"));
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+this.fn_popupCallback = function (id, rtn)
+{
+	if(!this.gfnIsNull(rtn)){
+		this.Div00.form.edtStoreIndustry.set_value(rtn);
+	}
+};
+this.fn_CallBack = function(id, nErrCode, sErrMsg){
+	if(nErrCode<0){
+		this.gfnAlert("msg.server.error");	
+	}
+	else if (nErrCode == 0) {
+		switch(id) {
+		case "saveStore":
+			objApp.gdsDStore.copyData(this.dsDStore, true);
+			objApp.gdsDStoreMenu.copyData(this.dsDMenu, true);
+			objApp.my_ContentFrame.set_formurl("Owner::ark5013fm.xfdl");
+			break;
+		case "getStore":
+			fvStoreId = this.dsCurStore.getRowCount() + 1;
+			this.dsDStore.setColumn(this.dsDStore.getMax("STORE_ID"),"STORE_ID",fvStoreId);
+		default:
+			trace("invalid transaction id");
+		}
+	}
+}
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+this.fn_setTime = function ()
+{
+	if(this.Div00.form.cboStartHour != null &&
+		this.Div00.form.cboStartMinute != null &&
+		this.Div00.form.cboEndHour != null &&
+		this.Div00.form.cboEndMinute){
+		var sTime = this.Div00.form.cboStartHour.value + ":" + 
+					this.Div00.form.cboStartMinute.value + "~" +
+					this.Div00.form.cboEndHour.value + ":" +
+					this.Div00.form.cboEndMinute.value;
+		this.dsDStore.setColumn(this.dsDStore.rowposition,"STORE_BUISNESS_TIME",sTime);
+		}	
+};
+
+this.fnUploadImage = function()
+{
+	this.FileUpTransferStorePhoto.setPostData("storePhoto", "storePhoto");
+	this.FileUpTransferStorePhoto.setPostData("userPath", "nexa_edu\\store_photo");
+	this.FileUpTransferStorePhoto.upload("SvcUrl::edu/uploadFile.do");
+}
+
+this.fnSaveStore = function ()
+{
+	// 가게정보 내보내기
+    var sSvcID    = "saveStore";
+    var sURL      = "SvcUrl::ark/saveStore.do";
+    var sInDs     = "dsDStore=dsDStore dsDMenu=dsDMenu dsTag=dsTag";
+    var sOutDs    = "dsDStore=dsDStore dsDMenu=dsDMenu";
+    var sParam    = "";
+    var sCallBack = "fn_CallBack";
+	this.transaction(sSvcID, sURL, sInDs, sOutDs, sParam, sCallBack);
+	trace(this.dsTag);
+};
+// 삭제 함수
+function deleteMenuDiv(objDiv)
+{
+    var nHeight = objDiv.height; // 삭제할 Div 높이 저장
+
+    // 부모에서 삭제
+    this.Div00.removeChild(objDiv.id);
+    objDiv.destroy();
+
+    // "메뉴 추가하기" 버튼 위로 이동
+    fvAddMenuBottom -= nHeight;
+    this.Div00.form.btnAddMenu.set_top(fvAddMenuBottom + 10);
+
+    // 부모 Div00 높이 조정
+    this.Div00.set_height(parseInt(this.Div00.height) - nHeight - 10);
+}
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.Div00_btnAddr_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnPostSearchDaum(this.webPost);
+};
+
+this.webPost_onusernotify = function(obj:nexacro.WebBrowser,e:nexacro.WebUserNotifyEventInfo)
+{
+	var strPost = e.userdata;
+	if (strPost.indexOf("OK!!!:::") == 0) 
+	{
+		var aAddr = strPost.split(":::");
+		this.Div00.form.edtStoreAddrMain.set_value(aAddr[6]);	// 조합형 주소여부에 따른 주소
+	}
+};
+
+this.Div00_btnStoreIndustry_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var CF = new ChildFrame();
+	var strName = "chf"
+	var nLeft = 0;
+	var nTop = 0;
+	var nWidth = 600;
+	var nHeight = 600;
+	var nRight = null;
+	var nBottom = null;
+	var strUrl = "Owner::ark5014fm.xfdl";
+	
+	var objParam = {
+	};
+	
+	CF.init(strName,nLeft,nTop,nWidth,nHeight,nRight,nBottom,strUrl);
+	CF.set_openalign("center middle");
+	CF.showModal(this.getOwnerFrame(), objParam, this, "fn_popupCallback"); 
+};
+
+this.Div00_rdoTime_onitemchanged = function(obj:nexacro.Radio,e:nexacro.ItemChangeEventInfo)
+{
+	// 라디오버튼 선택 값 가져오기
+    var selectedValue = obj.value; 
+
+    if (selectedValue == "Y")  // "이용시간 입력"이 선택된 경우
+    {
+        this.Div00.form.cboDay.set_visible(true);  // "요일" 콤보박스 보이기
+		this.Div00.form.cboTime.set_visible(true);
+        this.Div00.form.cboStartHour.set_visible(true);  // 시작 시간 (시) 보이기
+        this.Div00.form.cboStartMinute.set_visible(true); // 시작 시간 (분) 보이기
+		this.Div00.form.staTime.set_visible(true);
+        this.Div00.form.cboEndHour.set_visible(true);  // 종료 시간 (시) 보이기
+        this.Div00.form.cboEndMinute.set_visible(true); // 종료 시간 (분) 보이기
+    }
+    else  // "이용시간을 입력할 수 없습니다." 선택 시
+    {
+		this.Div00.form.cboDay.set_value(""); 
+		this.Div00.form.cboTime.set_value("");
+        this.Div00.form.cboStartHour.set_value("");
+        this.Div00.form.cboStartMinute.set_value("");
+        this.Div00.form.cboEndHour.set_value("");
+        this.Div00.form.cboEndMinute.set_value("");
+		
+        this.Div00.form.cboDay.set_visible(false); 
+		this.Div00.form.cboTime.set_visible(false);
+        this.Div00.form.cboStartHour.set_visible(false);
+        this.Div00.form.cboStartMinute.set_visible(false);
+		this.Div00.form.staTime.set_visible(false);
+        this.Div00.form.cboEndHour.set_visible(false);
+        this.Div00.form.cboEndMinute.set_visible(false);
+    }
+};
+
+this.Div00_btnAddMenu_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+    var nLeft = 340;  // 위치 고정
+    // [1] 새로운 Div 생성
+    var objNewDiv = new Div();
+    var sNewDivId = "DivMenu_" + fvMenuIndex;
+
+    objNewDiv.init(sNewDivId, nLeft, fvAddMenuBottom -this.Div00.form.btnAddMenu.height, 990, 370);
+
+    // [2] 폼에 동적으로 추가
+    this.Div00.addChild(sNewDivId, objNewDiv);
+    objNewDiv.show();
+
+    // [3] 새로운 Div 안에 포함될 폼을 로드
+    objNewDiv.set_url("Owner::ark5015fm.xfdl");  // 메뉴 추가 폼
+
+    // [4] 버튼을 새롭게 생성된 Div 아래로 이동
+    this.Div00.form.btnAddMenu.set_top(parseInt(this.Div00.form.btnAddMenu.top) + objNewDiv.height);
+    this.Div00.form.btnDelMenu.set_top(parseInt(this.Div00.form.btnDelMenu.top) + objNewDiv.height);
+	this.Div00.form.btnDelMenu.set_visible(true);
+	
+    // [5] 폼 전체 높이를 조정하여 UI가 깔끔하게 보이도록 설정
+    this.Div00.set_height(parseInt(this.Div00.height)+370);
+	this.resetScroll();
+    // [6] 메뉴 인덱스 증가
+    fvMenuIndex++;
+	fvAddMenuBottom += objNewDiv.height;
+};
+
+this.Div00_btnAddStorePhoto_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.FileDialogStorePhoto.open("파일 선택", FileDialog.LOAD, "%MYDOCUMENT%");
+};
+
+this.FileDialogStorePhoto_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{
+	this.FileUpTransferStorePhoto.clearFileList();
+	var sPhoto = e.virtualfiles[0].filename;
+	this.FileUpTransferStorePhoto.addFile(sPhoto, e.virtualfiles[0]);
+	
+	if(nexacro._Browser=="Runtime"){
+		this.Div00.form.imgStorePhoto.set_image("URL('file://"+e.virtualfiles[0].fullpath+"')");
+		this.dsDStore.setColumn(this.dsDStore.rowposition,"STORE_PHOTO",sPhoto);
+	}
+	else{
+		if( /\.(jpe?g|png|gif)$/i.test(e.virtualfiles[0].filename) ){
+			var reader = new FileReader();
+			reader.targetForm = this;
+			reader.addEventListener("load", function () 
+			{
+				this.targetForm.Div00.form.imgStorePhoto.set_image(this.result);
+				this.dsDStore.setColumn(this.dsDStore.rowposition,"STORE_PHOTO",sPhoto);
+			}, false);
+			reader.readAsDataURL(e.virtualfiles[0]._handle);
+		}  
+	}
+};
+
+
+this.Div00_chkTheme_onitemchanged = function(obj:nexacro.CheckBoxSet,e:nexacro.ItemChangeEventInfo)
+{
+	var nSelectedItemCount = this.Div00.form.chkTheme.getSelectedCount();
+	var nSelectedItems = this.Div00.form.chkTheme.getSelectedItems();
+
+	if (nSelectedItemCount == 3)
+	{
+		
+		for(var i = 0; i < this.dsStoreTheme.rowcount; i++){
+			this.dsStoreTheme.setColumn(i, "readonly", "1");
+		}
+		for(var i = 0; i < nSelectedItems.length; i++){
+			this.dsStoreTheme.setColumn(nSelectedItems[i], "readonly", "0");
+		}
+	}else if(nSelectedItemCount < 3){
+		for(var i = 0; i < this.dsStoreTheme.rowcount; i++){
+			this.dsStoreTheme.setColumn(i, "readonly", "0");
+		}
+	}
+	
+	this.dsTag.deleteAll();
+	for(var i=0; i< nSelectedItemCount; i++){
+		this.dsTag.addRow();
+		this.dsTag.setColumn(i, "TAG_ID",nSelectedItems[i] );
+		this.dsTag.setColumn(i, "STORE_ID", fvStoreId );
+	}
+};
+
+this.Div00_cboTime_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	//콤보 박스 선택 값 가져오기
+    var selectedValue = obj.value; 
+
+    if (selectedValue == "Y")  // "이용시간 입력"이 선택된 경우
+    {
+        this.Div00.form.cboStartHour.set_visible(true);  // 시작 시간 (시) 보이기
+        this.Div00.form.cboStartMinute.set_visible(true); // 시작 시간 (분) 보이기
+		this.Div00.form.staTime.set_visible(true);
+        this.Div00.form.cboEndHour.set_visible(true);  // 종료 시간 (시) 보이기
+        this.Div00.form.cboEndMinute.set_visible(true); // 종료 시간 (분) 보이기
+    }
+    else  // "이용시간을 입력할 수 없습니다." 선택 시
+    {
+        this.Div00.form.cboStartHour.set_value("");
+        this.Div00.form.cboStartMinute.set_value("");
+        this.Div00.form.cboEndHour.set_value("");
+        this.Div00.form.cboEndMinute.set_value("");
+		
+        this.Div00.form.cboStartHour.set_visible(false);
+        this.Div00.form.cboStartMinute.set_visible(false);
+		this.Div00.form.staTime.set_visible(false);
+        this.Div00.form.cboEndHour.set_visible(false);
+        this.Div00.form.cboEndMinute.set_visible(false);
+    }
+};
+
+
+this.Div00_btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	//이미지 업로드
+	if(this.FileUpTransferStorePhoto.filelist.length > 0){
+		this.fnUploadImage();
+	}else{
+		this.fnSaveStore();
+	}
+};
+
+this.Div00_btnDelMenu_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if (fvMenuIndex > 0){
+	    // 마지막으로 추가된 Div ID 가져오기
+        var sLastDivId = "DivMenu_" + (fvMenuIndex - 1);
+		this.Div00.removeChild(sLastDivId);
+		
+		// [4] 버튼을 새롭게 생성된 Div 아래로 이동
+		this.Div00.form.btnAddMenu.set_top(parseInt(this.Div00.form.btnAddMenu.top) - 370);
+		this.Div00.form.btnDelMenu.set_top(parseInt(this.Div00.form.btnDelMenu.top) - 370);
+		
+		fvMenuIndex--;
+		if(fvMenuIndex == 0){
+			this.Div00.form.btnDelMenu.set_visible(false);
+		}
+		this.Div00.set_height(parseInt(this.Div00.height)-370);
+		this.resetScroll();
+		fvAddMenuBottom -= 370;
+	}
+	this.dsDMenu.deleteRow(this.dsDMenu.rowcount-1);
+};
+
+this.FileUpTransferStorePhoto_onsuccess = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferEventInfo)
+{
+	var uploadedFile = e.datasets[0].getColumn(0, "file_id"); // 서버에서 반환한 파일명
+    this.dsDStore.setColumn(0, "STORE_PHOTO", uploadedFile); // USER_PROFILE 컬럼에 파일명 저장
+	trace(uploadedFile);
+    this.fnSaveStore();
+};
+
+this.Combo_onitemchanged = function(obj:nexacro.Combo,e:nexacro.ItemChangeEventInfo)
+{
+	this.fn_setTime();
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsDay">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">mon</Col>
+            <Col id="name">월요일</Col>
+          </Row>
+          <Row>
+            <Col id="code">tue</Col>
+            <Col id="name">화요일</Col>
+          </Row>
+          <Row>
+            <Col id="code">wed</Col>
+            <Col id="name">수요일</Col>
+          </Row>
+          <Row>
+            <Col id="code">thu</Col>
+            <Col id="name">목요일</Col>
+          </Row>
+          <Row>
+            <Col id="code">fri</Col>
+            <Col id="name">금요일</Col>
+          </Row>
+          <Row>
+            <Col id="code">sat</Col>
+            <Col id="name">토요일</Col>
+          </Row>
+          <Row>
+            <Col id="code">sun</Col>
+            <Col id="name">일요일</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsHour">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">00</Col>
+            <Col id="name">00시</Col>
+          </Row>
+          <Row>
+            <Col id="code">01</Col>
+            <Col id="name">01시</Col>
+          </Row>
+          <Row>
+            <Col id="code">02</Col>
+            <Col id="name">02시</Col>
+          </Row>
+          <Row>
+            <Col id="code">03</Col>
+            <Col id="name">03시</Col>
+          </Row>
+          <Row>
+            <Col id="code">04</Col>
+            <Col id="name">04시</Col>
+          </Row>
+          <Row>
+            <Col id="code">05</Col>
+            <Col id="name">05시</Col>
+          </Row>
+          <Row>
+            <Col id="code">06</Col>
+            <Col id="name">06시</Col>
+          </Row>
+          <Row>
+            <Col id="code">07</Col>
+            <Col id="name">07시</Col>
+          </Row>
+          <Row>
+            <Col id="code">08</Col>
+            <Col id="name">08시</Col>
+          </Row>
+          <Row>
+            <Col id="code">09</Col>
+            <Col id="name">09시</Col>
+          </Row>
+          <Row>
+            <Col id="code">10</Col>
+            <Col id="name">10시</Col>
+          </Row>
+          <Row>
+            <Col id="code">11</Col>
+            <Col id="name">11시</Col>
+          </Row>
+          <Row>
+            <Col id="code">12</Col>
+            <Col id="name">12시</Col>
+          </Row>
+          <Row>
+            <Col id="code">13</Col>
+            <Col id="name">13시</Col>
+          </Row>
+          <Row>
+            <Col id="code">14</Col>
+            <Col id="name">14시</Col>
+          </Row>
+          <Row>
+            <Col id="code">15</Col>
+            <Col id="name">15시</Col>
+          </Row>
+          <Row>
+            <Col id="code">16</Col>
+            <Col id="name">16시</Col>
+          </Row>
+          <Row>
+            <Col id="code">17</Col>
+            <Col id="name">17시</Col>
+          </Row>
+          <Row>
+            <Col id="code">18</Col>
+            <Col id="name">18시</Col>
+          </Row>
+          <Row>
+            <Col id="code">19</Col>
+            <Col id="name">19시</Col>
+          </Row>
+          <Row>
+            <Col id="code">20</Col>
+            <Col id="name">20시</Col>
+          </Row>
+          <Row>
+            <Col id="code">21</Col>
+            <Col id="name">21시</Col>
+          </Row>
+          <Row>
+            <Col id="code">22</Col>
+            <Col id="name">22시</Col>
+          </Row>
+          <Row>
+            <Col id="code">23</Col>
+            <Col id="name">23시</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsMinute">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="name" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">00</Col>
+            <Col id="name">00분</Col>
+          </Row>
+          <Row>
+            <Col id="code">10</Col>
+            <Col id="name">10분</Col>
+          </Row>
+          <Row>
+            <Col id="code">20</Col>
+            <Col id="name">20분</Col>
+          </Row>
+          <Row>
+            <Col id="code">30</Col>
+            <Col id="name">30분</Col>
+          </Row>
+          <Row>
+            <Col id="code">40</Col>
+            <Col id="name">40분</Col>
+          </Row>
+          <Row>
+            <Col id="code">50</Col>
+            <Col id="name">50분</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <FileDialog id="FileDialogStorePhoto" onclose="FileDialogStorePhoto_onclose"/>
+      <FileUpTransfer id="FileUpTransferStorePhoto" onsuccess="FileUpTransferStorePhoto_onsuccess"/>
+      <Dataset id="dsStoreTheme">
+        <ColumnInfo>
+          <Column id="code" type="STRING" size="256"/>
+          <Column id="data" type="STRING" size="256"/>
+          <Column id="readonly" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">0</Col>
+            <Col id="data">데이트 하기 좋은</Col>
+          </Row>
+          <Row>
+            <Col id="code">1</Col>
+            <Col id="data">조용한 분위기</Col>
+          </Row>
+          <Row>
+            <Col id="code">2</Col>
+            <Col id="data">젊고 캐쥬얼한</Col>
+          </Row>
+          <Row>
+            <Col id="code">3</Col>
+            <Col id="data">아이와 함께</Col>
+          </Row>
+          <Row>
+            <Col id="code">4</Col>
+            <Col id="data">모임하기 좋은</Col>
+          </Row>
+          <Row>
+            <Col id="code">5</Col>
+            <Col id="data">특별한 날</Col>
+          </Row>
+          <Row>
+            <Col id="code">6</Col>
+            <Col id="data">단체 회식</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsDStore">
+        <ColumnInfo>
+          <Column id="STORE_NAME" type="STRING" size="60"/>
+          <Column id="STORE_ENG_NAME" type="STRING" size="60"/>
+          <Column id="STORE_PHONE" type="STRING" size="60"/>
+          <Column id="STORE_ADDR_MAIN" type="STRING" size="50"/>
+          <Column id="STORE_ADDR_DETAIL" type="STRING" size="50"/>
+          <Column id="STORE_INDUSTRY" type="STRING" size="50"/>
+          <Column id="STORE_BUISNESS_DAY" type="STRING" size="50"/>
+          <Column id="STORE_BUISNESS_TIME" type="STRING" size="50"/>
+          <Column id="STORE_PHOTO" type="STRING" size="50"/>
+          <Column id="STORE_THEME" type="STRING" size="50"/>
+          <Column id="STORE_EXPLAIN" type="STRING" size="300"/>
+          <Column id="STORE_RATING" type="STRING" size="50"/>
+          <Column id="STORE_REVIEW_COUNT" type="INT"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsDMenu">
+        <ColumnInfo>
+          <Column id="STORE_ID" type="INT" size="11"/>
+          <Column id="MENU_NAME" type="STRING" size="50"/>
+          <Column id="MENU_PRICE" type="STRING" size="50"/>
+          <Column id="MENU_VARIABLE_PRICE" type="STRING" size="2"/>
+          <Column id="MENU_SUGGESTION" type="STRING" size="2"/>
+          <Column id="MENU_EXPLAIN" type="STRING" size="50"/>
+          <Column id="MENU_PHOTO" type="STRING" size="50"/>
+          <Column id="MENU_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <FileUpTransfer id="FileUpTransferMenu"/>
+      <Dataset id="dsCurStore"/>
+      <Dataset id="dsTag" onvaluechanged="dsTag_onvaluechanged">
+        <ColumnInfo>
+          <Column id="TAG_ID" type="STRING" size="256"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item1" compid="Div00.form.edtStoreName" propid="value" datasetid="dsDStore" columnid="STORE_NAME"/>
+      <BindItem id="item0" compid="Div00.form.edtStoreEngName" propid="value" datasetid="dsDStore" columnid="STORE_ENG_NAME"/>
+      <BindItem id="item2" compid="Div00.form.mskStorePhone" propid="value" datasetid="dsDStore" columnid="STORE_PHONE"/>
+      <BindItem id="item3" compid="Div00.form.edtStoreAddrMain" propid="value" datasetid="dsDStore" columnid="STORE_ADDR_MAIN"/>
+      <BindItem id="item4" compid="Div00.form.edtStoreAddrDetail" propid="value" datasetid="dsDStore" columnid="STORE_ADDR_DETAIL"/>
+      <BindItem id="item5" compid="Div00.form.edtStoreIndustry" propid="value" datasetid="dsDStore" columnid="STORE_INDUSTRY"/>
+      <BindItem id="item6" compid="Div00.form.cboDay" propid="value" datasetid="dsDStore" columnid="STORE_BUISNESS_DAY"/>
+      <BindItem id="item8" compid="Div00.form.chkTheme" propid="value" datasetid="dsDStore" columnid="STORE_THEME"/>
+      <BindItem id="item9" compid="Div00.form.txtStoreExplain" propid="value" datasetid="dsDStore" columnid="STORE_EXPLAIN"/>
+    </Bind>
+  </Form>
+</FDL>

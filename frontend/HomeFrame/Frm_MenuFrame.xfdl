@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Frm_MenuFrame" width="1440" height="60" titletext="MenuFrame" onload="Frm_MenuFrame_onload">
+    <Layouts>
+      <Layout height="60" width="1440">
+        <Div id="divMenu" taborder="0" left="36" top="0" width="95%" height="100.00%" borderRadius="20px" formscrollbartype="none none" background="#f0f0f0">
+          <Layouts>
+            <Layout/>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\Users\taehu\Documents\TOBESOFT\Nexacro N\projects\ToBeDining\HomeFrame
+*	@FileName Frm_MenuFrame.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/01/13
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/01/13		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+ var objApp = nexacro.getApplication();
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.Frm_MenuFrame_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	objApp.gdsDMenu.filter("MENU_LEVEL == '0'");
+	//objApp.gdsDMenu.filter("USER_ROLE == 'GUEST'");
+	this.ds_menu.copyData(objApp.gdsDMenu, true);
+	objApp.gdsDMenu.filter("");
+ 	
+ 	this.fnCreateMenu();
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+// 메뉴 버튼 클릭 이벤트 핸들러
+this.fnMenuClick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+//     // 공지사항 메뉴의 uMenuId 또는 텍스트로 비교
+//     if (obj.text == "공지사항" || obj.uMenuId == "공지사항_ID") {
+//         // ark1060fm으로 이동
+//         objApp.mainframe.VFrameSet.VFrameSet1.ContentFrame.form.set_url("ark1060fm.xfdl");
+//     } else {
+//         alert("다른 메뉴를 클릭했습니다: " + obj.text);
+//     }
+	switch(obj.text) {
+		case "공지사항":
+			objApp.my_ContentFrame.set_formurl("Authentication::ark1060fm.xfdl");
+			break;
+		case "best맛집":
+			objApp.my_ContentFrame.set_formurl("Authentication::ark1070fm.xfdl");
+			break;
+		case "투비다이닝 소개":
+			objApp.my_ContentFrame.set_formurl("Authentication::ark1080fm.xfdl");
+			break;
+		case "문의사항":
+			objApp.my_ContentFrame.set_formurl("Authentication::ark1090fm.xfdl");
+			break;
+		default:
+			trace("잘못된 입력입니다.");
+	}
+};
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+this.fnCreateMenu = function()
+{
+	
+	var sId= "";
+	var sName = "";
+	var nTop = 0;
+	
+	var nWidth = 150;
+	var nHeight = '100%';
+	
+	// 현재 divMenu의 크기를 가져옵니다.
+    var nContainerWidth = this.divMenu.getOffsetWidth();
+    var nButtonCount = this.ds_menu.rowcount;
+	
+	// 버튼 크기와 간격을 화면 크기에 비례해 계산
+    var nButtonWidth = Math.floor((nContainerWidth * 0.6) / nButtonCount); // 버튼 너비 (전체 크기의 80%를 버튼에 할당)
+    var nButtonMargin = Math.floor((nContainerWidth * 0.4) / (nButtonCount + 1)); // 간격 (나머지 20%를 간격으로 할당)
+	
+	var nLeft = nButtonMargin;
+	
+	 for (var i = 0; i < nButtonCount; i++) {
+        sName = this.ds_menu.getColumn(i, "MENU_NAME");
+        sId = this.ds_menu.getColumn(i, "MENU_ID");
+
+        // 버튼 생성
+        var objBtn = new Button("btnMenu" + i, nLeft, nTop, nButtonWidth, nHeight);
+		objBtn.set_cssclass("btnHomeNone");
+        this.divMenu.addChild(objBtn.name, objBtn);
+        objBtn.uMenuId = sId;
+        objBtn.set_text(sName);
+		
+		//이벤트 핸들러 추가
+		objBtn.addEventHandler("onclick", this.fnMenuClick, this);	
+        objBtn.show();
+
+        // 다음 버튼의 시작 위치 계산
+        nLeft += nButtonWidth + nButtonMargin;
+    }
+//버튼 크기 고정 생성
+// 	for(var i=0; i<this.ds_menu.rowcount; i++){
+// 		sName = this.ds_menu.getColumn(i, "MENU_NAME");
+// 		sId = this.ds_menu.getColumn(i, "MENU_ID");
+// 		//nWidth = nexacro.getTextSize(sName, "bold 15px 'Verdana'").nx;
+// 		var objBtn = new Button("btnMenu"+i, nLeft, nTop, nWidth, nHeight);
+// 		this.divMenu.addChild(objBtn.name, objBtn);
+// 		objBtn.uMenuId = sId;
+// 		objBtn.set_text(sName);
+// 		//objBtn.set_cssclass("btn_TF_Menu");	
+// 		//objBtn.addEventHandler("onclick",this.fnMenuClick, this);
+// 		objBtn.show();
+// 		nLeft += nWidth + 200;
+// 	}
+	
+}
+
+]]></Script>
+    <Objects>
+      <Dataset id="ds_menu"/>
+    </Objects>
+  </Form>
+</FDL>

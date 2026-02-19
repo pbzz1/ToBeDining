@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark3010fm" width="1280" height="710" titletext="가게 관리" onload="ark3010fm_onload">
+    <Layouts>
+      <Layout height="710" width="1280">
+        <Static id="staTitle" taborder="0" text="가게 관리" left="1.02%" top="0.00%" width="147" cssclass="staAdminTitle" height="86"/>
+        <Grid id="Grid00" taborder="5" left="15" top="staTitle:15" height="445" binddataset="dsStore" autofittype="col" right="490">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="109"/>
+                <Column size="114"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24" band="head"/>
+                <Row size="39"/>
+                <Row size="39"/>
+              </Rows>
+              <Band id="head">
+                <Cell rowspan="2" text="가게명"/>
+                <Cell col="1" text="영어 이름"/>
+                <Cell col="2" text="번호"/>
+                <Cell col="3" text="주소1"/>
+                <Cell col="4" text="주소2"/>
+                <Cell col="5" text="상세주소"/>
+                <Cell row="1" col="1" text="가게 태마"/>
+                <Cell row="1" col="2" text="영업 시간"/>
+                <Cell row="1" col="3" text="등록 일자"/>
+                <Cell row="1" col="4" text="수정 일자"/>
+                <Cell row="1" col="5"/>
+              </Band>
+              <Band id="body">
+                <Cell rowspan="2" text="bind:STORE_NAME" edittype="text" font="bold 14px/normal &quot;Malgun Gothic&quot;"/>
+                <Cell col="1" text="bind:STORE_ENG_NAME" edittype="text"/>
+                <Cell col="2" text="bind:STORE_PHONE" edittype="text"/>
+                <Cell col="3" text="bind:STORE_ADDR_MAIN" edittype="text"/>
+                <Cell col="4" text="bind:STORE_ADDR_DETAIL" edittype="text"/>
+                <Cell col="5" text="bind:STORE_INDUSTRY" edittype="text"/>
+                <Cell row="1" col="1" text="bind:STORE_THEME" edittype="text"/>
+                <Cell row="1" col="2" text="bind:STORE_BUISNESS_TIME" edittype="text"/>
+                <Cell row="1" col="3" text="bind:STORE_CREATED_AT" edittype="readonly"/>
+                <Cell row="1" col="4" text="bind:STORE_UPDATED_AT" edittype="readonly"/>
+                <Cell row="1" col="5" edittype="readonly"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_insert" taborder="2" text="입력" width="80" onclick="Button_onclick" cssclass="btnGreenBold" bottom="Grid00:23" height="34" right="195"/>
+        <Button id="btn_select" taborder="1" text="조회" width="80" onclick="Button_onclick" cssclass="btnGreenBold" height="34" bottom="Grid00:23" right="btn_insert:10"/>
+        <Button id="btn_delete" taborder="3" text="삭제" width="80" onclick="Button_onclick" cssclass="btnGreenBold" bottom="Grid00:23" height="34" right="105"/>
+        <Button id="btn_save" taborder="4" text="저장" width="80" onclick="Button_onclick" cssclass="btnGreenBold" bottom="Grid00:23" height="34" right="15"/>
+        <Div id="divPage" taborder="6" text="Div00" left="320" top="Grid00:10" width="650" height="50" url="Cmm::CmmPaging.xfdl"/>
+        <ListView id="ListView00" taborder="7" left="Grid00:10" top="staTitle:64" height="395" right="15" binddataset="dsStore" enableevent="true" border="1px solid green">
+          <Formats>
+            <Format id="default">
+              <Band id="body" width="100%" height="78">
+                <Cell id="Cell00" left="10" top="0" width="80" text="bind:STORE_NAME" bottom="0" verticalAlign="middle" wordWrap="char"/>
+                <Cell id="Cell01" left="Cell00:0" top="0" bottom="0" right="0" text="bind:STORE_EXPLAIN" wordWrap="char" verticalAlign="top" displaytype="textareacontrol" edittype="textarea"/>
+              </Band>
+            </Format>
+          </Formats>
+        </ListView>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsStore">
+        <ColumnInfo>
+          <Column id="STORE_NAME" type="STRING" size="60"/>
+          <Column id="STORE_ENG_NAME" type="STRING" size="60"/>
+          <Column id="STORE_PHONE" type="STRING" size="60"/>
+          <Column id="STORE_ADDR_MAIN" type="STRING" size="50"/>
+          <Column id="STORE_ADDR_DETAIL" type="STRING" size="50"/>
+          <Column id="STORE_INDUSTRY" type="STRING" size="50"/>
+          <Column id="STORE_BUISNESS_DAY" type="STRING" size="50"/>
+          <Column id="STORE_BUISNESS_TIME" type="STRING" size="50"/>
+          <Column id="STORE_PHOTO" type="STRING" size="50"/>
+          <Column id="STORE_THEME" type="STRING" size="50"/>
+          <Column id="STORE_EXPLAIN" type="STRING" size="300"/>
+          <Column id="STORE_RATING" type="STRING" size="50"/>
+          <Column id="STORE_REVIEW_COUNT" type="INT"/>
+          <Column id="STORE_CREATED_AT" type="STRING" size="256"/>
+          <Column id="STORE_UPDATED_AT" type="STRING" size="256"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsPagingInfo">
+        <ColumnInfo>
+          <Column id="totalCount" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSearch00">
+        <ColumnInfo>
+          <Column id="records" type="INT" size="256"/>
+          <Column id="page" type="INT" size="256"/>
+          <Column id="recordsOffset" type="INT" size="256"/>
+          <Column id="pageCount" type="INT" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Admin
+*	@FileName ark3010fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/23
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/23		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+this.objApp = nexacro.getApplication();
+this.fvRecords=0; 			//목록갯수
+this.fvPage=0;	 			//페이지번호
+this.fvRecordsOffset=0;		//시작rownum
+this.fvTotalCount=0;		//전체데이터갯수
+this.fvPageCount=0; 		//실제표출페이지갯수
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark3010fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fnPageInit();
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+this.fn_Search= function()
+{
+	this.dsSearch00.clearData();
+	var nRow = this.dsSearch00.addRow();
+	this.dsSearch00.setColumn(nRow, "records", this.fvRecords);
+	this.dsSearch00.setColumn(nRow, "recordsOffset", this.fvRecordsOffset); 
+	trace(this.dsSearch00.saveXML());
+	// 트랜잭션 호출
+    var strSvcId = "arkGetStoreAdmin";
+    var strSvcUrl = "ark/getStoreAdmin.do";
+    var inData = "dsSearch00=dsSearch00"; 
+    var outData = "dsStore=dsStore dsPagingInfo=dsPagingInfo"; 
+    var strArg = "";
+    var fnCallback = "fnCallBack";
+	
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback); 
+};
+this.fn_transaction_updateStore = function ()
+{
+	var strSvcUrl = "ark/savingAdminStore.do";
+	var inData    = "dsStore=dsStore:U";
+	var outData   = "";
+	var strArg    = "";
+
+	this.gfnTransaction("savingMember", strSvcUrl, inData, outData, strArg, "fnCallBack", true);
+};
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+this.fnCallBack = function (id,nErrCode, sErrMsg)
+{
+	trace("callback id" + id);
+	if(nErrCode<0){
+		this.gfnAlert("msg.server.error");	
+	}
+	switch(id){
+		case "arkGetStoreAdmin":
+			fvStoreId = this.dsStore.getRowCount() + 1;
+			this.dsStore.setColumn(this.dsStore.getMax("STORE_ID"),"STORE_ID",fvStoreId);
+			this.fnPagingSetting();
+			break;
+		default:
+	}
+};
+
+//페이징 콜백
+this.fnPagingCallback = function(nPage, nRecordsOffset)
+{
+	this.fvPage = nPage; 				
+	this.fvRecordsOffset = nRecordsOffset;
+	this.fn_Search(); //조회함수호출
+};
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+// @description 최초조회시, 전역변수 초기화
+ this.fnPageInit = function()
+ {
+	this.fvRecords=5; 								 //목록갯수
+	this.fvPage=0;	 								 //페이지번호
+	this.fvRecordsOffset=0;							 //시작rownum
+	this.fvPageCount = 10;							 //실제표출페이지갯수
+	
+	this.fn_Search();    
+ };
+
+// @description 페이징만들기
+this.fnPagingSetting = function()
+{ 
+	this.fvTotalCount = nexacro.toNumber(this.dsPagingInfo.getColumn("totalCount")); //전체로우갯수
+	
+	trace("this.dsPagingInfo.saveXML()"+this.dsPagingInfo.saveXML());	
+	//create page
+	this.divPage.form.fnCreatePage("fnPagingCallback",
+									this.fvTotalCount,
+									this.fvRecords,
+									this.fvPage,
+									this.fvPageCount);	
+};
+
+
+this.Button_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	trace(obj.id);
+	switch(obj.id) {
+	case "btn_select":
+		this.fn_Search();
+		this.fnPageInit();
+		break;
+	case "btn_insert":
+		this.dsStore.addRow();
+		break;
+	case "btn_delete":
+		this.dsStore.deleteRow(this.dsStore.rowposition);
+		break;
+	case "btn_save":
+		this.fn_transaction_updateStore();
+		break;
+	default:
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

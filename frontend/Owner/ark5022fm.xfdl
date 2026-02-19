@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark5022fm" width="290" height="470" titletext="예약 팝업 div" onload="ark5022fm_onload">
+    <Layouts>
+      <Layout height="470" width="290">
+        <Calendar id="calReserve" taborder="0" left="0" top="0" height="308" type="monthonly" width="100%" border="0px none, 0px none, 1px none #f0f0f0" onchanged="calReserve_onchanged" usetrailingday="true" usecontextmenu="false" popuptype="none" weekformat="                                                                                        "/>
+        <Static id="staReserveNum" taborder="1" text="인원수" left="12" top="calReserve:13" width="45" height="30" font="bold 11pt/normal &quot;Sans Serif Collection&quot;" verticalAlign="top"/>
+        <Static id="staReserveTime" taborder="2" text="예약시간" left="12" top="calReserve:60" width="60" height="30" font="bold 11pt/normal &quot;Sans Serif Collection&quot;" verticalAlign="top"/>
+        <Button id="btnReserveNumMinus" taborder="3" text="-" left="staReserveNum:15" top="calReserve:18" width="30" height="30" background="#f93a00" borderRadius="20px" color="white" onclick="Button_onclick"/>
+        <Edit id="edtReserveNum" taborder="4" left="btnReserveNumMinus:4" top="calReserve:18" width="51" height="30" value="0" text="0" displaynulltext="0"/>
+        <Button id="btnReserveNumPlus" taborder="5" text="+" left="edtReserveNum:4" top="calReserve:18" width="30" height="30" background="#f93a00" borderRadius="20px" color="white" onclick="Button_onclick"/>
+        <Combo id="cmbReserveHour" taborder="6" text="00" left="staReserveTime:15" top="calReserve:63" width="56" height="25" value="00" index="23" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">01</Col>
+                <Col id="datacolumn">01</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">02</Col>
+                <Col id="datacolumn">02</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">03</Col>
+                <Col id="datacolumn">03</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">04</Col>
+                <Col id="datacolumn">04</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">05</Col>
+                <Col id="datacolumn">05</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">06</Col>
+                <Col id="datacolumn">06</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">07</Col>
+                <Col id="datacolumn">07</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">08</Col>
+                <Col id="datacolumn">08</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">09</Col>
+                <Col id="datacolumn">09</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">10</Col>
+                <Col id="datacolumn">10</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">11</Col>
+                <Col id="datacolumn">11</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">12</Col>
+                <Col id="datacolumn">12</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">13</Col>
+                <Col id="datacolumn">13</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">14</Col>
+                <Col id="datacolumn">14</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">15</Col>
+                <Col id="datacolumn">15</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">16</Col>
+                <Col id="datacolumn">16</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">17</Col>
+                <Col id="datacolumn">17</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">18</Col>
+                <Col id="datacolumn">18</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">19</Col>
+                <Col id="datacolumn">19</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">20</Col>
+                <Col id="datacolumn">20</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">21</Col>
+                <Col id="datacolumn">21</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">22</Col>
+                <Col id="datacolumn">22</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">23</Col>
+                <Col id="datacolumn">23</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">00</Col>
+                <Col id="datacolumn">00</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Static id="Static00" taborder="7" text="시" left="cmbReserveHour:11" top="calReserve:60" width="34" height="30"/>
+        <Combo id="cmbReserveMin" taborder="8" text="00" left="Static00:5" top="calReserve:63" width="56" height="25" value="00" index="0" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">00</Col>
+                <Col id="datacolumn">00</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">10</Col>
+                <Col id="datacolumn">10</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">20</Col>
+                <Col id="datacolumn">20</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">30</Col>
+                <Col id="datacolumn">30</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">40</Col>
+                <Col id="datacolumn">40</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">50</Col>
+                <Col id="datacolumn">50</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Static id="Static00_00" taborder="9" text="분" left="cmbReserveMin:11" top="calReserve:60" width="20" height="30"/>
+        <Button id="btnReserveClose" taborder="10" text="예약하기" left="109" top="calReserve:122" height="34" background="#f93a00" color="white" onclick="btnReserveClose_onclick" width="73"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item2" compid="calReserve" propid="value" datasetid="dsReserve" columnid="RESERVE_DATE"/>
+      <BindItem id="item3" compid="edtReserveNum" propid="value" datasetid="dsReserve" columnid="RESERVE_NUM"/>
+    </Bind>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Owner
+*	@FileName ark5022fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/17
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/17		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.btnReserveClose_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var arrRtn = [];
+	arrRtn[0] = this.edtReserveNum.value;
+	arrRtn[1] = this.cmbReserveHour.value + " : " + this.cmbReserveMin.value;
+	arrRtn[2] = this.calReserve.value;
+	
+	this.parent.parent.popupCalender.closePopup(arrRtn);
+};
+
+this.Button_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	if(this.edtReserveNum.text == "0"){
+		this.edtReserveNum.value = 0;
+	}
+	var CurVal = this.edtReserveNum.value;
+	if(CurVal > 0){
+		if(obj.id == "btnReserveNumMinus"){
+			this.edtReserveNum.set_value(parseInt(CurVal) - 1);
+		}else{
+			this.edtReserveNum.set_value(parseInt(CurVal) + 1);
+		}
+	}else if(CurVal == 0){
+		if(obj.id == "btnReserveNumPlus"){
+			this.edtReserveNum.set_value(parseInt(CurVal) + 1);
+		}
+	}
+};
+
+
+this.ark5022fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.edtReserveNum.set_text("0");
+};
+]]></Script>
+  </Form>
+</FDL>

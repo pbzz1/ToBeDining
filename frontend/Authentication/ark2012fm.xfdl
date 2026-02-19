@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark2012fm" width="600" height="600" titletext="아이디 찾기 성공" onload="ark2012fm_onload">
+    <Layouts>
+      <Layout height="600" width="600">
+        <Static id="Static00" taborder="1" text="Static00" left="0" top="0" width="50%" height="50%" visible="false"/>
+        <ImageViewer id="imgCheck" taborder="0" left="Static00:-20%" top="Static00:-43.33%" width="120" height="100" cssclass="img_chk_regStore"/>
+        <Static id="staResult" taborder="2" text="아이디 찾기 결과" left="Static00:-100%" top="Static00:6.67%" width="100.00%" height="130" textAlign="center" cssclass="staDocument" font="bold 14pt/normal &quot;Sans Serif Collection&quot;"/>
+        <Button id="btnEnter" taborder="3" text="바로 로그인 하기" height="50" top="Static00:78.34%" border="1px solid" borderRadius="30px" cssclass="btnPopup" left="30%" right="30%" onclick="btnEnter_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Authentication
+*	@FileName ark2012fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/13
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/13		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+var objApp =nexacro.getApplication();
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark2012fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	trace(objApp.sFindedID);
+		if(objApp.sFindedID == undefined || objApp.sFindedID == "objApp.sFindedID"){
+		this.staResult.set_text("회원님의 ID는\n " + objApp.sFindedID);
+		this.staResult.set_textAlign("center");
+		this.staResult.set_font("bold 14pt/normal 'Sans Serif Collection'")
+	}
+};
+
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+this.btnEnter_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var rtn = objApp.sFindedID;
+	this.close(rtn);
+};
+]]></Script>
+  </Form>
+</FDL>

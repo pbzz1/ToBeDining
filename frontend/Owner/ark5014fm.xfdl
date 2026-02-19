@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark5014fm" width="700" height="550" titletext="업종목록팝업" onload="ark5014fm_onload">
+    <Layouts>
+      <Layout height="550" width="700">
+        <Static id="staStoreIndustryTitle" taborder="0" text="업종 선택" left="10" top="10" height="50" right="10" textAlign="center" border="0px none,0px none,1px solid black"/>
+        <Grid id="grdCategory" taborder="3" left="20" top="staStoreIndustryTitle:15" height="400" right="50%" autofittype="col" binddataset="dsCategory" oncellclick="grdCategory_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="CATEGORY"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CATEGORY"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnCancel" taborder="1" text="취소" left="20" top="grdCategory:25" height="40" right="50%" cssclass="btnPopup"/>
+        <Grid id="grdSubCategory" taborder="4" left="grdCategory:0" top="staStoreIndustryTitle:15" height="400" right="20" binddataset="dsSubCategory" autofittype="col">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="24" band="head"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="SUB_CATEGORY"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:SUB_CATEGORY"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btnSelect" taborder="2" text="선택 완료" height="40" top="btnCancel:-40" left="btnCancel:0" right="20" onclick="btnSelect_onclick" cssclass="btnPopup"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Owner
+*	@FileName ark5014fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/03
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/03		김태훈		최초 생성
+*	
+*
+*//**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+ var objApp = nexacro.getApplication();
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark5014fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	objApp.gdsDStoreIndustry.filter("MENU_LEVEL == '0'");
+	this.dsCategory.copyData(objApp.gdsDStoreIndustry, true);
+	objApp.gdsDStoreIndustry.filter("");
+};
+
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.grdCategory_oncellclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+    var selectedMenuId = this.dsCategory.getColumn(e.row, "MENU_ID"); // 선택된 상위 카테고리 ID
+    var objApp = nexacro.getApplication();
+
+    // 1. dsSubCategory 초기화
+    this.dsSubCategory.clearData();
+
+    // 2. 선택된 상위 카테고리에 속하는 하위 카테고리를 필터링하여 dsSubCategory에 저장
+    objApp.gdsDStoreIndustry.filter("MENU_PID == '" + selectedMenuId + "'");
+    this.dsSubCategory.copyData(objApp.gdsDStoreIndustry, true);
+
+    // 3. 필터 해제
+    objApp.gdsDStoreIndustry.filter("");
+};
+
+this.btnSelect_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var row = this.grdCategory.getSelectedRows();  // 현재 선택된 행(Row) 가져오기
+	var sRtn = this.dsCategory.getColumn(row, "CATEGORY");  // 특정 컬럼 값 가져오기
+
+	var row2 = this.grdSubCategory.getSelectedRows();  // 현재 선택된 행(Row) 가져오기
+	sRtn += ":" + this.dsSubCategory.getColumn(row2, "SUB_CATEGORY");
+	
+	this.close(sRtn);
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsCategory">
+        <ColumnInfo>
+          <Column id="MENU_ID" type="STRING" size="256"/>
+          <Column id="MENU_PID" type="STRING" size="256"/>
+          <Column id="MENU_LEVEL" type="INT" size="256"/>
+          <Column id="CATEGORY" type="STRING" size="256"/>
+          <Column id="SUB_CATEGORY" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSubCategory">
+        <ColumnInfo>
+          <Column id="MENU_ID" type="STRING" size="256"/>
+          <Column id="MENU_PID" type="STRING" size="256"/>
+          <Column id="MENU_LEVEL" type="INT" size="256"/>
+          <Column id="CATEGORY" type="STRING" size="256"/>
+          <Column id="SUB_CATEGORY" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

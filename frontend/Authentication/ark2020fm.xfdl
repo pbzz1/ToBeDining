@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark2020fm" width="1440" height="610" titletext="회원가입" onload="ark2020fm_onload">
+    <Layouts>
+      <Layout height="610" width="1440" stepcount="0">
+        <Static id="staCenter" taborder="2" text="Static00" left="0" top="0" width="50%" height="50%" visible="false"/>
+        <Div id="Div00" taborder="0" text="Div00" left="staCenter:-576" top="staCenter:-305" width="1152" height="610" background="#d6edbe">
+          <Layouts>
+            <Layout>
+              <Static id="edt_id" taborder="0" text="아이디*" left="145" top="50" width="120" height="35" font="bold 10pt/normal &quot;Sans Serif Collection&quot;"/>
+              <Static id="Static00_00" taborder="1" text="비밀번호*" left="145" top="edt_id:15" width="120" height="35" font="bold 10pt/normal &quot;Sans Serif Collection&quot;"/>
+              <Static id="Static00_01" taborder="2" text="성명*" left="145" top="Static00_00:15" width="120" height="35" font="bold 10pt/normal &quot;Sans Serif Collection&quot;"/>
+              <Static id="Static00_02" taborder="3" text="생년월일" left="145" top="Static00_01:15" width="120" height="35"/>
+              <Static id="Static01" taborder="24" text="회원 유형" left="145" top="Static00_02:15" width="120" height="35"/>
+              <Static id="Static00_03" taborder="4" text="성별" left="145" top="Static01:15" width="120" height="35"/>
+              <Static id="Static00_04" taborder="5" text="이메일" left="145" top="Static00_03:15" width="120" height="35"/>
+              <Static id="Static00_05" taborder="6" text="휴대폰" left="145" top="Static00_04:15" width="120" height="35"/>
+              <Static id="Static00_06" taborder="7" text="주소" left="145" top="450" width="120" height="35"/>
+              <Edit id="edtUserId" taborder="8" left="edt_id:0" top="50" width="188" height="35"/>
+              <Edit id="edtUserPw" taborder="9" left="Static00_00:0" top="100" width="188" height="35" password="true"/>
+              <Edit id="edtUserName" taborder="10" left="Static00_01:0" top="150" width="188" height="35"/>
+              <Calendar id="calUserBirth" taborder="11" left="Static00_02:0" top="200" width="188" height="35"/>
+              <Radio id="rdoUserGender" taborder="12" left="Static00_03:0" top="300" width="205" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" columncount="3" onitemchanged="Div00_rdoUserGender_onitemchanged">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">male</Col>
+                      <Col id="datacolumn">male</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">female</Col>
+                      <Col id="datacolumn">female</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">etc</Col>
+                      <Col id="datacolumn">etc</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Edit id="edtUserEmail" taborder="13" left="Static00_04:0" top="350" width="205" height="35"/>
+              <Static id="Static00" taborder="14" text="@" left="edtUserEmail:10" top="350" width="32" height="35" textAlign="center" verticalAlign="middle" font="bold 12pt/normal &quot;Sans Serif Collection&quot;"/>
+              <Combo id="cmbUserEmail" taborder="15" text="naver.com" left="Static00:30" top="350" width="187" height="35" value="" index="-1" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">daum.net</Col>
+                      <Col id="datacolumn">daum.net</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">naver.com</Col>
+                      <Col id="datacolumn">naver.com</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">gmail.com</Col>
+                      <Col id="datacolumn">gmail.com</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <MaskEdit id="mskUserPhone" taborder="16" left="Static00_05:0" top="400" width="150" height="35" format="###-####-####" type="string"/>
+              <Edit id="edtAddrMain" taborder="17" left="265" top="450" width="166" height="35" readonly="true"/>
+              <Button id="Button00" taborder="18" left="447" top="450" width="49" height="35" onclick="Div00_Button00_onclick" cssclass="btn_TF_search"/>
+              <Edit id="edtAddrPost" taborder="19" left="512" top="450" width="207" height="35" readonly="true"/>
+              <Edit id="edtAddrDetail" taborder="20" left="743" top="450" width="206" height="35"/>
+              <Button id="btnSave" taborder="21" text="제출 완료" left="521" top="520" width="110" height="40" onclick="Div00_btnSave_onclick"/>
+              <Button id="btnChkEmail" taborder="22" text="이메일 입력" left="cmbUserEmail:10" top="350" width="82" height="35" onclick="Div00_btnChkEmail_onclick"/>
+              <Radio id="rdoUserRole" taborder="23" top="250" width="205" height="35" innerdataset="innerdataset" codecolumn="codecolumn" datacolumn="datacolumn" columncount="2" left="Static01:0">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">Owner</Col>
+                      <Col id="datacolumn">Owner</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">Customer</Col>
+                      <Col id="datacolumn">Customer</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <ImageViewer id="imgProfile" taborder="25" top="50" width="300" height="286" stretch="fit" onclick="Div00_imgProfile_onclick" left="btnChkEmail:21"/>
+              <Button id="btnUpload" taborder="26" text="프로필 이미지 업로드" left="btnChkEmail:89" top="350" width="164" height="35" onclick="Div00_btnUpload_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <WebBrowser id="webPost" taborder="1" left="70" top="118" width="100" height="100" onusernotify="webPost_onusernotify" visible="false"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsDMember">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_PW" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_BIRTH" type="STRING" size="256"/>
+          <Column id="USER_ROLE" type="STRING" size="256"/>
+          <Column id="USER_EMAIL" type="STRING" size="256"/>
+          <Column id="USER_PHONE" type="STRING" size="256"/>
+          <Column id="ADDR_MAIN" type="STRING" size="256"/>
+          <Column id="ADDR_DETAIL" type="STRING" size="256"/>
+          <Column id="ADDR_POST" type="STRING" size="256"/>
+          <Column id="USER_GENDER" type="STRING" size="256"/>
+          <Column id="USER_PROFILE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_result">
+        <ColumnInfo>
+          <Column id="FILE_NAME" type="string" size="32"/>
+          <Column id="FILE_TYPE" type="string" size="32"/>
+          <Column id="FILE_SIZE" type="bigdecimal" size="8"/>
+        </ColumnInfo>
+      </Dataset>
+      <FileUpTransfer id="FileUpTransferProfile" onsuccess="FileUpTransferProfile_onsuccess"/>
+      <FileDialog id="FileDialogProfile" onclose="FileDialogProfile_onclose"/>
+      <Dataset id="dsFile">
+        <ColumnInfo>
+          <Column id="file_id" type="STRING" size="256"/>
+          <Column id="file_name" type="STRING" size="256"/>
+          <Column id="file_size" type="STRING" size="256"/>
+          <Column id="file_type" type="STRING" size="256"/>
+          <Column id="chk" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*	회원가입
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Authentication
+*	@FileName ark2020fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/01/16
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/01/16		김태훈		최초 생성
+*	
+*
+*//**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+this.uploadPath = "/upload";	//upload folder name
+this.objApp =nexacro.getApplication();
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark2020fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.gfnFormOnLoad(this);
+	this.dsDMember.addRow();
+};
+
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+this.fn_CallBack = function(id, nErrCode, sErrMsg){
+	if(nErrCode<0){
+		//this.alert("error:" +sErrMsg);
+		this.gfnAlert("msg.server.error");	
+	}
+	else if (nErrCode == 0) {
+		switch(id) {
+		case "save":
+			this.gfnAlert("msg.save.success");	
+			this.gfnAlert("msg.login", "C", "ToBeLogin","fnCallbackLogin");	
+			break;
+		default:
+		}
+	}
+}
+this.fnCallbackLogin = function ()
+{
+	if("ToBeLogin" == true){
+		this.objApp.my_ContentFrame.set_formurl("Authentication::ark2010fm.xfdl");
+	}else{
+		this.objApp.my_ContentFrame.set_formurl("HomeFrame::Frm_ContentFrame.xfdl");
+	}
+};
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+this.fnUploadImage = function()
+{
+	this.FileUpTransferProfile.setPostData("profile", "profile");
+	this.FileUpTransferProfile.setPostData("userPath", "nexa_edu\\profile_image");
+	this.FileUpTransferProfile.upload("SvcUrl::edu/uploadFile.do");
+}
+
+this.fnSaveMember = function ()
+{
+	// 회원정보 내보내기
+    var sSvcID    = "save";
+    var sURL      = "SvcUrl::edu/saveMember.do";
+    var sInDs     = "dsMember=dsDMember:U";
+    var sOutDs    = "";
+    var sParam    = "";
+    var sCallBack = "fn_CallBack";
+	this.transaction(sSvcID, sURL, sInDs, sOutDs, sParam, sCallBack);
+};
+
+this.fn_chkVal= function ()
+{
+	this.gfnClearValidation(this.dsDMember);
+	var val1 = this.gfnSetValidation(this.dsDMember, "USER_ID", "아이디", "required,minlength:3");
+	var val2 = this.gfnSetValidation(this.dsDMember, "USER_PW", "비밀번호", "required");
+	var val3 = this.gfnSetValidation(this.dsDMember, "USER_NAME", "이름", "required");
+	trace(val1 +  val2 + val3);
+	// 수정된 Row가 아닌 전체 Row에 대해 Validation check
+ 	if (this.gfnValidation(this.dsDMember, "A") == false) return false;
+};
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+this.Div00_btnChkEmail_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sEmail = this.Div00.form.edtUserEmail.value+ "@" + this.Div00.form.cmbUserEmail.value;
+	this.dsDMember.setColumn(this.dsDMember.rowposition, "USER_EMAIL", sEmail);
+};
+
+this.Div00_Button00_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.gfnPostSearchDaum(this.webPost);
+};
+
+this.Div00_btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var sReturnedVal = this.fn_chkVal();
+	if( sReturnedVal != false){
+		//이미지 업로드
+		if(this.FileUpTransferProfile.filelist.length > 0){
+			this.fnUploadImage();
+		}else{
+			this.fnSaveMember();
+		}
+	}
+};
+
+this.Div00_btnUpload_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.FileDialogProfile.open("파일 선택", FileDialog.LOAD, "%MYDOCUMENT%");
+};
+
+this.FileDialogProfile_onclose = function(obj:nexacro.FileDialog,e:nexacro.FileDialogEventInfo)
+{
+	this.FileUpTransferProfile.clearFileList();
+	var sProfile = e.virtualfiles[0].filename;
+	this.FileUpTransferProfile.addFile(sProfile, e.virtualfiles[0]);
+	
+	if(nexacro._Browser=="Runtime"){
+		this.Div00.form.imgProfile.set_image("URL('file://"+e.virtualfiles[0].fullpath+"')");
+		this.dsDMember.setColumn(this.dsDMember.rowposition,"USER_PROFILE",sProfile);
+	}
+	else{
+		if( /\.(jpe?g|png|gif)$/i.test(e.virtualfiles[0].filename) ){
+			var reader = new FileReader();
+			reader.targetForm = this;
+			reader.addEventListener("load", function () 
+			{
+				this.targetForm.Div00.form.imgProfile.set_image(this.result);
+				this.dsDMember.setColumn(this.dsDMember.rowposition,"USER_PROFILE",sProfile);
+			}, false);
+			reader.readAsDataURL(e.virtualfiles[0]._handle);
+		}  
+	}
+};
+
+
+this.webPost_onusernotify = function(obj:nexacro.WebBrowser,e:nexacro.WebUserNotifyEventInfo)
+{
+	var strPost = e.userdata;
+	trace("strPost ==> " + strPost);
+	// e.userdata==>OK!!!:::서울특별시 송파구 백제고분로36가길 9, 101 (석촌동, 스카이타워):::서울특별시 송파구 백제고분로36가길 9:::(석촌동, 스카이타워):::9, Baekjegobun-ro 36ga-gil, Songpa-gu, Seoul:::서울특별시 송파구 석촌동 58-33 스카이타워:::05614:::101
+	if (strPost.indexOf("OK!!!:::") == 0) 
+	{
+		/*
+		 //e.userdata ==>(식별자 ::: 구우편번호 앞 3자리 ::: 구우편번호 뒷 3자리 :::  신규우편번호 ::: 도로명주소 ::: 지번 주소 ::: 조합형 주소여부에 따른 주소)
+		 */
+		var aAddr = strPost.split(":::");
+		
+		trace("onusernotify -------------------------------------------");
+		trace("array[1]=>구우편번호 앞 3자리          ==> " +	aAddr[1] );
+		trace("array[2]=>구우편번호 뒷 3자리          ==> " +	aAddr[2] );
+		trace("array[3]=>신규우편번호                  ==> " + aAddr[3] );
+		trace("array[4]=>도로명주소                    ==> " +	aAddr[4] );
+		trace("array[5]=>지번주소                      ==> " +	aAddr[5] );
+		trace("array[6]=>조합형 주소여부에 따른 주소	==> " +	aAddr[6] );
+		trace("-------------------------------------------------------");
+
+		this.Div00.form.edtAddrMain.set_value(aAddr[3]);	// 신규 우편번호
+		this.Div00.form.edtAddrPost.set_value(aAddr[6]);	// 조합형 주소여부에 따른 주소
+	}		
+};
+
+this.FileUpTransferProfile_onsuccess = function(obj:nexacro.FileUpTransfer,e:nexacro.FileUpTransferEventInfo)
+{
+	var uploadedFile = e.datasets[0].getColumn(0, "file_id"); // 서버에서 반환한 파일명
+	trace(uploadedFile);
+    this.dsDMember.setColumn(0, "USER_PROFILE", uploadedFile); // USER_PROFILE 컬럼에 파일명 저장
+    this.fnSaveMember();
+};
+
+
+]]></Script>
+    <Bind>
+      <BindItem id="item0" compid="Div00.form.edtUserId" propid="value" datasetid="dsDMember" columnid="USER_ID"/>
+      <BindItem id="item1" compid="Div00.form.edtUserPw" propid="value" datasetid="dsDMember" columnid="USER_PW"/>
+      <BindItem id="item2" compid="Div00.form.edtUserName" propid="value" datasetid="dsDMember" columnid="USER_NAME"/>
+      <BindItem id="item3" compid="Div00.form.calUserBirth" propid="value" datasetid="dsDMember" columnid="USER_BIRTH"/>
+      <BindItem id="item4" compid="Div00.form.rdoUserRole" propid="value" datasetid="dsDMember" columnid="USER_ROLE"/>
+      <BindItem id="item5" compid="Div00.form.rdoUserGender" propid="value" datasetid="dsDMember" columnid="USER_GENDER"/>
+      <BindItem id="item6" compid="Div00.form.mskUserPhone" propid="value" datasetid="dsDMember" columnid="USER_PHONE"/>
+      <BindItem id="item7" compid="Div00.form.edtAddrMain" propid="value" datasetid="dsDMember" columnid="ADDR_MAIN"/>
+      <BindItem id="item8" compid="Div00.form.edtAddrPost" propid="value" datasetid="dsDMember" columnid="ADDR_POST"/>
+      <BindItem id="item9" compid="Div00.form.edtAddrDetail" propid="value" datasetid="dsDMember" columnid="ADDR_DETAIL"/>
+      <BindItem id="item10" compid="Div00.form.imgProfile" propid="image" datasetid="dsDMember" columnid="USER_PROFILE"/>
+    </Bind>
+  </Form>
+</FDL>

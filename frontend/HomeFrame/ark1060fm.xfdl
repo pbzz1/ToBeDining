@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark1060fm" width="1280" height="720" titletext="공지사항" background="#d6edbe" onload="ark1060fm_onload">
+    <Layouts>
+      <Layout height="720" width="1280">
+        <Static id="Static00" taborder="2" text="Static00" left="0" top="0" width="50.00%" height="50.00%" visible="false" onclick="Static00_onclick"/>
+        <Static id="staTitle" taborder="0" text="공지사항" left="Static00:-580" top="Static00:-313" width="330" font="bold 16pt/normal &quot;Sans Serif Collection&quot;" height="40" verticalAlign="bottom"/>
+        <Static id="staSubTitle" taborder="1" text="관리자가 게시한 공지를 확인 할 수 있습니다." left="staTitle:-327" top="staTitle:0" width="1047" height="50" font="bold 12pt/normal &quot;Sans Serif Collection&quot;"/>
+        <ListView id="listViewStore" taborder="3" left="Static00:-577" top="Static00:-223" width="1155" height="440" binddataset="dsNotice" background="white" bandexpandtype="accordion">
+          <Formats>
+            <Format id="default">
+              <Band id="body" width="100%" height="48" expandbartype="true">
+                <Cell id="Cell01" left="5" top="12" width="85" height="28" text="bind:NOTICE_ID" textAlign="center"/>
+                <Cell id="Cell03" left="90" top="9" width="310" height="30" text="bind:NOTICE_TITLE"/>
+                <Cell id="Cell07" left="950" top="12" width="180" height="24" text="bind:NOTICE_CREATED_AT"/>
+              </Band>
+              <Band id="detail" width="100%" height="90">
+                <Cell id="Cell00" left="10" top="10" right="10" bottom="10" wordWrap="char" text="bind:NOTICE_EXPLAIN"/>
+              </Band>
+            </Format>
+          </Formats>
+        </ListView>
+        <Button id="btnPost" taborder="4" text="글 게시하기" left="Static00:470" width="108" bottom="listViewStore:0" font="bold 12pt/normal &quot;Arial&quot;" onclick="btnPost_onclick" height="32"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\HomeFrame
+*	@FileName ark1060fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/01/22
+*	@Desction 공지사항
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/01/22		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+var objApp = nexacro.getApplication();
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark1060fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	if(objApp.sNowUserRole == "Admin"){
+		this.btnPost.set_visible(true);
+	}else{
+		this.btnPost.set_visible(false);
+	}
+	this.fnGetNotice();
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+this.fnGetNotice = function ()
+{
+	// 회원정보 내보내기
+    var sSvcID    = "getNotice";
+    var sURL      = "SvcUrl::ark/getNotice.do";
+    var sInDs     = "";
+    var sOutDs    = "dsNotice=dsNotice";
+    var sParam    = "";
+    var sCallBack = "fn_CallBack";
+	this.transaction(sSvcID, sURL, sInDs, sOutDs, sParam, sCallBack);
+};
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+this.fn_popupCallback = function (id, rtn)
+{
+	if(!this.gfnIsNull(rtn)){
+			if(id == "noticePopup"){
+				trace("noticePopup");
+				this.fnGetNotice();
+			}
+	}
+};
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+this.btnPost_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var CF = new ChildFrame();
+	var strName = "noticePopup"
+	var nLeft = 0;
+	var nTop = 0;
+	var nWidth = 600;
+	var nHeight = 450;
+	var nRight = null;
+	var nBottom = null;
+	var strUrl = "HomeFrame::ark1061fm.xfdl";
+	
+	var objParam = {};
+	//param1:this.dsDStore.getColumn(0,"STORE_ID")
+	CF.init(strName,nLeft,nTop,nWidth,nHeight,nRight,nBottom,strUrl);
+	CF.set_openalign("center middle");
+	CF.showModal(this.getOwnerFrame(), objParam, this, "fn_popupCallback"); 	
+};
+
+
+]]></Script>
+    <Objects>
+      <Dataset id="dsNotice">
+        <ColumnInfo>
+          <Column id="NOTICE_ID" type="INT" size="256"/>
+          <Column id="NOTICE_TITLE" type="STRING" size="256"/>
+          <Column id="NOTICE_EXPLAIN" type="STRING" size="256"/>
+          <Column id="NOTICE_CREATED_AT" type="DATETIME" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

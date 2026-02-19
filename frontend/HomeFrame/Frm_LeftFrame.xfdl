@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Frm_LeftFrame" width="280" height="710" titletext="LeftFrame" background="#9fd71d" canstepchange="Frm_LeftFrame_canstepchange" onload="Frm_LeftFrame_onload">
+    <Layouts>
+      <Layout height="710" width="280">
+        <Grid id="gridMenu" taborder="0" left="10" top="10" width="260" binddataset="gdsDMenu" autofittype="col" oncelldblclick="gridMenu_oncelldblclick" cssclass="gridLeftMenu" bottom="10">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row size="40"/>
+              </Rows>
+              <Band id="body">
+                <Cell text="bind:MENU_NAME"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\HomeFrame
+*	@FileName Frm_LeftFrame.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/01/26
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/01/26		김태훈		최초 생성
+*	
+*
+*//**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+var objApp = nexacro.getApplication();
+var topFrameForm = nexacro.getApplication().my_TopFrame.form;
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.gridMenu_oncelldblclick = function(obj:nexacro.Grid,e:nexacro.GridClickEventInfo)
+{
+	//화면 이동
+	var objDs = this.gridMenu.getBindDataset();
+	var sMenuId = objDs.getColumn(e.row, "MENU_ID");
+	var sMenuUrl = objDs.getColumn(e.row, "FORM_URL");
+	var sUserRole = objDs.getColumn(e.row, "USER_ROLE");
+	
+	//로그인 버튼 보이게 수정
+	topFrameForm.btnLogin.set_visible(true);
+	
+	//화면 선명도 조정
+	objApp.my_ContentFrame.set_opacity("100%");
+	
+	//프레임 크기 조정
+	objApp.my_VFrameSet1.set_separatesize("0,*");
+	objApp.my_HFrameSet.set_separatesize("0, *");
+	objApp.my_ContentFrame.set_formurl(sMenuUrl);
+};
+
+]]></Script>
+  </Form>
+</FDL>

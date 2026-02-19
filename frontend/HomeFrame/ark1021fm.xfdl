@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark1021fm" width="392" height="210" titletext="홈로그인프로필">
+    <Layouts>
+      <Layout height="210" width="392">
+        <ListView id="listViewProfile" taborder="0" left="0" top="0" right="0" bottom="0" binddataset="gdsDMember" oncellclick="listViewProfile_oncellclick">
+          <Formats>
+            <Format id="default">
+              <Band id="body" width="100%" height="100%">
+                <Cell id="Cell00" left="20" top="20" width="120" height="120" text="bind:USER_PROFILE" displaytype="imagecontrol" edittype="button" imagestretch="fit"/>
+                <Cell id="Cell05" left="Cell00:10" top="20" width="100" height="35" text="expr:USER_NAME + &quot;님&quot;" font="bold 16pt/normal &quot;Arial&quot;" verticalAlign="top"/>
+                <Cell id="Cell11" left="Cell00:10" top="Cell05:0" height="25" text="bind:USER_EMAIL" right="20" font="8pt/normal &quot;Arial&quot;"/>
+                <Cell id="Cell09" left="Cell00:10" top="Cell11:0" height="25" text="bind:USER_ROLE" right="20" verticalAlign="bottom"/>
+                <Cell id="Cell01" top="20" width="70" height="33" displaytype="buttoncontrol" edittype="button" text="로그아웃" right="20" background="transparent" color="#606060"/>
+                <Cell id="Cell02" left="20" top="Cell00:0" height="42" text="오늘은 어떤 맛집으로 여행을 떠나 볼까요?" right="0" font="12pt/normal &quot;Arial&quot;"/>
+              </Band>
+            </Format>
+          </Formats>
+        </ListView>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsProfile"/>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\HomeFrame
+*	@FileName ark1021fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/21
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/21		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+var topFrameForm = nexacro.getApplication().my_TopFrame.form;
+this.objApp = nexacro.getApplication();
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.listViewProfile_oncellclick = function(obj:nexacro.ListView,e:nexacro.ListViewClickEventInfo)
+{
+	switch(e.cellid) {
+	case "Cell00":
+		this.objApp.my_ContentFrame.set_formurl("Authentication::ark2030fm.xfdl");
+		break;
+	case "Cell01":
+		this.objApp.gdsDMember.clear();
+		//this.btnAdmin.set_visible("false");
+		topFrameForm.btnProfile.set_visible(false);
+		topFrameForm.btnLogin.set_text("로그인");
+		topFrameForm.staTopUserName.set_visible(false);
+		this.objApp.gdsDMenu.filter("USER_ROLE=='Guest'");
+		this.parent.set_url("HomeFrame::ark1020fm.xfdl");
+		this.objApp.my_ContentFrame.set_formurl("HomeFrame::Frm_ContentFrame.xfdl");
+		break;
+	default:
+	}
+};
+]]></Script>
+  </Form>
+</FDL>

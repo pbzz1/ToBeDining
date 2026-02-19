@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark1012fm" width="750" height="205" titletext="홈배너" onload="ark1012fm_onload" ontimer="ark1012fm_ontimer" background="#d6edbe">
+    <Layouts>
+      <Layout height="205" width="750" stepcount="14">
+        <Static id="staCenter" taborder="0" left="0" top="0" width="50%" height="50%" visible="false" positionstep="-1"/>
+        <ImageViewer id="ImageViewer00" taborder="1" left="0" top="0" width="750" positionstep="-1" bottom="0"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\HomeFrame
+*	@FileName ark1012fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/20
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/20		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+this.fvStep = 0;
+this.elapseTime = 2000;
+var objApp = nexacro.getApplication();
+var sBannerImagePath = objApp.sMyImagePath + "homeBanner/"; //C:/EduPack/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/edupack_egov/upload_file/nexa_edu/homeBanner/
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark1012fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.stepselector.set_visible(false);
+	this.set_stepshowtype("action");
+	
+	this.setTimer(0, this.elapseTime);	
+	//this.sHomeBannerURL ="http://172.10.14.134:8088/edupack_egov/upload_file/nexa_edu/homeBanner/banner0.jpg"
+	var sImageName = sBannerImagePath + "banner0.jpg";
+	this.sHomeBannerURL ="URL('file://"+sImageName+"')"
+	trace(this.sHomeBannerURL);
+	this.ImageViewer00.set_image(this.sHomeBannerURL);
+	//trace("b");
+};
+this.ark1012fm_ontimer = function(obj:nexacro.Form,e:nexacro.TimerEventInfo)
+{
+	//trace("a");
+	//trace("e.timerid->>"+e.timerid);
+	if (e.timerid == 0)
+	{
+		if (this.fvStep == this.getStepCount()) {
+			this.fvStep = 0;
+			//this.sHomeBannerURL ="URL(file://C:/EduPack/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/edupack_egov/upload_file/nexa_edu/homeBanner/banner0.jpg)"
+			//this.imgHomebanner.set_image("URL('"+this.sHomeBannerURL+"')");
+			this.ImageViewer00.set_image(this.sHomeBannerURL);
+	
+		}
+		else {
+			this.stepselector.set_stepindex(++this.fvStep);
+			var sImageName = sBannerImagePath + "/Mybanner"+this.fvStep+".jpg";
+			this.sHomeBannerURL ="URL('file://"+sImageName+"')"
+			//this.sHomeBannerURL ="URL(file://C:/EduPack/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/edupack_egov/upload_file/nexa_edu/homeBanner/Mybanner"+this.fvStep+".jpg)";
+			this.ImageViewer00.set_image(this.sHomeBannerURL);
+		}
+	} 
+
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+]]></Script>
+  </Form>
+</FDL>

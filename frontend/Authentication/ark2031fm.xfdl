@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark2031fm" width="1152" height="610" titletext="나의 가게 예약 확인" background="#d6edbe" onload="ark2031fm_onload">
+    <Layouts>
+      <Layout height="610" width="1152" stepcount="0">
+        <ListView id="listReserve" taborder="0" left="0" top="0" right="0" binddataset="dsReserve" bottom="80" oncellclick="listReserve_oncellclick" border="1px solid black">
+          <Formats>
+            <Format id="default">
+              <Band id="body" width="100%" height="110">
+                <Cell id="cellProfile" left="10" top="10" width="90" height="90" text="expr:&quot;URL('http://172.10.14.134:8088/edupack_egov/upload_file/nexa_edu/profile_image/&quot;+USER_PROFILE+&quot;')&quot;" displaytype="imagecontrol" imagestretch="fit"/>
+                <Cell id="Cell04" left="cellProfile:10" top="83" width="120" height="24" text="예약 시간"/>
+                <Cell id="Cell05" left="Cell04:5" top="83" width="180" height="24" text="bind:RESERVE_TIME"/>
+                <Cell id="Cell06" left="cellProfile:10" top="33" width="120" height="24" text="인원 수"/>
+                <Cell id="Cell07" left="Cell06:5" top="33" width="180" height="24" text="bind:RESERVE_NUM"/>
+                <Cell id="Cell12" left="cellProfile:10" top="8" width="120" height="24" text="예약자 성함"/>
+                <Cell id="Cell13" left="Cell12:5" top="8" width="180" height="24" text="bind:USER_NAME"/>
+                <Cell id="Cell18" left="cellProfile:10" top="58" width="120" height="24" text="예약 날짜"/>
+                <Cell id="Cell19" left="Cell18:5" top="58" width="180" height="24" text="expr:RESERVE_DATE.substr(0, 4) + &quot;/&quot; + RESERVE_DATE.substr(4, 2)  + &quot;/&quot; + RESERVE_DATE.substr(6, 2) "/>
+                <Cell id="cellAccept" top="10" width="80" right="0" text="승인" displaytype="buttoncontrol" height="40" background="#d6ecba" borderRadius="5px"/>
+                <Cell id="cellRefuse" top="cellAccept:10" width="80" right="0" text="거절" displaytype="buttoncontrol" height="40" borderRadius="5px"/>
+              </Band>
+            </Format>
+          </Formats>
+        </ListView>
+        <Button id="Button00" taborder="3" text="Button00" left="45.66%" top="89.83%" width="100" height="50" visible="false"/>
+        <Button id="btnSave" taborder="2" text="저장" left="Button00:100" height="40" bottom="10" onclick="btnSave_onclick" width="100" background="#98d25a" font="bold 10pt/normal &quot;Arial&quot;"/>
+        <Button id="btnRevert" taborder="1" text="되돌리기" bottom="10" height="40" right="Button00:100" onclick="btnRevert_onclick" width="100" background="#98d25a" font="bold 10pt/normal &quot;Arial&quot;"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\Authentication
+*	@FileName ark2031fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/18
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/18		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+var objApp = nexacro.getApplication();
+var curUser = objApp.sNowUserRole;
+var param1 = objApp.sNowUserID;
+var sStoreId = ""
+
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark2031fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.fn_get_store();
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+this.fn_get_store = function ()
+{
+	var userId = param1;
+	// 트랜잭션 호출
+    var strSvcId = "arkGetProfileStoreID";
+    var strSvcUrl = "ark/GetProfileStoreID.do";
+    var inData = ""; 
+    var outData = "dsDStore=out_data"; 
+    var strArg = "USER_ID=" + nexacro.wrapQuote(userId);
+    var fnCallback = "fnCallback";
+	
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback); 
+};
+this.fn_get_reserve = function (sStoreId)
+{
+	sStoreId = this.dsDStore.getColumn(0,"STORE_ID");
+	// 트랜잭션 호출
+    var strSvcId = "arkGetReserve";
+    var strSvcUrl = "ark/GetReserve.do";
+    var inData = ""; 
+    var outData = "dsReserve=dsReserve"; 
+    var strArg = "STORE_ID="+ nexacro.wrapQuote(sStoreId);
+    var fnCallback = "fnCallback";
+	
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback); 
+};
+this.fn_callback_saveComplReserve= function ()
+{
+	trace("2");
+	// 트랜잭션 호출
+    var strSvcId = "arksaveComplReserve";
+    var strSvcUrl = "ark/saveComplReserve.do";
+    var inData = "dsComplReserve=dsComplReserve:U dsReserve=dsReserve:U"; 
+    var outData = ""; 
+    var strArg = "STORE_ID=" + nexacro.wrapQuote(sStoreId);
+    var fnCallback = "fnCallback";
+	
+	this.gfnTransaction(strSvcId, strSvcUrl, inData, outData, strArg, fnCallback); 
+};
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+this.fnCallback = function (strSvcId, nErrorCode, strErrorMsg)
+{
+	if(nErrorCode<0){
+			this.gfnAlert("msg.server.error");	
+		}
+	else if (nErrorCode == 0) {
+		//사용자 정보 받아오기
+		if (strSvcId == "arkGetProfileStoreID") {
+			var sStoreId = this.dsDStore.getColumn(0,"STORE_ID");
+			this.fn_get_reserve(sStoreId);
+		}else if(strSvcId == "arkGetReserve"){
+			//for(var i=0; i<this.dsStore.rowcount; i++){
+			//var sCellImage = this.objApp.sMyImagePath +"profile_image/" + this.dsReserve.getColumn(i,"USER_PROFILE");
+			//var sCellImage2 ="URL('"+sCellImage+"')";
+			//this.dsReserve.setColumn(i,"USER_PROFILE",sCellImage2);
+			//}
+		}
+	}
+}
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+
+this.listReserve_oncellclick = function(obj:nexacro.ListView,e:nexacro.ListViewClickEventInfo)
+{
+	switch(e.cellid) {
+	case "cellAccept":
+		this.dsComplReserve.addRow();
+		this.dsComplReserve.copyRow(0,this.dsReserve,e.row);
+		this.dsComplReserve.setColumn(0,"IS_RESERVED","true");
+		this.dsReserve.deleteRow(e.row);
+		break;
+	case "cellRefuse":
+		this.dsReserve.setColumn(e.row,"IS_RESERVED","false");
+		this.dsReserve.deleteRow(e.row);
+		break;
+	default:
+	}
+};
+
+this.btnRevert_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.fn_get_store();
+	this.dsComplReserve.clearData();
+};
+
+this.btnSave_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	var result = this.confirm("저장하시면 되돌리실 수 없습니다. 저장하시겠습니까?", this, "question");
+	if (result) {
+		this.fn_callback_saveComplReserve();
+	}
+};
+]]></Script>
+    <Objects>
+      <Dataset id="dsDStore">
+        <ColumnInfo>
+          <Column id="STORE_NAME" type="STRING" size="60"/>
+          <Column id="STORE_ENG_NAME" type="STRING" size="60"/>
+          <Column id="STORE_PHONE" type="STRING" size="60"/>
+          <Column id="STORE_ADDR_MAIN" type="STRING" size="50"/>
+          <Column id="STORE_ADDR_DETAIL" type="STRING" size="50"/>
+          <Column id="STORE_INDUSTRY" type="STRING" size="50"/>
+          <Column id="STORE_BUISNESS_DAY" type="STRING" size="50"/>
+          <Column id="STORE_BUISNESS_TIME" type="STRING" size="50"/>
+          <Column id="STORE_PHOTO" type="STRING" size="50"/>
+          <Column id="STORE_THEME" type="STRING" size="50"/>
+          <Column id="STORE_EXPLAIN" type="STRING" size="300"/>
+          <Column id="STORE_RATING" type="STRING" size="50"/>
+          <Column id="STORE_REVIEW_COUNT" type="INT"/>
+          <Column id="STORE_CREATED_AT" type="STRING" size="256"/>
+          <Column id="STORE_UPDATED_AT" type="STRING" size="256"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReserve">
+        <ColumnInfo>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="RESERVE_TIME" type="STRING" size="256"/>
+          <Column id="RESERVE_NUM" type="STRING" size="256"/>
+          <Column id="IS_RESERVED" type="STRING" size="256"/>
+          <Column id="RESERVE_TABLE" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_GENDER" type="STRING" size="256"/>
+          <Column id="USER_PROFILE" type="STRING" size="256"/>
+          <Column id="RESERVE_DATE" type="STRING" size="256"/>
+          <Column id="RESERVE_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsComplReserve">
+        <ColumnInfo>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="RESERVE_TIME" type="STRING" size="256"/>
+          <Column id="RESERVE_NUM" type="STRING" size="256"/>
+          <Column id="IS_RESERVED" type="STRING" size="256"/>
+          <Column id="RESERVE_TABLE" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_GENDER" type="STRING" size="256"/>
+          <Column id="USER_PROFILE" type="STRING" size="256"/>
+          <Column id="RESERVE_DATE" type="STRING" size="256"/>
+          <Column id="RESERVE_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

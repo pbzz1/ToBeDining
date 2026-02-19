@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark1050fm" width="1440" height="710" titletext="mapFrame" onload="ark1050fm_onload">
+    <Layouts>
+      <Layout height="710" width="1440" stepcount="0">
+        <ListView id="lsStore" taborder="1" left="0" top="0" width="462" bottom="20" binddataset="dsStore" scrolltype="vertical" scrollbartype="auto auto" oncellclick="lsStore_oncellclick" onbandclick="lsStore_onbandclick" onbanddblclick="lsStore_onbanddblclick" oncelldblclick="lsStore_onbanddblclick">
+          <Formats>
+            <Format id="default">
+              <Band id="detail" width="100%" height="155">
+                <Cell id="cellSPhoto" top="5" height="100" right="5" width="100" displaytype="imagecontrol" text="bind:STORE_REAL_PHOTO" imagestretch="fit" borderRadius="10px"/>
+                <Cell id="cellIndex" left="5" top="5" height="40" text="expr:STORE_INDEX + &quot;. &quot; + STORE_NAME" right="cellSPhoto:0"/>
+                <Cell id="cellPoint" left="cellIndex:0" top="5" width="12" height="40" text="."/>
+                <Cell id="cellSExplain" left="5" right="5" bottom="5" height="40" text="bind:STORE_EXPLAIN" wordWrap="char"/>
+                <Cell id="cellSIndustry" left="5" height="30" right="cellSPhoto:5" text="bind:STORE_INDUSTRY" top="cellIndex:5"/>
+                <Cell id="cellStoreTime" left="5" height="30" text="bind:STORE_BUISNESS_TIME" top="cellSIndustry:0" right="cellSPhoto:5"/>
+              </Band>
+            </Format>
+          </Formats>
+        </ListView>
+        <WebView id="webPostKakao" taborder="0" left="lsStore:0" top="0" bottom="0" right="0" onusernotify="webPostKakao_onusernotify"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\HomeFrame
+*	@FileName ark1050fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/10
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/10		김태훈		최초 생성
+*	
+*
+*//**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+this.objApp = nexacro.getApplication();
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.ark1050fm_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	trace(this.objApp.sSearchKeyword);
+	this.getStore();
+	this.postKakaoMap(this.webPostKakao);
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+this.getStore = function()
+{
+	var sSvcID    = "getStore";
+    var sURL      = "SvcUrl::ark/getStoreSearch.do";
+    var sInDs     = "";
+    var sOutDs    = "dsStore=dsStore";
+    var sParam    = "pSearchKey=" + this.objApp.sSearchKeyword;
+    var sCallBack = "fnCallBack";
+	this.transaction(sSvcID, sURL, sInDs, sOutDs, sParam, sCallBack);
+}
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+this.fnCallBack = function(id, nErrCode, sErrMsg)
+{
+	switch(id) {
+		case "getStore":
+			if(nErrCode<0){
+				this.alert("error:" +sErrMsg);
+				this.trace("error:" +sErrMsg);
+			}
+			else{
+				this.setListViewData();
+				this.dsStore.getColumn(0,"STORE_ADDR_MAIN");
+			}
+			break;
+		default:
+			trace("invalid transaction id");
+	}
+};
+/**************************************************************************
+* 사용자 FUNCTION 영역
+
+**************************************************************************/
+this.setListViewData= function ()
+{
+	this.dsStore.addColumn("STORE_INDEX","string");
+	this.dsStore.addColumn("STORE_REAL_PHOTO","string");
+	for(var i=0; i<this.dsStore.rowcount; i++){
+		var sCellImage = this.objApp.sMyImagePath +"store_photo/" + this.dsStore.getColumn(i,"STORE_PHOTO");
+		var sCellImage2 ="URL('"+sCellImage+"')";
+		this.dsStore.setColumn(i,"STORE_REAL_PHOTO",sCellImage2);
+		this.dsStore.setColumn(i,"STORE_INDEX",i+1);
+	}
+};
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.lsStore_oncellclick = function(obj:nexacro.ListView,e:nexacro.ListViewClickEventInfo)
+{
+	var sAddr = this.dsStore.getColumn(e.row, "STORE_ADDR_MAIN"); // 선택한 음식점 주소 가져오기
+
+    if (!sAddr) {
+        alert("주소 정보가 없습니다.");
+        return;
+    }
+	//WebDaumMa2.html에서 지도에 맵핀 추가 후 식당 위치로 이동, ("moveToStore('"+ sAddr +"')");
+	this.webPostKakao.callScript("moveToStore('"+ sAddr +"')");
+};
+
+this.lsStore_onbandclick = function(obj:nexacro.ListView,e:nexacro.ListViewClickEventInfo)
+{
+	var sAddr = this.dsStore.getColumn(e.row, "STORE_ADDR_MAIN"); // 선택한 음식점 주소 가져오기
+
+    if (!sAddr) {
+        alert("주소 정보가 없습니다.");
+        return;
+    }
+	//WebDaumMa2.html에서 지도에 맵핀 추가 후 식당 위치로 이동, ("moveToStore('"+ sAddr +"')");
+	this.webPostKakao.callScript("moveToStore('"+ sAddr +"')");
+};
+
+this.lsStore_onbanddblclick = function(obj:nexacro.ListView,e:nexacro.ListViewClickEventInfo)
+{
+	this.objApp.sDetailStoreID =this.dsStore.getColumn(this.dsStore.rowposition,"STORE_ID");
+	trace(this.dsStore.getColumn(this.dsStore.rowposition,"STORE_ID"));
+	trace(this.objApp.sDetailStoreID);
+	this.objApp.my_ContentFrame.set_formurl("Owner::ark5020fm.xfdl");
+};
+
+]]></Script>
+    <Objects>
+      <Dataset id="dsStore">
+        <ColumnInfo>
+          <Column id="STORE_NAME" type="STRING" size="256"/>
+          <Column id="STORE_INDUSTRY" type="STRING" size="256"/>
+          <Column id="STORE_EXPLAIN" type="STRING" size="256"/>
+          <Column id="STORE_PHOTO" type="STRING" size="256"/>
+          <Column id="STORE_BUISNESS_TIME" type="STRING" size="256"/>
+          <Column id="STORE_INDEX" type="STRING" size="256"/>
+          <Column id="STORE_REAL_PHOTO" type="STRING" size="256"/>
+          <Column id="STORE_ADDR_MAIN" type="STRING" size="256"/>
+          <Column id="STORE_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+  </Form>
+</FDL>

@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="ark1020fm" width="392" height="210" titletext="홈로그인" background="white">
+    <Layouts>
+      <Layout height="210" width="392">
+        <Static id="Static00" taborder="0" text="투비 다이닝을 더 편리하게 이용하세요" left="0" top="30" height="50" right="0" textAlign="center" color="#101010" font="bold 14pt/normal &quot;Sans Serif Collection&quot;"/>
+        <Button id="BtnLogin" taborder="1" text="ToBe 로그인" left="20" top="Static00:15" height="68" color="white" font="bold 16pt/normal &quot;Arial&quot;" onclick="BtnLogin_onclick" right="20"/>
+        <Button id="btnJoin" taborder="2" text="회원가입" width="52" height="34" background="transparent" color="#756060" right="20" top="BtnLogin:0" textAlign="right" onclick="btnJoin_onclick"/>
+      </Layout>
+    </Layouts>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\HomeFrame
+*	@FileName ark1020fm.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/02/21
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/02/21		김태훈		최초 생성
+*	
+*
+*/
+/**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+var objApp = nexacro.getApplication();
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+
+this.BtnLogin_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	objApp.my_ContentFrame.set_formurl("Authentication::ark2010fm.xfdl");
+};
+
+this.btnJoin_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	objApp.my_ContentFrame.set_formurl("Authentication::ark2020fm.xfdl");
+};
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="2.1">
+  <Form id="Frm_TopFrame" width="1440" height="90" titletext="TopFrmae" onload="Frm_TopFrame_onload" background=" #98d25a">
+    <Layouts>
+      <Layout height="90" mobileorientation="landscape" width="1440">
+        <Button id="btnLogin" taborder="0" top="20" width="74" text="로그인" onclick="btnLogin_onclick" bottom="20" right="22" cssclass="btnHomeNone" visible="false"/>
+        <Static id="Static01" taborder="9" text="Static01" left="0" top="0" width="50%" height="50%" visible="false"/>
+        <Edit id="edtSearch" taborder="1" left="Static01:-34.72%" top="20" width="34.72%" cssclass="edtSearch" bottom="20" borderRadius="10px"/>
+        <Button id="btn_searchIcon" taborder="2" left="edtSearch:-50" top="20" width="50" border="1px none white" cssclass="btn_TF_search" bottom="20" onclick="btn_searchIcon_onclick" hotkey="RETURN"/>
+        <ImageViewer id="imgHomeLogo" taborder="6" left="108" top="0" width="180" cssclass="img_TF_Logo" stretch="fit" bottom="0" onclick="imgHomeLogo_onclick"/>
+        <Button id="btnAdmin" taborder="3" left="Static01:-98.19%" top="0" width="57" onclick="btnAdmin_onclick" visible="false" bottom="0" background="url('imagerc::icon-menu3.png') no-repeat center center" cssclass="btnHomeNone"/>
+        <Button id="btnProfile" taborder="4" text="프로필" top="20" visible="false" bottom="20" left="Static01:72.22%" onclick="btnProfile_onclick" cssclass="btnHomeNone" right="btnLogin:15"/>
+        <Button id="btnStoreRegister" taborder="5" text="가게 등록" top="20" width="74" visible="false" onclick="btnStoreRegister_onclick" bottom="20" left="Static01:57.64%" cssclass="btnHomeNone"/>
+        <Static id="staTopUserName" taborder="7" text="user_name" left="Static01:38.75%" top="20" width="230" visible="false" height="50" cssclass="staTopWelcome"/>
+        <Static id="Static00" taborder="8" text="Static00" left="50%" top="4" width="0" height="19" visible="false"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="gdsAddr"/>
+      <Dataset id="ds_menu"/>
+      <Dataset id="dsMember">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_PW" type="STRING" size="256"/>
+          <Column id="USER_NAME" type="STRING" size="256"/>
+          <Column id="USER_BIRTH" type="STRING" size="256"/>
+          <Column id="USER_ROLE" type="STRING" size="256"/>
+          <Column id="USER_EMAIL" type="STRING" size="256"/>
+          <Column id="USER_PHONE" type="STRING" size="256"/>
+          <Column id="ADDR_MAIN" type="STRING" size="256"/>
+          <Column id="ADDR_DETAIL" type="STRING" size="256"/>
+          <Column id="ADDR_POST" type="STRING" size="256"/>
+          <Column id="USER_GENDER" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.1"><![CDATA[/**
+*	개발 표준화 작업
+*	@MenuPath C:\EduPack\workspace\edupack_egov\src\main\ToBeDining\HomeFrame
+*	@FileName Frm_TopFrame.xfdl
+*	@Creator 김태훈
+*	@CreateDate 2025/01/22
+*	@Desction 해당 폼 정보 설명
+******************소스 수정 이력**********************************************
+*	date		Modifier	Description
+********************************************************************************
+*	2025/01/22		김태훈		최초 생성
+*	
+*
+*//**************************************************************************
+* include 영역
+**************************************************************************/
+
+/**************************************************************************
+* FORM 변수 선언 영역 (fv)
+**************************************************************************/
+this.objApp =nexacro.getApplication();
+this.bIsToggled = 0;
+/**************************************************************************
+* FORM EVENT 영역(onload, onbeforeclose)
+**************************************************************************/
+this.Frm_TopFrame_onload = function(obj:nexacro.Form,e:nexacro.LoadEventInfo)
+{
+	this.objApp.gdsDMenu.filter("USER_ROLE=='Guest'");
+//this.gfnFormOnLoad(this);
+//	this.loadUserInfo();
+};
+/**************************************************************************
+* CRUD 및 TRANSACTION 서비스 호출 처리
+**************************************************************************/
+
+/**************************************************************************
+* CALLBACK 콜백 처리부분(Transaction, Popup)
+**************************************************************************/
+this.fnConfirmCallback = function (strId,strVal)
+{
+
+	if(strId == "로그아웃"){
+		if(strVal == true){
+			this.objApp.gdsDMember.clear();
+			this.objApp.sNowUserRole = "Guest"
+			this.btnLogin.set_text("로그인");
+			this.btnAdmin.set_visible("false");
+			this.btnStoreRegister.set_visible("false");
+			/*this.btnStoreManage.set_visible("false");*/
+			this.btnProfile.set_visible("false");
+			this.staTopUserName.set_visible("false");
+			//this.staTopWelcome.set_visible("false");
+			this.objApp.my_ContentFrame.set_formurl("HomeFrame::Frm_ContentFrame.xfdl");
+			this.objApp.gdsDMenu.filter("USER_ROLE=='Guest'");
+		}else{
+			return;
+		}
+	}
+};
+/**************************************************************************
+* 사용자 FUNCTION 영역
+**************************************************************************/
+this.loadUserInfo = function()
+{
+	var sSvcID    = "ArkGetUserRole";
+    var sURL      = "SvcUrl::ark/getUserRole.do";
+    var sInDs     = "";
+    var sOutDs    = "dsMember=dsMember";
+    var sParam    = "pUserRole=";
+    var sCallBack = "fnCallBack";
+	this.transaction(sSvcID, sURL, sInDs, sOutDs, sParam, sCallBack);
+}
+/**************************************************************************
+* 각 COMPONENT 별 EVENT 영역
+**************************************************************************/
+this.btnLogin_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{	
+	if(obj.text == "로그인"){
+		this.objApp.my_ContentFrame.set_formurl("Authentication::ark2010fm.xfdl");
+	}else if (obj.text == "로그아웃")
+	{
+		//var result = this.confirm("로그아웃 하시겠습니까?", this, "question");
+		var sCallback = "fnConfirmCallback";
+		this.gfnAlert("confirm.logout","C","로그아웃",sCallback);
+		//this.gfnAlert(sMsgId, arrArg, sPopId, sCallback);	
+		//trace(result);
+// 		if (result) {
+// 			this.objApp.gdsDMember.clear();
+// 			this.objApp.sNowUserRole == "Guest"
+// 			obj.set_text("로그인");
+// 			this.btnAdmin.set_visible("false");
+// 			this.btnStoreRegister.set_visible("false");
+// 			/*this.btnStoreManage.set_visible("false");*/
+// 			this.btnProfile.set_visible("false");
+// 			this.staTopUserName.set_visible("false");
+// 			//this.staTopWelcome.set_visible("false");
+// 			this.objApp.my_ContentFrame.set_formurl("HomeFrame::Frm_ContentFrame.xfdl");
+// 			this.objApp.gdsDMenu.filter("USER_ROLE=='Guest'");
+// 		}
+	}
+};
+
+this.btnAdmin_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	// 3항 연산자를 사용하여 bIsToggled 값을 전환
+	this.bIsToggled = this.bIsToggled == 1 ? 0 : 1;
+
+	// bIsToggled 값에 따라 Frame 크기 변경
+	this.objApp.my_HFrameSet.set_separatesize(this.bIsToggled == 1 ? "300, *" : "0, *");
+	this.objApp.my_ContentFrame.set_opacity(this.bIsToggled == 1? "20%" : "100%");
+	this.objApp.my_VFrameSet1.set_separatesize("0, *");
+	
+};
+
+this.btnStoreRegister_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.objApp.my_VFrameSet1.set_separatesize("0,*");
+	this.objApp.my_ContentFrame.set_opacity("100%");
+	this.objApp.my_ContentFrame.set_formurl("Owner::ark5010fm.xfdl");
+};
+
+this.imgHomeLogo_onclick = function(obj:nexacro.ImageViewer,e:nexacro.ClickEventInfo)
+{
+	this.objApp.my_VFrameSet1.set_separatesize("0,*");
+	this.btnLogin.set_visible("true");
+	this.objApp.my_ContentFrame.set_opacity("100%");
+	this.objApp.my_ContentFrame.set_formurl("HomeFrame::Frm_ContentFrame.xfdl");
+};
+
+this.btn_searchIcon_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.objApp.sSearchKeyword = this.edtSearch.text;
+	this.btnLogin.set_visible("true");
+	this.objApp.my_VFrameSet1.set_separatesize("0,*");
+	this.objApp.my_ContentFrame.set_opacity("100%");
+	this.objApp.my_ContentFrame.set_formurl("HomeFrame::ark1050fm.xfdl");
+};
+
+this.btnProfile_onclick = function(obj:nexacro.Button,e:nexacro.ClickEventInfo)
+{
+	this.objApp.my_VFrameSet1.set_separatesize("0,*");
+	this.objApp.my_ContentFrame.set_opacity("100%");
+	this.objApp.my_ContentFrame.set_formurl("Authentication::ark2030fm.xfdl");
+};
+]]></Script>
+  </Form>
+</FDL>
