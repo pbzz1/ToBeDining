@@ -22,7 +22,7 @@ ToBeDining은 사용자의 위치를 기반으로 주변 맛집 정보를 제공
 - Frontend : Nexacro Platform
 - Backend : eGovFramework (Java)
 - Server : Apache Tomcat
-- Database : MySQL
+- Database : HeidiSQL
 - API : Kakao Map API
 
 ---
