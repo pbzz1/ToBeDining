@@ -28,7 +28,8 @@ ToBeDining은 사용자의 위치를 기반으로 주변 맛집 정보를 제공
 
 각 역할에 따라 화면 구성 및 기능 접근이 동적으로 제어됩니다.
 
-<img width="1024" height="1536" alt="RBAC 구조" src="https://github.com/user-attachments/assets/d2ea0afc-541c-46fc-aa45-dd07b216f28a" />
+<img width="670" height="1172" alt="image" src="https://github.com/user-attachments/assets/d4a447b0-a8e0-44a0-b22c-02f34f7f5a38" />
+
 
 ---
 
